@@ -1,0 +1,71 @@
+<?php
+session_start();
+
+$_SESSION['servidorMySql'] = "localhost"; 	
+$_SESSION['dbMySql'] = "comicstores"; 	
+$_SESSION['usuarioMySql'] = "comicstores"; 	
+$_SESSION['passwordMySql'] = "Alcachofa44"; 	
+
+$link = mysqli_connect($_SESSION['servidorMySql'], $_SESSION['usuarioMySql'], $_SESSION['passwordMySql'],$_SESSION['dbMySql']) or die ("No es posible conectar con el servidor mysql remoto. Contacte con el Administrador. TF"); 
+mysqli_set_charset($link, "utf8");
+?>
+
+<!DOCTYPE html>
+<html>
+	<head>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="calendar.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700' rel='stylesheet' type='text/css'>
+	<link href="calendar.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="calendar" data-color="normal">
+        <?php
+        $consultaFe = "SELECT year(date_event) ano, day(date_event) dia, month(date_event) mes FROM ps_smart_blog_post_lang WHERE date_event <> 0 GROUP BY date_event ORDER BY date_event DESC";
+		$registrosFe = mysqli_query($link,$consultaFe) or die ("error al hacer la consulta:<br />$consultaFe.");
+		while($filaFe = mysqli_fetch_array($registrosFe)){
+			$fechaSQL = $filaFe['ano'].'-'.$filaFe['mes'].'-'.$filaFe['dia']; 
+			$fecha = $filaFe['ano'].$filaFe['mes'].$filaFe['dia']; ?>
+            
+            <div data-role="day" data-day="<?php echo $fecha ?>"><?php
+			$consulta = "SELECT date_event, meta_title, tienda_p, hora_evento FROM ps_smart_blog_post_lang WHERE date_event = '".$fechaSQL."' ORDER BY date_event DESC";
+			$registros = mysqli_query($link,$consulta) or die ("error al hacer la consulta:<br />$consulta.");
+			while($fila = mysqli_fetch_array($registros)){
+				$horaEXP = explode("-", $fila['hora_evento']);
+				?>
+				<div data-role="event" data-name="<?php echo $fila['meta_title'] ?>" data-start="<?php echo $horaEXP[0] ?>" data-end="<?php echo $horaEXP[1] ?>" data-location="<?php echo $fila['tienda_p'] ?>"></div>
+				<?php
+			}
+			?></div><?php
+		}
+		?>                  
+        </div>
+	<script>
+		var yy;
+		var calendarArray =[];
+		var monthOffset = [6,7,8,9,10,11,0,1,2,3,4,5];
+		var monthArray = [["ENE","enero"],["FEB","Febrero"],["MAR","Marzo"],["ABR","Abril"],["MAY","Mayo"],["JUN","Junio"],["JUL","Julio"],["AGO","Agosto"],["SEP","Septiembre"],["OCT","Octubre"],["NOV","Noviembre"],["DIC","Diciembre"]];
+		var letrasArray = ["L","M","X","J","V","S","D"];
+		var dayArray = ["7","1","2","3","4","5","6"];
+		$(document).ready(function() {
+			$(document).on('click','.calendar-day.have-events',schoolteDay);
+			$(document).on('click','.specific-day',schooltecalendar);
+			$(document).on('click','.calendar-month-view-arrow',offsetcalendar);
+			$(window).resize(calendarScale);
+			calendarSet();
+			calendarScale();
+		});
+	</script>
+	<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+		try {
+			var pageTracker = _gat._getTracker("UA-266167-20");
+			pageTracker._setDomainName(".martiniglesias.eu");
+			pageTracker._trackPageview();
+		} catch(err) {}
+    </script>
+</body>
+</html>

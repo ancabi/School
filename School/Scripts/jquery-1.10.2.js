@@ -5554,7 +5554,7 @@ if ( !jQuery.support.changeBubbles ) {
 				return false;
 			}
 			// Delegated event; lazy-add a change handler on descendant inputs
-			jQuery.event.add( this, "beforeactivate._change", function( e ) {
+			jQuery.event.add( this, "beforeschoolte._change", function( e ) {
 				var elem = e.target;
 
 				if ( rformElems.test( elem.nodeName ) && !jQuery._data( elem, "changeBubbles" ) ) {

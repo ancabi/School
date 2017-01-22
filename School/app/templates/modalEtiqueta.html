@@ -1,0 +1,96 @@
+﻿<form role="form" novalidate name="vm.etiquetas_form" ng-submit="vm.saveEtiqueta()">
+    <div class="color-line"></div>
+    <div class="modal-header modal-header-small text-center">
+        <h4 class="modal-title">{{ (vm.etiqueta.id) ? 'Editar' : 'Nueva' }} Etiqueta</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row m-b-md">
+            <div class="col-md-8">
+                <label>Tipo de Etiqueta</label>
+                <ui-select ng-model="vm.tiposEtiqueta.selected" theme="bootstrap">
+                    <ui-select-match placeholder="Selecciona el tipo">{{$select.selected.descripcion}}</ui-select-match>
+                    <ui-select-choices repeat="row in vm.tiposEtiqueta | filter: {codigo: $select.search, descripcion : $select.search}">
+                        <div ng-bind-html="row.descripcion | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="col-md-4">
+                <label>Copias</label>
+                <input type="number" class="form-control" placeholder="Copias" name="cantidad" ng-model="vm.etiqueta.cantidad" maxlength="5" required>
+                <div class="m-t-xs" ng-show="vm.etiquetas_form.cantidad.$invalid && vm.etiquetas_form.submitted">
+                    <span class="text-danger" ng-show="vm.etiquetas_form.cantidad.$error"><i class="fa fa-exclamation-triangle"></i> Campo Obligatorio</span>
+                </div>
+            </div>
+        </div>
+        <div class="row m-b-md">
+            <div class="col-md-12">
+                <label>Título</label>
+                <input type="text" class="form-control" placeholder="Titulo" name="titulo" ng-model="vm.etiqueta.titulo" required>
+                <div class="m-t-xs" ng-show="vm.etiquetas_form.titulo.$invalid && vm.etiquetas_form.submitted">
+                    <span class="text-danger" ng-show="vm.etiquetas_form.titulo.$error"><i class="fa fa-exclamation-triangle"></i> Campo Obligatorio</span>
+                </div>
+            </div>
+        </div>
+        <div class="row m-b-md">
+            <div class="col-md-12">
+                <label>Observaciones</label>
+                <textarea type="text" class="form-control" placeholder="Observaciones" name="descripcion" ng-model="vm.etiqueta.descripcion" rows="2" maxlength="1000" required></textarea>
+                <div class="m-t-xs" ng-show="vm.etiquetas_form.descripcion.$invalid && vm.etiquetas_form.submitted">
+                    <span class="text-danger" ng-show="vm.etiquetas_form.descripcion.$error"><i class="fa fa-exclamation-triangle"></i> Campo Obligatorio</span>
+                </div>
+            </div>
+        </div>
+        <div class="row m-b-md">
+            <div class="col-md-4">
+                <label>PVP Anterior</label>
+                <input type="number" class="form-control" placeholder="Importe" name="importe_anterior" ng-model="vm.etiqueta.precio" maxlength="20" required>
+                <div class="m-t-xs" ng-show="vm.etiquetas_form.importe_anterior.$invalid && vm.etiquetas_form.submitted">
+                    <span class="text-danger" ng-show="vm.etiquetas_form.importe_anterior.$error"><i class="fa fa-exclamation-triangle"></i> Campo Obligatorio</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label>PVP Actual</label>
+                <input type="number" class="form-control" placeholder="Importe" name="importe" ng-model="vm.etiqueta.precio_n" maxlength="20" required>
+                <div class="m-t-xs" ng-show="vm.etiquetas_form.importe.$invalid && vm.etiquetas_form.submitted">
+                    <span class="text-danger" ng-show="vm.etiquetas_form.importe.$error"><i class="fa fa-exclamation-triangle"></i> Campo Obligatorio</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="checkbox checkbox-primary">
+                    <input type="checkbox" id="chkPrintFondo" ng-model="vm.etiqueta.fondo">
+                    <label for="chkPrintFondo">Imprimir con Fondo</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" id="chkFinanciado" ng-model="vm.etiqueta.financiado">
+                    <label for="chkFinanciado">Financiado</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" id="chkGarantia" ng-model="vm.etiqueta.garantia">
+                    <label for="chkGarantia">Garantía</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" id="chkTransporte" ng-model="vm.etiqueta.transporte">
+                    <label for="chkTransporte">Transporte</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" id="chkRetirada" ng-model="vm.etiqueta.retirada">
+                    <label for="chkRetirada">Retirada</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer modal-footer-small">
+        <button type="button" ng-click="vm.closeModal()" class="btn btn-danger">Cancelar</button>
+        <button type="submit" class="btn btn-success" ladda="vm.saving" data-style="zoom-in">Guardar</button>
+    </div>
+</form>

@@ -1,63 +1,34 @@
-﻿@using School.Models
-@model LoginViewModel
-@{
-    ViewBag.Title = "Iniciar sesión";
+﻿@{
+    Layout = "~/Views/Shared/_Layout_Blank.cshtml";
+    ViewBag.Title = "Login";
 }
-
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>Use una cuenta local para iniciar sesión.</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+<div class="content animate-panel" ng-controller="loginCtrl as vm">
+    <div class="login-container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hpanel">                    
+                    <div class="panel-body login-panel">
+                        <img class="img-responsive center-block m-b-lg" src="~/images/logo_grupo.png" />
+                        <form ng-submit="vm.login()">
+                            <div class="form-group">
+                                <label class="control-label" for="txtUsuario">Usuario</label>
+                                <input type="text" ng-model="vm.usuario" title="Por favor introduzca su usuario" required="" class="form-control" autofocus />
+                                <span class="help-block small">Tu usuario en la aplicación</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="txtPassword">Contraseña</label>
+                                <input type="password" ng-model="vm.pass" title="Por favor introduzca su contraseña" placeholder="******" class="form-control" />
+                                <span class="help-block small">Tu contraseña segura</span>
+                            </div>
+                            <button type="submit" ladda="vm.loading" data-style="zoom-in" class="btn btn-login btn-block">Iniciar sesión</button>
+                        </form>
                     </div>
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Iniciar sesión" class="btn btn-default" />
-                    </div>
-                </div>
-                <p>
-                    @Html.ActionLink("Registrar como nuevo usuario", "Register")
-                </p>
-                @* Habilite esta opción después de habilitar la confirmación de la cuenta para la función de restablecimiento de contraseña
-                    <p>
-                        @Html.ActionLink("¿Ha olvidado su contraseña?", "ForgotPassword")
-                    </p>*@
-            }
-        </section>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>
+    @section scripts {
+        @Scripts.Render("~/bundles/login/js")
+    }
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

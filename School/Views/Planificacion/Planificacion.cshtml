@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Planificacion";
+}
+
+<div ng-controller="eventosCtrl as vm">
+    <div class="small-header">
+        <div class="hpanel">
+            <div class="panel-body">
+                <h2 class="font-light m-b-xs">
+                    Planificación
+                </h2>
+                <small>Panel para gestionar la planificiación.</small>
+            </div>
+        </div>
+    </div>
+    <div class="normalheader animated zoomIn">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hpanel">
+                    <div class="panel-body" style="margin-bottom:20px;">
+                        <div class="row">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/planificacion/js")
+}

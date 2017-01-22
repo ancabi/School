@@ -1674,18 +1674,18 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
     var i
 
     if (scrollTop >= maxScroll) {
-      return activeTarget != (i = targets.last()[0]) && this.activate(i)
+      return activeTarget != (i = targets.last()[0]) && this.schoolte(i)
     }
 
     for (i = offsets.length; i--;) {
       activeTarget != targets[i]
         && scrollTop >= offsets[i]
         && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
-        && this.activate( targets[i] )
+        && this.schoolte( targets[i] )
     }
   }
 
-  ScrollSpy.prototype.activate = function (target) {
+  ScrollSpy.prototype.schoolte = function (target) {
     this.activeTarget = target
 
     $(this.selector)
@@ -1706,7 +1706,7 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
         .addClass('active')
     }
 
-    active.trigger('activate')
+    active.trigger('schoolte')
   }
 
 
@@ -1802,8 +1802,8 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
 
     var $target = $(selector)
 
-    this.activate($this.parent('li'), $ul)
-    this.activate($target, $target.parent(), function () {
+    this.schoolte($this.parent('li'), $ul)
+    this.schoolte($target, $target.parent(), function () {
       $this.trigger({
         type: 'shown.bs.tab'
       , relatedTarget: previous
@@ -1811,7 +1811,7 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
     })
   }
 
-  Tab.prototype.activate = function (element, container, callback) {
+  Tab.prototype.schoolte = function (element, container, callback) {
     var $active    = container.find('> .active')
     var transition = callback
       && $.support.transition

@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Calendario";
+}
+
+<div ng-controller="calendarioCtrl as vm">
+    <div class="small-header">
+        <div class="hpanel">
+            <div class="panel-body">
+                <h2 class="font-light m-b-xs">
+                    Calendario
+                </h2>
+                <small>Visualiza todos los eventos en el calendario.</small>
+            </div>
+        </div>
+    </div>
+    <div class="normalheader animated zoomIn">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hpanel">
+                    <div class="panel-body" style="margin-bottom:20px;">
+                        <div class="row">
+                            <div class="calendar" data-color="normal">
+
+                                <div data-role="day" data-day="20161228">
+                                    <div data-role="event" data-name="Prueba" data-start="" data-end="" data-location=""></div>
+                                    <div data-role="event" data-name="Prueba" data-start="" data-end="" data-location=""></div>
+                                    <div data-role="event" data-name="Prueba" data-start="" data-end="" data-location=""></div>
+                                    <div data-role="event" data-name="Prueba" data-start="" data-end="" data-location=""></div>
+                                    <div data-role="event" data-name="Prueba" data-start="" data-end="" data-location=""></div>
+                                    <div data-role="event" data-name="Prueba" data-start="" data-end="" data-location=""></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    @Scripts.Render("~/bundles/calendario/js")
+}

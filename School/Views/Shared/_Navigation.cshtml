@@ -1,0 +1,29 @@
+﻿@using School.Helpers
+<div id="navigation">
+    <div class="profile-picture">
+        <a href="@Url.Action("Index", "Main")">
+            <img src='@Url.Content("~/"+ @ViewBag.logo_url)' class="img-responsive center-block" alt="logo" />
+        </a>
+    </div>
+
+    <ul class="nav metismenu" id="side-menu">
+        <li class="@Html.IsSelected(controller: "Calendario")">
+            <a href="@Url.Action("Calendario", "Calendario")"><i class="fa fa-calendar fa-fw m-r-xs"></i><span class="nav-label">Calendario</span></a>
+        </li>
+        <li class="@Html.IsSelected(controller: "Eventos")">
+            <a href="@Url.Action("Eventos", "Eventos")"><i class="fa fa-list-ul fa-fw m-r-xs"></i><span class="nav-label">Eventos</span></a>
+        </li>
+        <li class="@Html.IsSelected(controller: "Equipos")">
+            <a href="@Url.Action("Equipos", "Equipos")"><i class="fa fa-users fa-fw m-r-xs"></i><span class="nav-label">Mi Equipo</span></a>
+        </li>
+        <li class="@Html.IsSelected(controller: "Entrenamientos")">
+            <a href="@Url.Action("Entrenamientos", "Entrenamientos")"><i class="fa fa-heartbeat fa-fw m-r-xs"></i><span class="nav-label">Entrenamientos</span></a>
+        </li>
+        <li class="@Html.IsSelected(controller: "Partidos")">
+            <a href="@Url.Action("Partidos", "Partidos")"><i class="fa fa-futbol-o fa-fw m-r-xs"></i><span class="nav-label">Partidos</span></a>
+        </li>
+        <li class="@Html.IsSelected(controller: "Planificacion")">
+            <a href="@Url.Action("Planificacion", "Planificacion")"><i class="fa fa-check-square-o fa-fw m-r-xs"></i><span class="nav-label">Planificación</span></a>
+        </li>
+    </ul>
+</div>

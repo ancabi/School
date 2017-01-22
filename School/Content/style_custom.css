@@ -1,0 +1,375 @@
+﻿/* Chrome Webkit Inputs disable */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+input[type="date"]::-webkit-input-placeholder {
+    visibility: hidden !important;
+}
+
+input[type=number] {
+    text-align: right;
+}
+
+textarea {
+    resize: none;
+}
+
+.ui-select-bootstrap > .ui-select-choices {
+    max-height: 500px;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+    .btn-file input[type=file] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-width: 100%;
+        min-height: 100%;
+        font-size: 100px;
+        text-align: right;
+        filter: alpha(opacity=0);
+        opacity: 0;
+        background: red;
+        cursor: inherit;
+        display: block;
+    }
+
+.file-input-label {
+    padding: 0px 10px;
+    display: table-cell;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+input[readonly] {
+    background-color: white !important;
+    cursor: text !important;
+}
+
+.panel-button {
+    padding-top: 35px !important;
+    padding-bottom: 35px !important;
+    height: 200px !important;
+    max-height: 200px !important;
+    font-size: 22px;
+}
+
+.label-inline{
+    padding-top: 10px;    
+}
+
+.checkbox-promocion input[type="checkbox"]:checked + label::before {
+    background-color: #d8e8f5;
+    border-color: #d8e8f5;
+}
+
+.checkbox-promocion input[type="checkbox"]:checked + label::after {
+    color: #000000;
+}
+
+.checkbox-cmaestra input[type="checkbox"]:checked + label::before {
+    background-color: #fff466;
+    border-color: #fff466;
+}
+
+.checkbox-cmaestra input[type="checkbox"]:checked + label::after {
+    color: #000000;
+}
+
+/*.hpanel.hbg-promocion .panel-body {
+    background: #d8e8f5;
+}
+
+.hpanel.hbg-cmaestra .panel-body {
+    background: #fffbc3;
+}
+
+.row-promocion {
+    background: #d8e8f5 !important;
+}
+
+.row-cmaestra {
+    background: #fffbc3 !important;
+}*/
+
+
+/* Sweet Alert - Overlay */
+.sweet-overlay{
+    z-index: 1999;
+}
+
+/* Bootstrap Ovewrite - INICIO */
+h5 {
+    line-height: 1.2;
+}
+
+.table td, th {
+    vertical-align: middle !important;
+}
+
+/* Bootstrap Ovewrite - FIN */
+
+/* HOMER ovewrite - INICIO */
+
+.btn-login {
+    background-color: #003a45;
+    border-color: #003a45;
+    color: #FFFFFF;
+}
+
+    .btn-login:hover {
+        background-color: #008896;
+        border-color: #008896;
+        color: #FFFFFF;
+    }
+
+    .btn-login:focus {
+        background-color: #003a45;
+        border-color: #003a45;
+        color: #FFFFFF;
+    }
+
+.btn-blue {
+    background-color: #008896;
+    border-color: #008896;
+    color: #FFFFFF;
+}
+
+    .btn-blue:hover {
+        background-color: #3380bb;
+        border-color: #3380bb;
+        color: #FFFFFF;
+    }
+
+    .btn-blue:focus {
+        background-color: #008896;
+        border-color: #008896;
+        color: #FFFFFF;
+    }
+
+.btn-yellow {
+    background-color: #66ce00;
+    border-color: #66ce00;
+    color: #008896;
+}
+
+    .btn-yellow:hover {
+        background-color: #fff466;
+        border-color: #fff466;
+        color: #008896;
+    }
+
+    .btn-yellow:focus {
+        background-color: #66ce00;
+        border-color: #66ce00;
+        color: #008896;
+    }
+
+.hpanel.hblue .panel-body {
+    border-top: 2px solid #008896;
+}
+
+.panel-main {
+    height: 425px;
+    max-height: 475px;
+    overflow-y: auto;
+}
+
+.login-panel {
+    border-radius: 15px !important;
+}
+
+/* Homer Ovewrite - FIN */
+
+/* Prevent Scroll to top when modal show */
+body.modal-open {
+    overflow: visible;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+/* Imita un Placeholder para select */
+select option[disabled]:first-child {
+    display: none;
+}
+
+.dropdown-header {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.pagination {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.normalheader {
+    padding: 15px 40px 10px 40px !important;
+}
+
+.content {
+    padding: 15px 40px 40px 40px !important;
+}
+
+.btn-excel {
+    background-color: #217346;
+    border-color: #217346;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+    .btn-excel:hover {
+        background-color: #439468;
+        border-color: #439468;
+        color: #FFFFFF;
+        font-weight: bold;
+    }
+
+/*.icon-notify {
+    font-size: 33px;
+}
+
+.badge-notify {
+    background: red;
+    position: relative;
+    top: -25px;
+    left: -15px;
+}*/
+
+/*
+ * Font Awesome With Badge
+ * --------------------------------------------------
+ */
+
+.fa-icon-badge {
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+}
+
+.fa-badge {
+    font-size: 13px;
+    display: block;
+    position: absolute;
+    top: -9px;
+    right: -13px;
+    min-width: 21px;
+    padding: 4px;
+    border-radius: 50%;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    background-color: red;
+}
+
+/*
+ *  Row With Vertical and horizontal align center
+*/
+
+.row-center {
+    display: flex;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+}
+
+    .row-center > [class^="col-"],
+    .row-center > [class*=" col-"] {
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Optional, to align inner items 
+                              horizontally inside the column */
+    }
+
+/*
+ * Row with equal height columns
+ * --------------------------------------------------
+ */
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+/*Iguala la altura del control multiselect a los ui-select con el theme bootstrap*/
+.ui-select-search.input-xs {
+    height: 40px;
+    padding: 6px 12px;
+    font-size: 14px;
+    display: block;
+    width: 100%;
+    line-height: 1.42857143;
+}
+
+/* Corrige overflow texto en ui-select */
+.ui-select-match-text, .ui-select-placeholder {
+    max-width: 80%;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    padding-right: 1px;
+}
+
+/* Corrige text overflow en ui-select multiple */
+.ui-select-search, .ui-select-match-item {
+    max-width: 100%;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
+/* Permite Multilinea en el desplegable */
+.ui-select-bootstrap .ui-select-choices-row > a {
+    white-space: normal;
+}
+
+.btn-icon-only {
+    font-size: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
+/*Tabla con vertical align a middle*/
+.table-row-middle td, th {
+    vertical-align: middle !important;
+}
+
+/* Modal */
+.modal-header-small {
+    padding: 10px;
+}
+
+.modal-footer-small {
+    padding: 10px;
+}

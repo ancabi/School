@@ -1,0 +1,145 @@
+﻿@{
+    ViewBag.Title = "Eventos";
+}
+
+<div ng-controller="eventosCtrl as vm">
+    <div class="small-header">
+        <div class="hpanel">
+            <div class="panel-body">
+                <h2 class="font-light m-b-xs">
+                    Eventos
+                </h2>
+                <small>Panel de gestión de los eventos.</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="normalheader animated zoomIn">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hpanel">
+                    <div class="panel-heading hbuilt text-right">
+                        <a href="#" target="_self" class="btn btn-primary" id="btnNewEvento" data-toggle="tooltip" data-placement="bottom" title="Añadir Evento" ng-click="vm.showModalEvento()">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="panel-body" style="margin-bottom:20px;">
+                        <div class="row">
+                            <div class="row m-t-lg">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover table-condensed table-bordered text-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Título</th>
+                                                    <th class="text-center">Descripcion</th>
+                                                    <th class="text-center">Tipo</th>
+                                                    <th class="text-center">Nivel</th>
+                                                    <th class="text-center">Fecha Evento</th>
+                                                    <th class="text-center">Hora Inicio</th>
+                                                    <th class="text-center">Hora Fin</th>
+                                                    <th class="text-center">Activo</th>
+                                                    <th class="text-center">#</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="evento in vm.rows track by $index">
+                                                    <td class="text-center">{{evento.titulo}}</td>
+                                                    <td class="text-center">{{evento.descripcion}}</td>
+                                                    <td class="text-center">{{evento.tipo}}</td>
+                                                    <td class="text-center">{{evento.nivel}}</td>
+                                                    <td class="text-center">{{evento.fecha_evento | jsonDate:'dd-MM-yyyy'}}</td>
+                                                    <td class="text-center">{{evento.hora_desde}}</td>
+                                                    <td class="text-center">{{evento.hora_hasta}}</td>
+                                                    <td class="text-center"><input type="checkbox" /></td>
+                                                    <td class="text-center">
+                                                        <a href="#" target="_self" class="btn btn-primary" id="btnNewEvento" data-toggle="tooltip" data-placement="bottom" title="Añadir Evento" ng-click="vm.editEvento(evento.id)">
+                                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                        </a>
+                                                        <a href="#" target="_self" class="btn btn-primary" id="btnNewEvento" data-toggle="tooltip" data-placement="bottom" title="Añadir Evento" ng-click="vm.deleteEvento(evento.id)">
+                                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="modalEvento.html">
+        <form role="form">
+            <div class="color-line"></div>
+            <div class="modal-header modal-header-small text-center">
+                <h4 class="modal-title">Nuevo Evento</h4>
+            </div>
+            <div class="modal-body" style="overflow:hidden;">
+                <div class="col-sm-12">
+                    <div class="col-sm-6"><b>Título</b><br /><input type="text" id="titulo" name="titulo" class="form-control" placeholder="Título del evento" /></div>
+                    <div class="col-sm-6">
+                        <b>Nivel</b><br />
+                        <select id="ddNivel" name="ddNivel" class="form-control">
+                            <option value="1">Normal</option>
+                            <option value="2">Importante</option>
+                            <option value="3">Alerta</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-12"><b>Descripcion</b><br /><input type="text" id="descripcion" name="descripcion" class="form-control" placeholder="Descripción del evento" /></div>
+                    <p><b>Datos Calendario:</b></p>
+                    <div class="col-sm-6"><b>Fecha</b><br /><input type="text" id="fecha_evento" name="fecha_evento" class="form-control" placeholder="DD/MM/AAAA" /></div>
+                    <div class="col-sm-3"><b>Hora Inicio</b><br /><input type="text" id="hora_inicio" name="hora_inicio" class="form-control" placeholder="HH:MM" /></div>
+                    <div class="col-sm-3"><b>Hora Fin</b><br /><input type="text" id="hora_fin" name="hora_fin" class="form-control" placeholder="HH:MM" /></div>
+                    <div class="col-sm-6">
+                        <b>Tipo</b><br />
+                        <select id="ddTipo" name="ddTipo" class="form-control">
+                            <option value="evento">Evento</option>
+                            <option value="evento_entrenamiento">Entrenamiento</option>
+                            <option value="evento_partido">Partido</option>
+                        </select>
+                    </div>
+
+                    <div id="divEntrenamiento" style="background-color:#f4f4f4;">
+                        Equipo
+                        Entrenamiento
+                        Pista
+                        Fecha
+                        Hora
+                        ¿Repetir evento?
+                        Acta de entrenamiento
+                        Aviso
+                    </div>
+                    <div id="divPartido" style="background-color:#f4f4f4;">
+                        <p><b>Datos Partido</b></p>
+                        <div class="col-sm-6">
+                            <b>Tu Equipo</b><br />
+                            <select id="ddEquipos" name="ddEquipos" class="form-control">
+                                <option value="cadetes">Cadetes</option>
+                                <option value="juveniles">Juveniles</option>
+                                <option value="preferente">Preferente</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6"><b>vs Contrario</b><br /><input type="text" id="equipo_contrario" name="equipo_contrario" class="form-control" placeholder="Nombre Equipo Contrario" /></div>
+                        <div class="col-sm-6"><b>Liga</b><br /><input type="text" id="liga" name="liga" class="form-control" placeholder="Nombre de la liga" /></div>
+                        <div class="col-sm-6"><b>Lugar</b><br /><input type="text" id="lugar" name="lugar" class="form-control" placeholder="Dirección Partido" /></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer modal-footer-small">
+                <button type="button" ng-click="vm.closeModal()" class="btn btn-danger">Cancelar</button>
+                <button type="submit" class="btn btn-success" ladda="vm.saving" data-style="zoom-in">Guardar</button>
+            </div>
+        </form>
+    </script>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/eventos/js")
+}
+
+

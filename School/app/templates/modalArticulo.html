@@ -1,0 +1,143 @@
+﻿<div class="color-line"></div>
+<div class="modal-body">
+    <button type="button" ng-click="vm.closeModalArt()" class="btn btn-cancel pull-right"><i class="fa fa-times"></i></button>
+    <div class="row">
+        <div class="col-md-6">
+            <img alt="{{vm.articulo.nombre}}" class="img-responsive center-block m-b" ng-src="{{vm.session.articulosUrl + vm.articulo.ruta}}" err-src="~/images/no_disponible.png" />
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2><strong>{{vm.articulo.marca_descr}}. {{vm.articulo.codigo}}</strong></h2>
+                </div>
+                <div class="col-md-12">
+                    {{vm.articulo.nombre}}
+                </div>
+                <div class="col-md-12">
+                    {{vm.articulo.ean}}
+                </div>
+                <div ng-class="{'col-md-12' : vm.blockPrecio, 'col-md-6' : !vm.blockPrecio }">
+                    <h3>PVP: {{vm.articulo.pvp_cfinal | currency}}</h3>
+                </div>
+                <div class="col-md-6" ng-if="!vm.blockPrecio">
+                    <h3>PRECIO: {{vm.articulo.pvp | currency}}</h3>
+                </div>
+                <div class="col-md-12 m-t-sm">
+                    <button type="button" class="btn btn-ok pull-left" ng-click="vm.showModalEtiqueta(vm.articulo)">Imprimir Etiquetas</button>
+                    <button type="button" class="btn btn-ok pull-right" ng-click="vm.addArticuloPresu(vm.articulo,1)">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="pCheckCaracPrioritarias" ng-if="vm.caracPrioritarias.length">
+        <div class="col-md-12">
+            <div class="checkbox checkbox-info">
+                <input id="chkCaracPrioritarias" type="checkbox" ng-model="vm.allProps" ng-click="vm.allPropsClick(vm.allProps)">
+                <label for="chkCaracPrioritarias">
+                    <b>Ver ficha completa</b>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="table-responsive">
+                <table cellspacing="1" cellpadding="1" class="table table-condensed table-striped">
+                    <tbody>
+                        <tr ng-repeat="p in vm.props1">
+                            <td ng-if="!p.caracteristica"><strong>{{p.categoria}}</strong></td>
+                            <td ng-if="p.caracteristica">{{p.caracteristica}}</td>
+                            <td ng-if="p.caracteristica">{{p.valor}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="table-responsive">
+                <table cellspacing="1" cellpadding="1" class="table table-condensed table-striped">
+                    <tbody>
+                        <tr ng-repeat="p in vm.props2">
+                            <td>{{p.caracteristica}}</td>
+                            <td>{{p.valor}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="pArticulosRelacionados">
+        <div class="col-md-12">
+            <h3>Artículos Relacionados</h3>
+            <div class="spinner" ng-if="vm.loadingRelatedArts">
+                <div class="rect1"></div> <div class="rect2"></div> <div class="rect3"></div> <div class="rect4"></div> <div class="rect5"></div>
+            </div>
+            <flex-slider ng-if="vm.relatedArts.length>0" slider-id="carousel" flex-slide="a in vm.relatedArts track by $index" animation="slide" animation-loop="false" item-width="280" item-margin="5" slideshow="false" control-nav="false">
+                <li>
+                    <div class="hpanel animated zoomIn" style="margin-bottom: 0">
+                        <div class="panel-body" style="height:250px">
+                            <a ng-click="vm.addArticuloComparador(a)" tooltip-placement="bottom" tooltip="Añadir al Comparador" class="pull-right"><i class="fa fa-plus-square fa-2x text-success"></i></a>
+                            <a ng-click="vm.relatedArtClick(a)">
+                                <img alt="{{a.nombre}}" class="img-responsive center-block m-b" ng-src="{{vm.session.articulosUrl + a.ruta}}" err-src="{{vm.session.articulosUrl + 'no_disponible.png'}}" style="max-height: 125px" />
+                                <div class="text-muted font-bold m-b-xs">{{a.marca_descr}}.{{a.codigo}}</div>
+                                <p>{{a.nombre}}</p>
+                            </a>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row row-center">
+                                <div ng-if="vm.blockPrecio" ng-class="{'col-md-8' : vm.blockPrecio, 'col-md-4' : !vm.blockPrecio }" class="border-right">
+                                    <div class="contact-stat"><span>PVP</span><strong>{{a.pvp_cfinal | currency}}</strong></div>
+                                </div>
+                                <div ng-if="!vm.blockPrecio" class="col-md-4 border-right">
+                                    <div class="contact-stat"><span>PRECIO</span><strong>{{a.pvp | currency}}</strong></div>
+                                </div>
+                                <div class="col-md-4" tooltip-placement="top" tooltip="Añadir al Presupuesto">
+                                    <div class="contact-stat">
+                                        <div ng-if="vm.savingArticulo">
+                                            <i class="fa fa-spinner fa-spin fa-2x fa-fw margin-bottom"></i>
+                                        </div>
+                                        <a ng-click="vm.addArticuloPresu(a,1)" ng-hide="vm.savingArticulo"><i class="fa fa-shopping-cart fa-2x"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-center">
+                                <div class="col-md-3 border-right border-top" tooltip-placement="top" tooltip="Stock en el almacén de Málaga">
+                                    <div class="contact-stat">
+                                        <span>MALAGA</span>
+                                        <strong>
+                                            {{(a.stock_00 > 0 ? a.stock_00 : 0)}}<i ng-class="(a.stock_00 > 0 ? 'text-success' : 'text-danger')" class="fa fa-circle m-l-xs"></i>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 border-right border-top" tooltip-placement="top" tooltip="Stock en el almacén de Sevilla">
+                                    <div class="contact-stat">
+                                        <span>SEVILLA</span>
+                                        <strong>
+                                            {{(a.stock_01 > 0 ? a.stock_01 : 0)}}<i ng-class="(a.stock_01 > 0 ? 'text-success' : 'text-danger')" class="fa fa-circle m-l-xs"></i>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 border-right border-top" tooltip-placement="top" tooltip="Stock pendiente de recepción">
+                                    <div class="contact-stat">
+                                        <span class="text-nowrap">PTE RECEP.</span>
+                                        <strong>
+                                            {{(a.pendiente_recepcion > 0 ? a.pendiente_recepcion : 0)}}<i ng-class="(a.pendiente_recepcion > 0 ? 'text-success' : 'text-danger')" class="fa fa-circle m-l-xs"></i>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 border-top" tooltip-placement="right" tooltip="Stock del Fabricante">
+                                    <div class="contact-stat">
+                                        <span>FABR.</span>
+                                        <strong>
+                                            0<i class="fa fa-circle m-l-xs text-danger"></i>
+                                        </strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </flex-slider>
+        </div>
+    </div>
+</div>
