@@ -20,7 +20,7 @@
     </a>
 </div>
              <div class="pull-left" style="margin-top: 1rem;">
-	             <select class="form-control" ng-options="equipo as equipo.categoria for equipo in vm.equipos" ng-model="vm.equipo"></select>
+	             <select class="form-control" ng-options="equipo as equipo.categoria for equipo in vm.equipos" ng-model="vm.equipo" ng-change="vm.changeEquipo()"></select>
              </div>
 <div class="mobile-menu">
     <button type="button" class="navbar-toggle mobile-menu-toggle" data-toggle="collapse" data-target="#mobile-collapse">

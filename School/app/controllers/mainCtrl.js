@@ -9,6 +9,7 @@ function mainCtrl($scope, $http, $timeout, $window, $modal, PANEL_HCLASES) {
     vm.equipo = {};
 
     vm.getEventos = getEventos;
+    vm.changeEquipo = changeEquipo;
 
     //INIT
     if (vm.session.usuario == null) {
@@ -17,6 +18,7 @@ function mainCtrl($scope, $http, $timeout, $window, $modal, PANEL_HCLASES) {
 
     getEventos();
     getEquipos();
+    
 
     function getEventos() {
         var n = 0;
@@ -35,10 +37,34 @@ function mainCtrl($scope, $http, $timeout, $window, $modal, PANEL_HCLASES) {
           .then(function (response) {
               if (response.data.cod === "OK") {
                   vm.equipos = response.data.d.equipos;
+                  loadEquipo();
+                  
               } else {
                   notify({ message: 'Error', classes: 'alert-danger' });
               }
           });
+    }
+
+    function changeEquipo() {
+        $http.post(webroot + "Main/setEquipoSelected", { e: vm.equipo });
+        vm.session.idEquipo = vm.equipo.id;
+    }
+
+    function loadEquipo() {
+        $http.post(webroot + "Main/getEquipoSelected")
+          .then(function (response) {
+             
+              vm.equipo = response.data;
+
+                angular.forEach(vm.equipos,
+                    function(e) {
+                        if (e.id == vm.equipo.id) {
+                            vm.equipo = e;
+                            vm.session.idEquipo = e.id;
+                        }
+                    });
+
+            });
     }
 
     // For iCheck purpose only

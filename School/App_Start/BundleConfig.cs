@@ -116,6 +116,7 @@ namespace School
                 "~/plugins/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js",
                 "~/plugins/flexslider/jquery.flexslider-min.js",
                 "~/plugins/calendar/calendar.min.js",
+                "~/plugins/smart-table/smart-table.min.js",
                 "~/plugins/angular-flexslider/angular-flexslider.js"));
 
             // school script

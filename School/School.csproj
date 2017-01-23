@@ -2346,6 +2346,7 @@
     <Content Include="Plugins\slimScroll\examples\style.css" />
     <Content Include="Plugins\slimScroll\jquery.slimscroll.js" />
     <Content Include="Plugins\slimScroll\jquery.slimscroll.min.js" />
+    <Content Include="Plugins\smart-table\smart-table.min.js" />
     <Content Include="Plugins\sparkline\index.js" />
     <Content Include="Plugins\summernote\dist\summernote-bs2.css" />
     <Content Include="Plugins\summernote\dist\summernote-bs3.css" />

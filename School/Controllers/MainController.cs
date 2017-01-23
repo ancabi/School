@@ -11,12 +11,15 @@ using Newtonsoft.Json;
 using school.Helpers;
 using MySql.Data.MySqlClient;
 using System.Text;
+using Microsoft.Ajax.Utilities;
 
 namespace school.Controllers
 {
     [Authorize]
     public class MainController : Controller
     {
+        private static JsonResult equipos = null;
+        private static Dictionary<string,object> equipoSelected = null;
 
         public ActionResult Index()
         {
@@ -31,31 +34,48 @@ namespace school.Controllers
         [HttpPost]
         public JsonResult getEquipos()
         {
-            RespGeneric resp = new RespGeneric("KO");
-            DataTable dt = new DataTable();
-
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            if (equipos == null && Session.Count!=0)
             {
-                using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
+                RespGeneric resp = new RespGeneric("KO");
+                DataTable dt = new DataTable();
+
+                using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
                 {
-                    using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                    using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                     {
-                        cmd.CommandText = "SELECT * FROM school.equipos where id_monitor=?id";
-                        cmd.Parameters.AddWithValue("?id", Session["idusuario"]);
-                        da.Fill(dt);
-                        if (dt.Rows.Count > 0)
+                        using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
                         {
-                            resp.cod = "OK";
-                            resp.d.Add("equipos", dt.ToList());
-                        }
-                        else
-                        {
-                            resp.cod = "KO";
+                            cmd.CommandText = "SELECT * FROM school.equipos where id_monitor=?id";
+                            cmd.Parameters.AddWithValue("?id", Session["idusuario"]);
+                            da.Fill(dt);
+                            if (dt.Rows.Count > 0)
+                            {
+                                resp.cod = "OK";
+                                resp.d.Add("equipos", dt.ToList());
+                            }
+                            else
+                            {
+                                resp.cod = "KO";
+                            }
                         }
                     }
                 }
+                equipos = Json(resp);
             }
-            return Json(resp);
+            return equipos;
+            
+        }
+
+        [HttpPost]
+        public void setEquipoSelected(Dictionary<string,object> e)
+        {
+            equipoSelected = e;
+        }
+
+        [HttpPost]
+        public JsonResult getEquipoSelected()
+        {
+            return Json(equipoSelected);
         }
 
 
