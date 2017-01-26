@@ -69,12 +69,12 @@
                                                     <td class="text-center">{{partido.contrario}}</td>
                                                     <td class="text-center">{{partido.liga}}</td>
                                                     <td class="text-center">{{partido.lugar}}</td>
-                                                    <td class="text-center"><a href="#" target="_self" ng-click="vm.insertResultado(partido.id)"><i class="fa fa-pencil"></i></a></td>
-                                                    <td class="text-center"><a href="#" target="_self" ng-click="vm.insertIncidencias(partido.id)"><i class="fa fa-pencil"></i></a></td>
-                                                    <td class="text-center"><a href="#" target="_self" ng-click="vm.insertActa(partido.id)"><i class="fa fa-pencil"></i></a></td>
+                                                    <td class="text-center"><a href="#" class="btn btn-primary" id="btnInserResultado" data-toggle="tooltip" data-placement="bottom" title="Añadir Resultado" target="_self" ng-click="vm.showModalResultado(partido.id)"><i class="fa fa-plus-circle" aria-hidden="true"></i></a></td>
+                                                    <td class="text-center"><a href="#" class="btn btn-primary" id="btnInsertIncidencias" data-toggle="tooltip" data-placement="bottom" title="Añadir Incidencias" target="_self" ng-click="vm.showModalIncidenciasCtrl(partido.id)"><i class="fa fa-plus-circle" aria-hidden="true"></i></a></td>
+                                                    <td class="text-center"><a href="#" class="btn btn-primary" id="btnInsertActa" data-toggle="tooltip" data-placement="bottom" title="Añadir Acta" target="_self" ng-click="vm.showModalActa(partido.id)"><i class="fa fa-plus-circle" aria-hidden="true"></i></a></td>
                                                     <td class="text-center">
-                                                        <a href="#" target="_self" ng-click="vm.editEvento(partido.id)"><i class="fa fa-pencil"></i></a>
-                                                        <a href="#" target="_self" ng-click="vm.deleteEvento(partido.id)"><i class="fa fa-trash-o"></i></a>
+                                                        <a href="#" target="_self" class="btn btn-primary" id="btnNewEvento" data-toggle="tooltip" data-placement="bottom" title="Editar Partido" ng-click="vm.editEvento(evento.id)"><i class="fa fa-pencil"></i></a>
+                                                        <a href="#" target="_self" class="btn btn-primary" id="btnNewEvento" data-toggle="tooltip" data-placement="bottom" title="Borrar Partido" ng-click="vm.editEvento(evento.id)"><i class="fa fa-trash-o"></i></a>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -89,6 +89,26 @@
         </div>
     </div>
 </div>
+
+<script type="text/ng-template" id="modalResultado.html">
+    <form role="form">
+        <div class="color-line"></div>
+        <div class="modal-header modal-header-small text-center">
+            <h4 class="modal-title">Resultado del Partido</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-6"><b>Local</b><input type="text" id="equipo_contrario" name="equipo_contrario" class="form-control" placeholder="Resultado Local" ng-model="vm.equipo_contrario" /></div>
+                <div class="col-md-6"><b>Visitante</b><br /><input type="text" id="equipo_contrario" name="equipo_contrario" class="form-control" placeholder="Resultado Visitante" ng-model="vm.equipo_contrario" /></div>
+            </div>
+        </div>
+        <div class="modal-footer modal-footer-small">
+            <button type="button" ng-click="vm.closeModal()" class="btn btn-danger">Cancelar</button>
+            <button type="submit" ng-click="vm.insertPartido()" class="btn btn-success" ladda="vm.saving" data-style="zoom-in">Guardar</button>
+        </div>
+    </form>
+</script>
+
 <script type="text/ng-template" id="modalPartido.html">
     <form role="form">
         <div class="color-line"></div>
@@ -102,15 +122,22 @@
                     <p><h4>Datos Partido</h4></p>
                     <div class="col-md-6">
                         <b>Tu Equipo</b><br />
-                        <select id="ddEquipos" name="ddEquipos" class="form-control">
+                        <select id="ddEquipos" name="ddEquipos" class="form-control" ng-model="vm.ddEquipos">
                             <option value="cadetes">Cadetes</option>
                             <option value="juveniles">Juveniles</option>
                             <option value="preferente">Preferente</option>
                         </select>
                     </div>
-                    <div class="col-md-6"><b>vs Contrario</b><br /><input type="text" id="equipo_contrario" name="equipo_contrario" class="form-control" placeholder="Nombre Equipo Contrario" /></div>
-                    <div class="col-md-6"><b>Liga</b><br /><input type="text" id="liga" name="liga" class="form-control" placeholder="Nombre de la liga" /></div>
-                    <div class="col-md-6"><b>Lugar</b><br /><input type="text" id="lugar" name="lugar" class="form-control" placeholder="Dirección Partido" /></div>
+                    <div class="col-md-6"><b>vs Contrario</b><br /><input type="text" id="equipo_contrario" name="equipo_contrario" class="form-control" placeholder="Nombre Equipo Contrario" ng-model="vm.equipo_contrario" /></div>
+                    <div class="col-md-6"><b>Liga</b><br /><input type="text" id="liga" name="liga" class="form-control" placeholder="Nombre de la liga" ng-model="vm.liga" /></div>
+                    <div class="col-md-6">
+                        <b>Lugar</b><br />
+                        <select id="ddLugar" name="ddLugar" class="form-control" ng-model="vm.ddLugar">
+                            <option value="visitante">Visitante</option>
+                            <option value="local">Local</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12"><b>Dirección</b><br /><input type="text" id="direccion" name="direccion" class="form-control" placeholder="Dirección Partido" ng-model="vm.direccion" /></div>
                 </div>
                 <div class="col-md-12">
                     <p><h4>Datos Calendario</h4></p>
@@ -118,9 +145,9 @@
                         <b>Fecha</b><br />
                         <div class="form-group">
                             <div class="dropdown">
-                                <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
+                                <a class="dropdown-toggle" id="fechaPartido" role="button" data-toggle="dropdown" data-target="#" href="#">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" data-ng-model="data.dateDropDownInput"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        <input type="text" class="form-control" ng-model="vm.fechaPartido"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -129,17 +156,134 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3"><b>Hora Inicio</b><br /><input type="text" id="hora_inicio" name="hora_inicio" class="form-control" placeholder="HH:MM" /></div>
-                    <div class="col-md-3"><b>Hora Fin</b><br /><input type="text" id="hora_fin" name="hora_fin" class="form-control" placeholder="HH:MM" /></div>
+                    <div class="col-md-3"><b>Hora Inicio</b><br /><input type="text" id="hora_inicio" name="hora_inicio" class="form-control" placeholder="HH:MM" ng-model="vm.hora_inicio" /></div>
                 </div>
             </div>
         </div>
         <div class="modal-footer modal-footer-small">
             <button type="button" ng-click="vm.closeModal()" class="btn btn-danger">Cancelar</button>
-            <button type="submit" class="btn btn-success" ladda="vm.saving" data-style="zoom-in">Guardar</button>
+            <button type="submit" ng-click="vm.insertPartido()" class="btn btn-success" ladda="vm.saving" data-style="zoom-in">Guardar</button>
         </div>
     </form>
 </script>
+
+
+<script type="text/ng-template" id="modalIncidencias.html">
+    <form role="form">
+        <div class="color-line"></div>
+        <div class="modal-header modal-header-small text-center">
+            <h4 class="modal-title">Nuevo Evento</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <p><h4>Datos Partido</h4></p>
+                    <div class="col-md-6">
+                        <b>Tu Equipo</b><br />
+                        <select id="ddEquipos" name="ddEquipos" class="form-control" ng-model="vm.ddEquipos">
+                            <option value="cadetes">Cadetes</option>
+                            <option value="juveniles">Juveniles</option>
+                            <option value="preferente">Preferente</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6"><b>vs Contrario</b><br /><input type="text" id="equipo_contrario" name="equipo_contrario" class="form-control" placeholder="Nombre Equipo Contrario" ng-model="vm.equipo_contrario" /></div>
+                    <div class="col-md-6"><b>Liga</b><br /><input type="text" id="liga" name="liga" class="form-control" placeholder="Nombre de la liga" ng-model="vm.liga" /></div>
+                    <div class="col-md-6">
+                        <b>Lugar</b><br />
+                        <select id="ddLugar" name="ddLugar" class="form-control" ng-model="vm.ddLugar">
+                            <option value="visitante">Visitante</option>
+                            <option value="local">Local</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12"><b>Dirección</b><br /><input type="text" id="direccion" name="direccion" class="form-control" placeholder="Dirección Partido" ng-model="vm.direccion" /></div>
+                </div>
+                <div class="col-md-12">
+                    <p><h4>Datos Calendario</h4></p>
+                    <div class="col-md-6">
+                        <b>Fecha</b><br />
+                        <div class="form-group">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" id="fechaPartido" role="button" data-toggle="dropdown" data-target="#" href="#">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" ng-model="vm.fechaPartido"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <datetimepicker data-ng-model="data.dateDropDownInput" data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }" />
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3"><b>Hora Inicio</b><br /><input type="text" id="hora_inicio" name="hora_inicio" class="form-control" placeholder="HH:MM" ng-model="vm.hora_inicio" /></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer modal-footer-small">
+            <button type="button" ng-click="vm.closeModal()" class="btn btn-danger">Cancelar</button>
+            <button type="submit" ng-click="vm.insertPartido()" class="btn btn-success" ladda="vm.saving" data-style="zoom-in">Guardar</button>
+        </div>
+    </form>
+</script>
+
+<script type="text/ng-template" id="modalActa.html">
+    <form role="form">
+        <div class="color-line"></div>
+        <div class="modal-header modal-header-small text-center">
+            <h4 class="modal-title">Nuevo Evento</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <p><h4>Datos Partido</h4></p>
+                    <div class="col-md-6">
+                        <b>Tu Equipo</b><br />
+                        <select id="ddEquipos" name="ddEquipos" class="form-control" ng-model="vm.ddEquipos">
+                            <option value="cadetes">Cadetes</option>
+                            <option value="juveniles">Juveniles</option>
+                            <option value="preferente">Preferente</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6"><b>vs Contrario</b><br /><input type="text" id="equipo_contrario" name="equipo_contrario" class="form-control" placeholder="Nombre Equipo Contrario" ng-model="vm.equipo_contrario" /></div>
+                    <div class="col-md-6"><b>Liga</b><br /><input type="text" id="liga" name="liga" class="form-control" placeholder="Nombre de la liga" ng-model="vm.liga" /></div>
+                    <div class="col-md-6">
+                        <b>Lugar</b><br />
+                        <select id="ddLugar" name="ddLugar" class="form-control" ng-model="vm.ddLugar">
+                            <option value="visitante">Visitante</option>
+                            <option value="local">Local</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12"><b>Dirección</b><br /><input type="text" id="direccion" name="direccion" class="form-control" placeholder="Dirección Partido" ng-model="vm.direccion" /></div>
+                </div>
+                <div class="col-md-12">
+                    <p><h4>Datos Calendario</h4></p>
+                    <div class="col-md-6">
+                        <b>Fecha</b><br />
+                        <div class="form-group">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" id="fechaPartido" role="button" data-toggle="dropdown" data-target="#" href="#">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" ng-model="vm.fechaPartido"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <datetimepicker data-ng-model="data.dateDropDownInput" data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }" />
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3"><b>Hora Inicio</b><br /><input type="text" id="hora_inicio" name="hora_inicio" class="form-control" placeholder="HH:MM" ng-model="vm.hora_inicio" /></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer modal-footer-small">
+            <button type="button" ng-click="vm.closeModal()" class="btn btn-danger">Cancelar</button>
+            <button type="submit" ng-click="vm.insertPartido()" class="btn btn-success" ladda="vm.saving" data-style="zoom-in">Guardar</button>
+        </div>
+    </form>
+</script>
+
 
 @section scripts {
     @Scripts.Render("~/bundles/partidos/js")

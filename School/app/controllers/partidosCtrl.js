@@ -18,6 +18,10 @@ function partidosCtrl($scope, $http, $filter, $modal, $document, notify, sweetAl
     vm.chActive = chActive;
     vm.deletePartido = deletePartido;
 
+    vm.showModalIncidenciasCtrl = showModalIncidenciasCtrl;
+    vm.showModalResultado = showModalIncidenciasCtrl;
+    vm.showModalActa = showModalIncidenciasCtrl;
+
     getPartidos();
 
     function getPartidos() {
@@ -31,12 +35,10 @@ function partidosCtrl($scope, $http, $filter, $modal, $document, notify, sweetAl
               }
           });
     }
-
     function editPartido(id) {
         alert(id);
         $("#modalEditPartido").modal('show');
     }
-
     function chActive(id) {
         $http.post(webroot + "Partidos/changeActive", {id:id})
           .then(function (response) {
@@ -66,6 +68,51 @@ function partidosCtrl($scope, $http, $filter, $modal, $document, notify, sweetAl
 
     }
 
+    function showModalIncidenciasCtrl(id) {
+
+        var modalIncidencias = $modal.open({
+            templateUrl: 'modalIncidencias.html',
+            size: "md",
+            controller: modalIncidenciasCtrl,
+            controllerAs: 'vm',
+            backdrop: 'static',
+            resolve: {
+                function () { return; }
+            }
+        });
+
+    }
+
+    function showModalResultado(id) {
+
+        var modalResultado = $modal.open({
+            templateUrl: 'modalResultado.html',
+            size: "md",
+            controller: modalResultadoCtrl,
+            controllerAs: 'vm',
+            backdrop: 'static',
+            resolve: {
+                function () { return; }
+            }
+        });
+
+    }
+
+    function showModalActa(id) {
+
+        var modalActa = $modal.open({
+            templateUrl: 'modalActa.html',
+            size: "md",
+            controller: modalActaCtrl,
+            controllerAs: 'vm',
+            backdrop: 'static',
+            resolve: {
+                function () { return; }
+            }
+        });
+
+    }
+
 }
 
 modalPartidoCtrl.$inject = ['$scope', '$modalInstance', '$http', 'notify'];
@@ -73,7 +120,91 @@ modalPartidoCtrl.$inject = ['$scope', '$modalInstance', '$http', 'notify'];
 function modalPartidoCtrl($scope, $modalInstance, $http, notify) {
     var vm = this;
 
+    vm.insertPartido = insertPartido;
     vm.closeModal = closeModal;
+
+    function insertPartido() {
+        var n = 0;
+
+        var params = {
+            equipo: vm.ddEquipos,
+            equipo_contrario: vm.equipo_contrario,
+            equipo_contrario: vm.equipo_contrario,
+            liga: vm.liga,
+            lugar: vm.ddLugar,
+            direccion: vm.direccion,
+            fechaPartido: vm.fechaPartido,
+            hora_inicio: vm.hora_inicio
+        }
+        $http.post(webroot + "Partidos/getPartidos", { partido: params })
+          .then(function (response) {
+              if (response.data.cod === "OK") {
+                  vm.rows = response.data.d.partidos;
+              } else {
+                  notify({ message: 'No se ha podido mostrar el historico.', classes: 'alert-danger' });
+              }
+          });
+    }
+
+    function closeModal() {
+        $modalInstance.close();
+    }
+}
+
+modalResultadoCtrl.$inject = ['$scope', '$modalInstance', '$http', 'notify'];
+
+function modalResultadoCtrl($scope, $modalInstance, $http, notify) {
+    var vm = this;
+
+    vm.closeModal = closeModal;
+    function closeModal() {
+        $modalInstance.close();
+    }
+}
+
+modalIncidenciasCtrl.$inject = ['$scope', '$modalInstance', '$http', 'notify'];
+
+function modalIncidenciasCtrl($scope, $modalInstance, $http, notify) {
+    var vm = this;
+
+    vm.closeModal = closeModal;
+
+
+    function closeModal() {
+        $modalInstance.close();
+    }
+}
+
+modalActaCtrl.$inject = ['$scope', '$modalInstance', '$http', 'notify'];
+
+function modalActaCtrl($scope, $modalInstance, $http, notify) {
+    var vm = this;
+
+    vm.insertPartido = insertPartido;
+    vm.closeModal = closeModal;
+
+    function insertPartido() {
+        var n = 0;
+
+        var params = {
+            equipo: vm.ddEquipos,
+            equipo_contrario: vm.equipo_contrario,
+            equipo_contrario: vm.equipo_contrario,
+            liga: vm.liga,
+            lugar: vm.ddLugar,
+            direccion: vm.direccion,
+            fechaPartido: vm.fechaPartido,
+            hora_inicio: vm.hora_inicio
+        }
+        $http.post(webroot + "Partidos/getPartidos", { partido: params })
+          .then(function (response) {
+              if (response.data.cod === "OK") {
+                  vm.rows = response.data.d.partidos;
+              } else {
+                  notify({ message: 'No se ha podido mostrar el historico.', classes: 'alert-danger' });
+              }
+          });
+    }
 
     function closeModal() {
         $modalInstance.close();
