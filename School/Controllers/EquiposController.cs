@@ -53,5 +53,90 @@ namespace school.Controllers
 
         }
 
+        [HttpPost]
+        public JsonResult addEntrenamiento(int idEntrenamiento, DateTime fecha)
+        {
+            RespGeneric resp = new RespGeneric("KO");
+            int numReg = 0;
+
+            try
+            {
+
+                using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
+                    {
+                        using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                        {
+
+
+                            cmd.CommandText =
+                                "INSERT INTO school.entrenamiento_equipo (idequipo, identrenamiento,fecha) VALUES (?idequipo,?identrenamiento,?fecha)";
+                            cmd.Parameters.AddWithValue("?idequipo", MainController.getIdEquipoSelected());
+                            cmd.Parameters.AddWithValue("?identrenamiento", idEntrenamiento);
+                            cmd.Parameters.AddWithValue("?fecha", fecha);
+
+                            con.Open();
+                            numReg = (int)cmd.ExecuteNonQuery();
+                            con.Close();
+                            if (numReg == 1)
+                            {
+                                resp.cod = "OK";
+                            }
+                            else
+                            {
+                                resp.cod = "KO";
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                resp.msg = e.Message;
+            }
+            return Json(resp);
+        }
+
+        [HttpPost]
+        public JsonResult getNextEntrenamiento()
+        {
+            RespGeneric resp = new RespGeneric("KO");
+            int numReg = 0;
+            DataTable dt = new DataTable();
+            try
+            {
+
+                using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
+                    {
+                        using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                        {
+                            cmd.CommandText = "SELECT * FROM school.entrenamiento_equipo eq INNER JOIN entrenamientos en ON en.id =eq.identrenamiento where idequipo=?idequipo ORDER BY fecha LIMIT 1 ";
+                            cmd.Parameters.AddWithValue("?idequipo", MainController.getIdEquipoSelected());
+                            da.Fill(dt);
+                            if (dt.Rows.Count > 0)
+                            {
+                                resp.cod = "OK";
+                                resp.d.Add("jugadores", dt.ToList()[0]);
+                            }
+                            else
+                            {
+                                resp.cod = "KO";
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                resp.msg = e.Message;
+            }
+            return Json(resp);
+        }
+
     }
 }

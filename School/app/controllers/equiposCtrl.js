@@ -1,12 +1,13 @@
-﻿angular.module("school").controller("equiposCtrl", ["$scope", "$http", "$window", "notify", "sweetAlert", equiposCtrl]);
+﻿angular.module("school").controller("equiposCtrl", ["$scope", "$http", "$window", "notify", "$modal", equiposCtrl]);
 
 
-function equiposCtrl($scope, $http, $window, notify, sweetAlert) {
+function equiposCtrl($scope, $http, $window, notify, $modal) {
     vm = this;
     vm.session = $window.sessionStorage;
 
     vm.jugadores = [];
     vm.jugadores_disp = [];
+    vm.entrenamiento = null;
     vm.loading1 = true;
 
 
@@ -14,8 +15,11 @@ function equiposCtrl($scope, $http, $window, notify, sweetAlert) {
         $window.location.href = webroot + "Account/Login";
     }
 
+    vm.addEntrenamiento = addEntrenamiento;
+
     ///////INIT
     getJugadores();
+    getNextEntrenamiento();
 
     function getJugadores() {
 
@@ -32,7 +36,115 @@ function equiposCtrl($scope, $http, $window, notify, sweetAlert) {
             });
 
     }
+
+    function getNextEntrenamiento() {
+
+        vm.loading = true;
+        $http.post(webroot + "Equipos/getNextEntrenamiento", {})
+            .then(function (response) {
+                if (response.data.cod == "OK") {
+                    vm.entrenamiento = response.data.d.jugadores;
+                } else {
+                    notify({ message: response.data.msj, classes: 'alert-danger' });
+                }
+                vm.loading = false;
+            });
+
+    }
+
+    function addEntrenamiento() {
+
+        var modalEntrenamiento = $modal.open({
+            templateUrl: 'modalEntrenamiento.html',
+            size: "lg",
+            controller: modalCtrl,
+            controllerAs: 'vm',
+            backdrop: 'static',
+            windowClass: 'hmodal-success',
+            resolve: {
+                item: function () { return null; }
+            }
+        }).result.then(function (result) {
+            if (result) {
+                
+            }
+        });
+
+    }
     
 
 }
 
+modalCtrl.$inject = ['$scope', '$modalInstance', '$http', 'notify', 'item'];
+
+function modalCtrl($scope, $modalInstance, $http, notify, item) {
+    var vm = this;
+
+    vm.entrenamientos = [];
+    vm.entrenamiento = null;
+    vm.fecha = "";
+
+    vm.closeModal = closeModal;
+
+    vm.aceptar = aceptar;
+
+    //INIT
+    getEntrenamientos();
+
+    function getEntrenamientos() {
+
+        $http.post(webroot + "Entrenamientos/getEntrenamientos")
+          .then(function (response) {
+              if (response.data.cod === "OK") {
+                  vm.entrenamientos = response.data.d.entrenamientos;
+              } else {
+                  notify({ message: 'No se ha podido mostrar el historico.', classes: 'alert-danger' });
+              }
+          });
+    }
+
+    function closeModal(res) {
+        $modalInstance.close(res);
+    }
+
+    function aceptar() {
+        vm.saving = true;
+        if (validarCampos()) {
+            $http.post(webroot + "Equipos/addEntrenamiento", {
+                idEntrenamiento: vm.entrenamiento.id,
+                fecha: vm.fecha
+            }).then(function (response) {
+                if (response.data.cod == "OK") {
+                    closeModal(true);
+                } else {
+                    notify({ message: response.data.msg, classes: 'alert-danger' });
+                }
+                vm.saving = false;
+
+            });
+
+        } else {
+            vm.saving = false;
+        }
+    }
+    
+    function validarCampos() {
+        var valido = true;
+
+        if (vm.entrenamiento == null) {
+            vm.errorEntrenamiento = true;
+            valido = false;
+        } else {
+            vm.errorEntrenamiento = false;
+        }
+
+        if (vm.fecha == "") {
+            vm.errorFecha = true;
+            valido = false;
+        } else {
+            vm.errorFecha = false;
+        }
+
+        return valido;
+    }
+}

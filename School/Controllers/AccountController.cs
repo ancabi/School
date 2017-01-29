@@ -24,6 +24,7 @@ namespace school.Controllers
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();
+            MainController.clearEquipo();
             Session.Clear();
             return RedirectToAction("Login");
         }
@@ -55,6 +56,7 @@ namespace school.Controllers
                             Session["cif"] = rowUsuario["cif"];
                             Session["nombre"] = rowUsuario["nombre"].ToString();
                             Session["email"] = rowUsuario["email"].ToString();
+                            Session["idultimo_equipo"] = rowUsuario["idultimo_equipo"].ToString();
                             FormsAuthentication.SetAuthCookie(usuario, false);
                             resp.cod = "OK";
                             resp.d.Add("idusuario", Session["idusuario"].ToString());

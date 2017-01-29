@@ -19,14 +19,9 @@ namespace school.Controllers
     public class MainController : Controller
     {
         private static JsonResult equipos = null;
-        private static Dictionary<string,object> equipoSelected = null;
+        private  static Dictionary<string,object> equipoSelected = null;
 
         public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult AsociadosOnly()
         {
             return View();
         }
@@ -70,12 +65,57 @@ namespace school.Controllers
         public void setEquipoSelected(Dictionary<string,object> e)
         {
             equipoSelected = e;
+
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            {
+                using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
+                {
+                        cmd.CommandText = "UPDATE school.usuarios SET idultimo_equipo=?id WHERE id=?id";
+                        cmd.Parameters.AddWithValue("?id", Session["idusuario"]);
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                }
+            }
         }
 
         [HttpPost]
         public JsonResult getEquipoSelected()
         {
+            if (equipoSelected == null)
+            {
+                DataTable dt = new DataTable();
+                using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
+                    {
+                        using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                        {
+                            cmd.CommandText = "SELECT * FROM school.equipos where id=?id";
+                            cmd.Parameters.AddWithValue("?id", Session["idultimo_equipo"]);
+                            da.Fill(dt);
+                            
+                            equipoSelected = dt.ToList()[0];
+                            
+                        }
+                    }
+                }
+            }
             return Json(equipoSelected);
+        }
+
+        public static void clearEquipo()
+        {
+            
+                equipoSelected=null;
+            
+                equipos = null;
+            
+        }
+
+        public static int getIdEquipoSelected()
+        {
+            return Int32.Parse(equipoSelected["id"].ToString());
         }
 
 
