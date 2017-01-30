@@ -158,6 +158,9 @@ namespace School
             bundles.Add(new ScriptBundle("~/bundles/entrenamientos/js").Include(
                       "~/app/controllers/entrenamientosCtrl.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/liga/js").Include(
+                      "~/app/controllers/ligaCtrl.js"));
+
 
             BundleTable.EnableOptimizations = false;
         }

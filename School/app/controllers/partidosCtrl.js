@@ -19,8 +19,8 @@ function partidosCtrl($scope, $http, $filter, $modal, $document, notify, sweetAl
     vm.deletePartido = deletePartido;
 
     vm.showModalIncidenciasCtrl = showModalIncidenciasCtrl;
-    vm.showModalResultado = showModalIncidenciasCtrl;
-    vm.showModalActa = showModalIncidenciasCtrl;
+    vm.showModalResultado = showModalResultado;
+    vm.showModalActa = showModalActa;
 
     getPartidos();
 
@@ -54,7 +54,7 @@ function partidosCtrl($scope, $http, $filter, $modal, $document, notify, sweetAl
     }
 
     function showModalPartido() {
-
+        alert("partido");
         var modalPartido = $modal.open({
             templateUrl: 'modalPartido.html',
             size: "md",
@@ -69,7 +69,7 @@ function partidosCtrl($scope, $http, $filter, $modal, $document, notify, sweetAl
     }
 
     function showModalIncidenciasCtrl(id) {
-
+        alert("incidencias");
         var modalIncidencias = $modal.open({
             templateUrl: 'modalIncidencias.html',
             size: "md",
@@ -84,7 +84,7 @@ function partidosCtrl($scope, $http, $filter, $modal, $document, notify, sweetAl
     }
 
     function showModalResultado(id) {
-
+        alert("resultado");
         var modalResultado = $modal.open({
             templateUrl: 'modalResultado.html',
             size: "md",
@@ -99,7 +99,7 @@ function partidosCtrl($scope, $http, $filter, $modal, $document, notify, sweetAl
     }
 
     function showModalActa(id) {
-
+        alert("acta");
         var modalActa = $modal.open({
             templateUrl: 'modalActa.html',
             size: "md",

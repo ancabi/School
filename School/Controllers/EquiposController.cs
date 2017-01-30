@@ -10,6 +10,8 @@ using school.Models;
 
 namespace school.Controllers
 {
+    [Authorize]
+    [SessionState(System.Web.SessionState.SessionStateBehavior.Disabled)]
     public class EquiposController : Controller
     {
         //
