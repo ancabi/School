@@ -446,6 +446,7 @@
     <Content Include="Plugins\angular-datatables\dist\plugins\tabletools\angular-datatables.tabletools.js" />
     <Content Include="Plugins\angular-datatables\dist\plugins\tabletools\angular-datatables.tabletools.min.js" />
     <Content Include="Plugins\angular-datatables\index.js" />
+    <Content Include="Plugins\angular-dragdrop\angular-dragdrop.min.js" />
     <Content Include="Plugins\angular-filter\.gitignore" />
     <Content Include="Plugins\angular-filter\dist\angular-filter.js" />
     <Content Include="Plugins\angular-filter\dist\angular-filter.min.js" />

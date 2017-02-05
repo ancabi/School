@@ -109,6 +109,7 @@ namespace School
                 "~/Plugins/angular-chartist.js/dist/angular-chartist.min.js",
                 "~/Plugins/angular-filter/dist/angular-filter.min.js",
                 "~/Plugins/ladda/js/spin.js",
+                "~/Plugins/angular-dragdrop/angular-dragdrop.min.js",
                 "~/Plugins/ladda/js/ladda.js",
                 "~/Plugins/ladda/js/ladda.jquery.js",
                 "~/Plugins/angular-ladda/dist/angular-ladda.js",

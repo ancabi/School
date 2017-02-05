@@ -32,6 +32,7 @@
         'angular-ladda',            // Ladda - loading buttons
         'ui.bootstrap.datetimepicker',  // Angular bootstrap date & time picker
         'smart-table',
+        'ngDragDrop',
         'angular-flexslider'        // Angular Flex-slider Directive
     ]).service('UtilService', function () {
         this.sum = function sum(items, prop) {

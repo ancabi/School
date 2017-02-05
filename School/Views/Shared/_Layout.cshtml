@@ -31,37 +31,8 @@
     <!-- DEFAULT style -->
     @Styles.Render("~/bundles/style/css")
 
-    @if (ViewBag.tipo != null)
-    {
-        if (ViewBag.tipo.ToLower() == "tophogar")
-        {
-            @Styles.Render("~/bundles/tophogar/css")
-        }
-        else if (ViewBag.tipo.ToLower() == "decorschool")
-        {
-            @Styles.Render("~/bundles/decorschool/css")
-        }
-        else if (ViewBag.tipo.ToLower() == "connecta")
-        {
-            @Styles.Render("~/bundles/connecta/css")
-        }
-        else if (ViewBag.tipo.ToLower() == "leroy")
-        {
-            @Styles.Render("~/bundles/leroy/css")
-        }
-        else if (ViewBag.tipo.ToLower() == "mayor")
-        {
-            @Styles.Render("~/bundles/mayor/css")
-        }
-        else
-        {
-            @Styles.Render("~/bundles/school/css")
-        }
-    }
-    else
-    {
-        @Styles.Render("~/bundles/school/css")
-    }
+   
+    @Styles.Render("~/bundles/school/css")
 
     <!-- Add local styles, mostly for plugins css file -->
     @if (IsSectionDefined("Styles"))
@@ -119,6 +90,7 @@
         <script src="~/Plugins/angular/angular.min.js"></script>
     }
     @Scripts.Render("~/bundles/bootstrap/js")
+    @Scripts.Render("~/bundles/jqueryui/js")
     @Scripts.Render("~/bundles/plugins/js")
     @Scripts.Render("~/bundles/school/js")
     @Scripts.Render("~/bundles/templates/js")

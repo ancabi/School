@@ -4,140 +4,174 @@
 }
 
 <div ng-controller="ligaCtrl as vm">
-    <div class="small-header">
-        <div class="hpanel">
-            <div class="panel-body">
-                <h2 class="font-light m-b-xs">
-                    Liga
-                </h2>
-                <small>Panel de gestión de la Liga adjuntada al equipo.</small>
-            </div>
-        </div>
-    </div>
-    <div class="normalheader animated zoomIn">
-        <div class="row">
-            <div class="col-md-5">
-                <div class="hpanel">
-                    <div class="panel-body">
-                        <h3>{{vm.nombreliga}}</h3>
-                        <div class="table-responsive">
-                            <table st-table="vm.ligaequipos_disp" st-safe-src="vm.ligaequipos" class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center" st-sort="dorsal">#</th>
-                                        <th class="text-center" st-sort="nombre">NOMBRE</th>
-                                        <th class="text-center" st-sort="posicion"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="item in vm.ligaequipos_disp">
-                                        <td class="text-center">
-                                            <span editable-text="item.id" e-name="id" e-form="rowform">
-                                                {{ item.id || 'empty' }}
-                                            </span>
-                                        </td>
-                                        <td class="text-center">
-                                            <span editable-text="item.nombre" e-name="nombre" e-form="rowform">
-                                                {{ item.nombre || 'empty' }}
-                                            </span>
-                                        </td>
+	<div class="small-header">
+		<div class="hpanel">
+			<div class="panel-body">
+				<h2 class="font-light m-b-xs">
+					Liga
+				</h2>
+				<small>Panel de gestión de la Liga adjuntada al equipo.</small>
+			</div>
+		</div>
+	</div>
+	<div class="normalheader animated zoomIn">
+		<div class="row">
+			<div class="col-md-5">
+				<div class="hpanel">
+					<div class="panel-body">
+						<h3>{{vm.nombreliga}}</h3>
+						<div class="table-responsive">
+							<table st-table="vm.ligaequipos_disp" st-safe-src="vm.ligaequipos" class="table table-striped table-hover">
+								<thead>
+								<tr>
+									<th class="text-center" st-sort="dorsal">#</th>
+									<th class="text-center" st-sort="nombre">NOMBRE</th>
+									<th class="text-center" st-sort="posicion"></th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="item in vm.ligaequipos_disp">
+									<td class="text-center">
+										<span editable-text="item.id" e-name="id" e-form="rowform">
+											{{ item.id || 'empty' }}
+										</span>
+									</td>
+									<td class="text-center">
+										<span editable-text="item.nombre" e-name="nombre" e-form="rowform">
+											{{ item.nombre || 'empty' }}
+										</span>
+									</td>
 
-                                        <td style="white-space: nowrap">
-                                            <!-- form -->
-                                            <form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline">
-                                                <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
-                                                    <i class="fa fa-check" aria-hidden="true"></i>
-                                                </button>
-                                                <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
-                                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                                </button>
-                                            </form>
-                                            <div class="buttons" ng-show="!rowform.$visible">
-                                                <button type="button" class="btn btn-warning btn-sm" ng-click="rowform.$show()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm" ng-click="removeUser($index)"><i class="fa fa-times" aria-hidden="true"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-7">
-                <div class="hpanel">
-                    <div class="panel-body">
-                        <div class="col-md-12">
-                            <h3>Jornadas</h3>
-                            Seleccione una jornada:
-                            <select name="jornada" id="jornada" ng-model="vm.jornada" ng-change="vm.getLigaResultados(vm.idliga, vm.jornada)">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="table-responsive">
-                                <table st-table="vm.ligaresultados_disp" st-safe-src="vm.ligaresultados" class="table table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center" st-sort="dorsal">#</th>
-                                            <th class="text-center" st-sort="nombre">NOMBRE</th>
-                                            <th class="text-center" st-sort="posicion"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="resultados in vm.ligaresultados_disp">
-                                            <td class="text-center">
-                                                <span editable-text="resultados.local" e-name="local" e-form="rowform">
-                                                    {{ resultados.local || 'empty' }}
-                                                </span>
-                                            </td>
-                                            <td class="text-center">
-                                                <span editable-text="resultados.resultado_local" e-name="resultado_local" e-form="rowform">
-                                                    {{ resultados.resultado_local || 'empty' }}
-                                                </span>
-                                            </td>
-                                            <td class="text-center">
-                                                VS
-                                            </td>
-                                            <td class="text-center">
-                                                <span editable-text="resultados.resultado_visitante" e-name="resultado_visitante" e-form="rowform">
-                                                    {{ resultados.resultado_visitante || 'empty' }}
-                                                </span>
-                                            </td>
-                                           <td class="text-center">
-                                                <span editable-text="resultados.visitante" e-name="visitante" e-form="rowform">
-                                                    {{ resultados.visitante || 'empty' }}
-                                                </span>
-                                            </td>
+									<td style="white-space: nowrap">
+										<!-- form -->
+										<form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline">
+											<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+												<i class="fa fa-check" aria-hidden="true"></i>
+											</button>
+											<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+												<i class="fa fa-times" aria-hidden="true"></i>
+											</button>
+										</form>
+										<div class="buttons" ng-show="!rowform.$visible">
+											<button type="button" class="btn btn-warning btn-sm" ng-click="rowform.$show()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+											<button type="button" class="btn btn-danger btn-sm" ng-click="removeUser($index)"><i class="fa fa-times" aria-hidden="true"></i></button>
+										</div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-7">
+				<div class="hpanel">
+					<div class="panel-body">
+						<div class="col-md-12">
+							<h3>Jornadas <button class="btn btn-success btn-sm" ng-click="vm.addJornada()"><i class="fa fa-plus"></i></button></h3>
+							Seleccione una jornada:
+							<select name="jornada" id="jornada" ng-model="vm.jornada" ng-change="vm.getLigaResultados(vm.idliga, vm.jornada)">
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+							</select>
+						</div>
+						<div class="col-md-12">
+							<div class="table-responsive">
+								<table st-table="vm.ligaresultados_disp" st-safe-src="vm.ligaresultados" class="table table-striped table-hover">
+									<thead>
+									<tr>
+										<th class="text-center" st-sort="dorsal">#</th>
+										<th class="text-center" st-sort="nombre">NOMBRE</th>
+										<th class="text-center" st-sort="posicion"></th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr ng-repeat="resultados in vm.ligaresultados_disp">
+										<td class="text-center">
+											<span editable-text="resultados.local" e-name="local" e-form="rowform">
+												{{ resultados.local || 'empty' }}
+											</span>
+										</td>
+										<td class="text-center">
+											<span editable-text="resultados.resultado_local" e-name="resultado_local" e-form="rowform">
+												{{ resultados.resultado_local || 'empty' }}
+											</span>
+										</td>
+										<td class="text-center">
+											VS
+										</td>
+										<td class="text-center">
+											<span editable-text="resultados.resultado_visitante" e-name="resultado_visitante" e-form="rowform">
+												{{ resultados.resultado_visitante || 'empty' }}
+											</span>
+										</td>
+										<td class="text-center">
+											<span editable-text="resultados.visitante" e-name="visitante" e-form="rowform">
+												{{ resultados.visitante || 'empty' }}
+											</span>
+										</td>
 
-                                            <td style="white-space: nowrap">
-                                                <!-- form -->
-                                                <form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline">
-                                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
-                                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                                    </button>
-                                                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
-                                                        <i class="fa fa-times" aria-hidden="true"></i>
-                                                    </button>
-                                                </form>
-                                                <div class="buttons" ng-show="!rowform.$visible">
-                                                    <button type="button" class="btn btn-warning btn-sm" ng-click="rowform.$show()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                                                    <button type="button" class="btn btn-danger btn-sm" ng-click="removeUser($index)"><i class="fa fa-times" aria-hidden="true"></i></button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+										<td style="white-space: nowrap">
+											<!-- form -->
+											<form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline">
+												<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+													<i class="fa fa-check" aria-hidden="true"></i>
+												</button>
+												<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+													<i class="fa fa-times" aria-hidden="true"></i>
+												</button>
+											</form>
+											<div class="buttons" ng-show="!rowform.$visible">
+												<button type="button" class="btn btn-warning btn-sm" ng-click="rowform.$show()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+												<button type="button" class="btn btn-danger btn-sm" ng-click="removeUser($index)"><i class="fa fa-times" aria-hidden="true"></i></button>
+											</div>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+
+<script type="text/ng-template" id="modalJornada.html">
+	<form role="form">
+		<div class="color-line"></div>
+		<div class="modal-header modal-header-small text-center">
+			<h4 class="modal-title">Jornada</h4>
+		</div>
+		<div class="modal-body" style="overflow:hidden;">
+			<div class="col-sm-12">
+				<div ng-repeat="e in vm.ligaequipos">
+					<div class="btn btn-default pull-left" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="e" jqyoui-draggable="{animate:true}" ng-hide="!e.nombre" style="margin-right:1rem;">{{e.nombre}}</div>
+				</div>
+				<br />
+				<div class="col-md-12" ng-repeat="e in vm.getNumeroPartidos() track by $index" data-drop="false">
+					<div class="col-md-5">
+						<div class="thumbnail" data-drop="true" data-jqyoui-options ng-model="vm.local[$index]" jqyoui-droppable style='height:50px;'>
+							<div class="btn btn-success" data-drag="false" data-jqyoui-options ng-model="vm.local[$index]" jqyoui-draggable ng-hide="!vm.local[$index].nombre">{{vm.local[$index].nombre}}</div>
+						</div>
+					</div>
+					<div class="col-md-2">-</div>
+					<div class="col-md-5">
+						<div class="thumbnail" data-drop="true" data-jqyoui-options ng-model="vm.visitante[$index]" jqyoui-droppable style='height:50px;'>
+							<div class="btn btn-success" data-drag="false" data-jqyoui-options ng-model="vm.visitante[$index]" jqyoui-draggable ng-hide="!vm.visitante[$index].nombre">{{vm.visitante[$index].nombre}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer modal-footer-small">
+			<button type="button" ng-click="vm.closeModal()" class="btn btn-danger">Cancelar</button>
+			<button type="submit" class="btn btn-success" ladda="vm.saving" data-style="zoom-in" ng-click="vm.aceptar()">Guardar</button>
+		</div>
+	</form>
+</script>
 
 @section scripts {
     @Scripts.Render("~/bundles/liga/js")

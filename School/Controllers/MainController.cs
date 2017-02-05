@@ -40,7 +40,7 @@ namespace school.Controllers
                     {
                         using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
                         {
-                            cmd.CommandText = "SELECT * FROM school.equipos where id_monitor=?id";
+                            cmd.CommandText = "SELECT * FROM school.liga_equipos where id_monitor=?id";
                             cmd.Parameters.AddWithValue("?id", Session["idusuario"]);
                             da.Fill(dt);
                             if (dt.Rows.Count > 0)
@@ -91,7 +91,7 @@ namespace school.Controllers
                     {
                         using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
                         {
-                            cmd.CommandText = "SELECT * FROM school.equipos where id=?id";
+                            cmd.CommandText = "SELECT * FROM school.liga_equipos where id=?id";
                             cmd.Parameters.AddWithValue("?id", Session["idultimo_equipo"]);
                             da.Fill(dt);
                             

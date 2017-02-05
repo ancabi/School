@@ -21,7 +21,7 @@ namespace School.Controllers
         }
 
         [HttpPost]
-        public JsonResult getLiga()
+        public JsonResult getLiga(int idEquipo)
         {
 
             RespGeneric resp = new RespGeneric("KO");
@@ -34,7 +34,7 @@ namespace School.Controllers
                     using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
                     {
                         cmd.CommandText = "SELECT * FROM school.liga where id_equipo=?id";
-                        cmd.Parameters.AddWithValue("?id", 1);
+                        cmd.Parameters.AddWithValue("?id", idEquipo);
                         da.Fill(dt);
                         if (dt.Rows.Count > 0)
                         {
