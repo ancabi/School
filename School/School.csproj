@@ -179,6 +179,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CalendarioController.cs" />
+    <Compile Include="Controllers\ComunicadosController.cs" />
     <Compile Include="Controllers\EntrenamientosController.cs" />
     <Compile Include="Controllers\EquiposController.cs" />
     <Compile Include="Controllers\EventosController.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\controllers\comunicadosCtrl.js" />
     <Content Include="app\controllers\ligaCtrl.js" />
     <Content Include="app\school.js" />
     <Content Include="app\app.js" />
@@ -3089,6 +3091,7 @@
     <Content Include="Views\Shared\_Navigation.cshtml" />
     <Content Include="Views\Shared\_Right_Sidebar.cshtml" />
     <Content Include="Views\Liga\Liga.cshtml" />
+    <Content Include="Views\Comunicados\Enviar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

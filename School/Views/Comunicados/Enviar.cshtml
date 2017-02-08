@@ -1,0 +1,100 @@
+﻿@{
+	ViewBag.Title = "Comunicados";
+}
+
+<div ng-controller="comunicadosCtrl as vm">
+	<div class="small-header">
+		<div class="hpanel">
+			<div class="panel-body">
+				<h2 class="font-light m-b-xs">
+					Comunicados
+				</h2>
+				<small>Panel de gestión de comunicados.</small>
+			</div>
+		</div>
+	</div>
+
+	<div class="normalheader animated zoomIn">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="hpanel">
+					<div class="panel-heading hbuilt text-right">
+						<a href="#" target="_self" class="btn btn-primary" id="btnNewComunicado" data-toggle="tooltip" data-placement="bottom" title="Añadir Comunicado" ng-click="vm.enviarComunicado()">
+							<i class="fa fa-plus-circle" aria-hidden="true"></i>
+						</a>
+					</div>
+					<div class="panel-body" style="margin-bottom:20px;">
+						<div class="row">
+							<div class="row m-t-lg">
+								<div class="col-md-12">
+									<div class="table-responsive">
+										<table class="table table-striped table-hover table-condensed table-bordered text-nowrap">
+											<thead>
+												<tr>
+													<th class="text-center">Título</th>
+													<th class="text-center">Descripcion</th>
+													<th class="text-center">Equipos</th>
+													<th class="text-center">Fecha</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="comunicados in vm.comunicados track by $index">
+													<td class="text-center">{{evento.titulo}}</td>
+													<td class="text-center">{{evento.descripcion}}</td>
+													<td class="text-center">{{evento.equipos}}</td>
+													<td class="text-center">{{evento.fecha | jsonDate:'dd-MM-yyyy hh:mm'}}</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/ng-template" id="modalComunicado.html">
+		<form role="form">
+			<div class="color-line"></div>
+			<div class="modal-header modal-header-small text-center">
+				<h4 class="modal-title">Nuevo Comunicado</h4>
+			</div>
+			<div class="modal-body" style="overflow:hidden;">
+				<div class="col-sm-12">
+					<div class="col-sm-6">
+						<label>Título</label>
+						<input type="text" id="titulo" name="titulo" class="form-control" placeholder="Título del comunicado" />
+					</div>
+					<div class="col-sm-6">
+						<label>Fecha</label>
+						<a class="dropdown-toggle" id="fecha" role="button" data-toggle="dropdown" data-target="#" href="#">
+							<div class="input-group">
+								<input type="text" placeholder="Fecha" class="form-control" data-ng-model="vm.fecha"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+							</div>
+						</a>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+							<datetimepicker data-ng-model="vm.fecha" data-datetimepicker-config="{ dropdownSelector: '#fecha' }" />
+						</ul>
+					</div>
+					<div class="col-sm-12">
+						<textarea rows="4" ng-model="vm.descripcion" placeholder="Mensaje"></textarea>
+					</div>
+					
+				</div>
+			</div>
+			<div class="modal-footer modal-footer-small">
+				<button type="button" ng-click="vm.closeModal()" class="btn btn-danger">Cancelar</button>
+				<button type="submit" class="btn btn-success" ladda="vm.sending" data-style="zoom-in" ng-click="vm.send()">Enviar</button>
+			</div>
+		</form>
+	</script>
+</div>
+
+@section scripts {
+	@Scripts.Render("~/bundles/eventos/js")
+}
+
+
