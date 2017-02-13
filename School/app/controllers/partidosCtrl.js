@@ -54,22 +54,21 @@ function partidosCtrl($scope, $http, $filter, $modal, $document, notify, sweetAl
     }
 
     function showModalPartido() {
-        alert("partido");
         var modalPartido = $modal.open({
             templateUrl: 'modalPartido.html',
             size: "md",
             controller: modalPartidoCtrl,
             controllerAs: 'vm',
             backdrop: 'static',
-            resolve: {
-                function () { return; }
+            resolve: { function () { 
+                    getPartidos();
+                }
             }
         });
 
     }
 
     function showModalIncidenciasCtrl(id) {
-        alert("incidencias");
         var modalIncidencias = $modal.open({
             templateUrl: 'modalIncidencias.html',
             size: "md",
@@ -84,7 +83,6 @@ function partidosCtrl($scope, $http, $filter, $modal, $document, notify, sweetAl
     }
 
     function showModalResultado(id) {
-        alert("resultado");
         var modalResultado = $modal.open({
             templateUrl: 'modalResultado.html',
             size: "md",
@@ -99,7 +97,6 @@ function partidosCtrl($scope, $http, $filter, $modal, $document, notify, sweetAl
     }
 
     function showModalActa(id) {
-        alert("acta");
         var modalActa = $modal.open({
             templateUrl: 'modalActa.html',
             size: "md",
@@ -120,26 +117,32 @@ modalPartidoCtrl.$inject = ['$scope', '$modalInstance', '$http', 'notify'];
 function modalPartidoCtrl($scope, $modalInstance, $http, notify) {
     var vm = this;
 
+    vm.ddEquipos = "";
+    vm.equipo_contrario = "";
+    vm.liga = "";
+    vm.ddLugar = "";
+    vm.direccion = "";
+    vm.fechaPartido = "";
+    vm.hora_inicio = "";
+
     vm.insertPartido = insertPartido;
     vm.closeModal = closeModal;
 
     function insertPartido() {
         var n = 0;
-
         var params = {
             equipo: vm.ddEquipos,
-            equipo_contrario: vm.equipo_contrario,
             equipo_contrario: vm.equipo_contrario,
             liga: vm.liga,
             lugar: vm.ddLugar,
             direccion: vm.direccion,
-            fechaPartido: vm.fechaPartido,
-            hora_inicio: vm.hora_inicio
+            fecha: vm.fechaPartido,
+            hora: vm.hora_inicio
         }
-        $http.post(webroot + "Partidos/getPartidos", { partido: params })
+        $http.post(webroot + "Partidos/newPartido", { partido: params })
           .then(function (response) {
               if (response.data.cod === "OK") {
-                  vm.rows = response.data.d.partidos;
+                  closeModal();
               } else {
                   notify({ message: 'No se ha podido mostrar el historico.', classes: 'alert-danger' });
               }

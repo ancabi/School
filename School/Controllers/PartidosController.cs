@@ -67,12 +67,20 @@ namespace school.Controllers
                     {
                         con.Open();
                         StringBuilder sbQuery = new StringBuilder();
-                        cmd.CommandText = "INSERT partidos (id_equipo, contrario, liga, fecha, hora) VALUES (?id_equipo, ?contrario, ?liga, ?fecha, ?hora)";
+                        cmd.CommandText = "INSERT partidos (id_equipo, idrival, liga, fecha, hora, lugar, direccion) VALUES (?id_equipo, ?id_rival, ?liga, ?fecha, ?hora, ?lugar, ?direccion)";
                         cmd.Parameters.AddWithValue("?id_equipo", 1);
-                        cmd.Parameters.AddWithValue("?contrario", partido["descripcion"]);
-                        cmd.Parameters.AddWithValue("?liga", partido["tipo"]);
-                        cmd.Parameters.AddWithValue("?fecha", partido["nivel"]);
-                        cmd.Parameters.AddWithValue("?hora", partido["nivel"]);
+                        cmd.Parameters.AddWithValue("?id_rival", 1);
+                        cmd.Parameters.AddWithValue("?lugar", partido["lugar"]);
+                        cmd.Parameters.AddWithValue("?liga", partido["liga"]);
+                        if (partido["fecha"] == "")
+                        {
+                            cmd.Parameters.AddWithValue("?fecha", DBNull.Value);
+                        }else
+                        {
+                            cmd.Parameters.AddWithValue("?fecha", partido["fecha"]);
+                        }
+                        cmd.Parameters.AddWithValue("?hora", partido["hora"]);
+                        cmd.Parameters.AddWithValue("?direccion", partido["direccion"]);
                         numReg = (int)cmd.ExecuteNonQuery();
                         if (numReg == 1)
                         {
