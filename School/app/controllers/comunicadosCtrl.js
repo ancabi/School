@@ -4,7 +4,7 @@ comunicadosCtrl.$inject = ["$scope", "$http", "$filter", "$modal", "$document", 
 
 
 function comunicadosCtrl($scope, $http, $filter, $modal, $document, notify, $window) {
-    vm = this;
+    var vm = this;
 
     vm.comunicados = [];
 
@@ -19,7 +19,7 @@ function comunicadosCtrl($scope, $http, $filter, $modal, $document, notify, $win
               if (response.data.cod === "OK") {
                   vm.comunicados = response.data.d.comunicados;
               } else {
-                  notify({ message: 'No se ha podido mostrar el historico.', classes: 'alert-danger' });
+                  notify({ message: 'No hay comunicados.', classes: 'alert-danger' });
               }
           });
     }
@@ -28,7 +28,7 @@ function comunicadosCtrl($scope, $http, $filter, $modal, $document, notify, $win
 
         var modalComunicado = $modal.open({
             templateUrl: 'modalComunicado.html',
-            size: "md",
+            size: "lg",
             controller: modalComunicadoCtrl,
             controllerAs: 'vm',
             backdrop: 'static',
@@ -51,7 +51,43 @@ function modalComunicadoCtrl($scope, $modalInstance, $http, notify) {
     vm.equipos = [];
     vm.equipoSelected = [];
 
+    loadEquipos();
+
     vm.closeModal = closeModal;
+    vm.send = send;
+
+    function loadEquipos() {
+        $http.post(webroot + "Main/getEquipos").then(function(response) {
+            vm.equipos = response.data.d.equipos;
+        });
+    }
+
+    function send() {
+
+        var idEquipos = [];
+
+        angular.forEach(vm.equipoSelected,
+            function(e) {
+                idEquipos.push(e.id);
+            });
+
+        if (idEquipos.length == 0) {
+            angular.element("#inputEquipos").addClass("has-error");
+        } else {
+
+
+            $http.post(webroot + "Comunicados/Enviar",
+                    { titulo: vm.titulo, descripcion: vm.descripcion, fecha: vm.fecha, equipos:idEquipos })
+                .then(function(response) {
+                    if (response.data.cod == "OK") {
+                        closeModal();
+                    } else {
+                        notify({ message: "Error al enviar el comunicado", classes: 'alert-danger' });
+                    }
+
+                });
+        }
+    }
 
     function closeModal() {
         $modalInstance.close();

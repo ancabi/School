@@ -56,6 +56,7 @@ namespace School
                 "~/plugins/chartist/custom/chartist.min.css",
                 "~/plugins/ladda/dist/ladda-themeless.min.css",
                 "~/plugins/calendar/calendar.min.css",
+                "~/plugins/isteven-multiselect/isteven-multi-select.css",
                 "~/plugins/angular-bootstrap-datetimepicker/src/css/datetimepicker.css"));
 
             // Plugins JS
@@ -118,6 +119,7 @@ namespace School
                 "~/plugins/flexslider/jquery.flexslider-min.js",
                 "~/plugins/calendar/calendar.min.js",
                 "~/plugins/smart-table/smart-table.min.js",
+                "~/plugins/isteven-multiselect/isteven-multi-select.min.js",
                 "~/plugins/angular-flexslider/angular-flexslider.js"));
 
             // school script
@@ -161,6 +163,9 @@ namespace School
 
             bundles.Add(new ScriptBundle("~/bundles/liga/js").Include(
                       "~/app/controllers/ligaCtrl.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/comunicados/js").Include(
+                      "~/app/controllers/comunicadosCtrl.js"));
 
 
             BundleTable.EnableOptimizations = false;

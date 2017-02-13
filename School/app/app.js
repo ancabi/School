@@ -33,6 +33,7 @@
         'ui.bootstrap.datetimepicker',  // Angular bootstrap date & time picker
         'smart-table',
         'ngDragDrop',
+        'isteven-multi-select',
         'angular-flexslider'        // Angular Flex-slider Directive
     ]).service('UtilService', function () {
         this.sum = function sum(items, prop) {

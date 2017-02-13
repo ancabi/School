@@ -69,3 +69,7 @@
 .st-sort-descent:before{
     content: '\25BC';
 }
+
+.modal-lg {
+	width: 70% !important;
+}

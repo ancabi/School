@@ -2,10 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
 
 namespace school.Helpers
 {
@@ -63,6 +68,23 @@ namespace school.Helpers
                     }                    
                 }
                 lstRows.Add(row);
+            }
+            return lstRows;
+        }
+
+        public static List<string> ToSingleList(this DataTable dt)
+        {
+            List<string> lstRows = new List<string>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                Dictionary<string, object> row = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    if (dr[col].GetType() == typeof(System.String))
+                    {
+                        lstRows.Add(dr[col].ToString().Trim());
+                    }
+                }
             }
             return lstRows;
         }        
@@ -214,5 +236,56 @@ namespace school.Helpers
             }
             return sql.ToString();
         }
+
+        public static string sendEmail(List<string> to, string subject, string body, string imagePath)
+        {
+
+            try
+            {
+                MailMessage email = new MailMessage();
+                foreach (var address in to)
+                {
+                    email.To.Add(address);
+                }
+                email.From = new MailAddress("alerta@kwsolutions.es");
+                email.Subject = subject;
+                email.Body = body;
+                email.IsBodyHtml = true;
+                email.Priority = MailPriority.Normal;
+                if (!imagePath.IsEmpty())
+                {
+                    Attachment inline = new Attachment(imagePath);
+                    inline.ContentDisposition.Inline = true;
+                    inline.ContentDisposition.DispositionType = DispositionTypeNames.Inline;
+                    inline.ContentType.MediaType = "image/png";
+                    inline.ContentType.Name = Path.GetFileName(imagePath);
+
+                    email.Attachments.Add(inline);
+                }
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.kwsolutions.es";
+                smtp.Port = 587;
+                smtp.EnableSsl = false;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new NetworkCredential("alerta@kwsolutions.es", "sCtH-3bKE#r8A");
+
+                smtp.Send(email);
+                email.Dispose();
+
+                string res = "Correo electrónico enviado satisfactoriamente";
+
+                return res;
+
+            }
+            catch (Exception)
+            {
+                string res = "Error enviando correo electrónico";
+
+                return res;
+
+            }
+
+        }
+
     }
 }

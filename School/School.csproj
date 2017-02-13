@@ -1259,6 +1259,9 @@
     <Content Include="Plugins\iCheck\skins\square\yellow.css" />
     <Content Include="Plugins\iCheck\skins\square\yellow.png" />
     <Content Include="Plugins\iCheck\skins\square\_all.css" />
+    <Content Include="Plugins\isteven-multiselect\isteven-multi-select.css" />
+    <Content Include="Plugins\isteven-multiselect\isteven-multi-select.js" />
+    <Content Include="Plugins\isteven-multiselect\isteven-multi-select.min.js" />
     <Content Include="Plugins\jquery-flot\examples\ajax\index.html" />
     <Content Include="Plugins\jquery-flot\examples\annotating\index.html" />
     <Content Include="Plugins\jquery-flot\examples\axes-interacting\index.html" />
