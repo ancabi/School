@@ -2,7 +2,7 @@
 
 
 function equiposCtrl($scope, $http, $window, notify, $modal) {
-    vm = this;
+    var vm = this;
     vm.session = $window.sessionStorage;
 
     vm.jugadores = [];
@@ -20,6 +20,7 @@ function equiposCtrl($scope, $http, $window, notify, $modal) {
     ///////INIT
     getJugadores();
     getNextEntrenamiento();
+    getNextJornada();
 
     function getJugadores() {
 
@@ -44,6 +45,21 @@ function equiposCtrl($scope, $http, $window, notify, $modal) {
             .then(function (response) {
                 if (response.data.cod == "OK") {
                     vm.entrenamiento = response.data.d.jugadores;
+                } else {
+                    notify({ message: response.data.msj, classes: 'alert-danger' });
+                }
+                vm.loading = false;
+            });
+
+    }
+
+    function getNextJornada() {
+
+        vm.loading = true;
+        $http.post(webroot + "Equipos/getNextJornada", {})
+            .then(function (response) {
+                if (response.data.cod == "OK") {
+                    vm.jornada = response.data.d.jornadas;
                 } else {
                     notify({ message: response.data.msj, classes: 'alert-danger' });
                 }

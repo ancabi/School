@@ -35,7 +35,7 @@ namespace school.Controllers
                     {
                         using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
                         {
-                            cmd.CommandText = "SELECT * FROM school.equipos_jugadores where id_equipo=?id";
+                            cmd.CommandText = "SELECT * FROM school.equipos_jugadores j INNER JOIN usuarios u ON u.id=j.idusuario where id_equipo=?id";
                             cmd.Parameters.AddWithValue("?id", idEquipo);
                             da.Fill(dt);
                             if (dt.Rows.Count > 0)
@@ -138,6 +138,38 @@ namespace school.Controllers
                 resp.msg = e.Message;
             }
             return Json(resp);
+        }
+
+        public JsonResult getNextJornada()
+        {
+
+            RespGeneric resp = new RespGeneric("KO");
+            DataTable dt = new DataTable();
+
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            {
+                using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
+                {
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                    {
+                        cmd.CommandText = "SELECT p.*, l.nombre AS 'local', v.nombre AS visitante FROM school.liga_partidos p INNER JOIN liga_equipos l ON l.id = p.id_local INNER JOIN liga_equipos v ON v.id = p.id_visitante where p.id_liga=?id AND resultado_local IS NULL";
+                        cmd.Parameters.AddWithValue("?id", MainController.getIdLigaEquipoSelected());
+                        da.Fill(dt);
+                        if (dt.Rows.Count > 0)
+                        {
+                            resp.cod = "OK";
+                            resp.d.Add("jornadas", dt.ToList());
+                        }
+                        else
+                        {
+                            resp.cod = "KO";
+                        }
+                    }
+                }
+            }
+
+            return Json(resp);
+
         }
 
     }

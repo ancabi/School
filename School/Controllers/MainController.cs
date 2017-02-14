@@ -119,6 +119,13 @@ namespace school.Controllers
         }
 
 
+        public static int getIdLigaEquipoSelected()
+        {
+            return Int32.Parse(equipoSelected["id_liga"].ToString());
+        }
+
+
+
 
     }
 }

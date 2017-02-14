@@ -7,22 +7,55 @@ function comunicadosCtrl($scope, $http, $filter, $modal, $document, notify, $win
     var vm = this;
 
     vm.comunicados = [];
+    vm.equipos = [];
+    vm.jornadas = [];
 
     vm.getComunicados = getComunicados;
     vm.enviarComunicado = enviarComunicado;
 
     getComunicados();
+    loadEquipos();
+    
+
+    function loadEquipos() {
+        $http.post(webroot + "Main/getEquipos").then(function(response) {
+            vm.equipos = response.data.d.equipos;
+            });
+    }
 
     function getComunicados() {
         $http.post(webroot + "Comunicados/getComunicados")
           .then(function (response) {
               if (response.data.cod === "OK") {
                   vm.comunicados = response.data.d.comunicados;
+
+                  angular.forEach(vm.comunicados,
+                      function(c) {
+                          var ids = c.idequipos.split(";");
+                          c.equipos = "";
+
+                          for(var y = 0;y<ids.length-1;y++){
+
+                                  for (var x = 0; x < vm.equipos.length; x++) {
+
+                                      if (ids[y] == vm.equipos[x].id) {
+                                          c.equipos += vm.equipos[x].nombre+",";
+                                          break;
+                                      }
+
+                                  }
+                          }
+                          c.equipos=c.equipos.substring(0, c.equipos.length - 2);
+                      });
+
+
               } else {
-                  notify({ message: 'No hay comunicados.', classes: 'alert-danger' });
+                  notify({ message: "No hay comunicados.", classes: "alert-danger" });
               }
           });
     }
+
+    
 
     function enviarComunicado() {
 

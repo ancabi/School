@@ -20,6 +20,7 @@ function ligaCtrl($scope, $http, $window, notify, $modal) {
 
     getLiga();
     
+    
     function getLiga() {
         $http.post(webroot + "Liga/getLiga", {idEquipo:vm.session.idEquipo})
           .then(function (response) {
@@ -28,6 +29,7 @@ function ligaCtrl($scope, $http, $window, notify, $modal) {
                   vm.nombreliga = vm.liga[0].nombre;
                   vm.idliga = vm.liga[0].id;
                   getLigaEquipos(vm.liga[0].id);
+                  loadJornadas();
               } else {
                   notify({ message: 'No se ha podido mostrar el historico.', classes: 'alert-danger' });
               }
@@ -55,6 +57,14 @@ function ligaCtrl($scope, $http, $window, notify, $modal) {
           });
     }
 
+    function loadJornadas() {
+        $http.post(webroot + "Liga/getJornadas", { idLiga: vm.idliga })
+            .then(function (response) {
+                vm.jornadas = response.data.d.jornadas;
+                vm.jornada = vm.jornadas[0].jornada;
+            });
+    }
+
     function addJornada() {
 
         var modalEntrenamiento = $modal.open({
@@ -69,7 +79,7 @@ function ligaCtrl($scope, $http, $window, notify, $modal) {
             }
         }).result.then(function (result) {
             if (result) {
-                getLigaResultados();
+                loadJornadas();
             }
         });
 
@@ -84,29 +94,20 @@ function modalCtrl($scope, $modalInstance, $http, notify, item) {
 
     
     $scope.list2 = {};
-    vm.a = {};
-    vm.b = {};
-    vm.local = [];
-    vm.visitante = [];
+    
 
     if (item == null) {
         vm.edit = false;
-        vm.nombre = "";
-        vm.tipo = null;
-        vm.descripcion = "";
-        vm.duracion = "";
-
+        vm.local = [];
+        vm.visitante = [];
     } else {
         vm.edit = true;
-        vm.nombre = item.nombre;
-        vm.tipo = item.tipo;
-        vm.descripcion = item.descripcion;
-        vm.duracion = item.duracion;
-
+        vm.local = [];
+        vm.visitante = [];
     }
 
     vm.closeModal = closeModal;
-    vm.addEntrenamiento = addEntrenamiento;
+    vm.addJornada = addJornada;
     vm.aceptar = aceptar;
     vm.getNumeroPartidos=getNumeroPartidos;
 
@@ -132,21 +133,19 @@ function modalCtrl($scope, $modalInstance, $http, notify, item) {
     }
 
     function aceptar() {
-        if (vm.edit) {
-            saveEntrenamiento();
-        } else {
-            addEntrenamiento();
-        }
+        //if (vm.edit) {
+        //    saveEntrenamiento();
+        //} else {
+            addJornada();
+        //}
     }
 
-    function addEntrenamiento() {
+    function addJornada() {
         vm.saving = true;
-        if (validarCampos()) {
-            $http.post(webroot + "Entrenamientos/addEntrenamiento", {
-                nombre: vm.nombre,
-                tipo: vm.tipo,
-                descripcion: vm.descripcion,
-                duracion: vm.duracion
+        //if (validarCampos()) {
+            $http.post(webroot + "Liga/addJornada", {
+                locales: vm.local,
+                visitantes: vm.visitante
             }).then(function (response) {
                 if (response.data.cod == "OK") {
                     closeModal(true);
@@ -157,9 +156,9 @@ function modalCtrl($scope, $modalInstance, $http, notify, item) {
 
             });
 
-        } else {
-            vm.saving = false;
-        }
+        //} else {
+            //vm.saving = false;
+        //}
     }
 
     function saveEntrenamiento() {
@@ -193,33 +192,10 @@ function modalCtrl($scope, $modalInstance, $http, notify, item) {
     function validarCampos() {
         var valido = true;
 
-        if (vm.nombre == "") {
-            vm.errorNombre = true;
+        if (vm.ligaequipos.length != 0) {
+            swal("Cuidado", "Debe asignar un partido a todos los equipos", "warning");
             valido = false;
-        } else {
-            vm.errorNombre = false;
-        }
-
-        if (vm.tipo == null) {
-            vm.errorTipo = true;
-            valido = false;
-        } else {
-            vm.errorTipo = false;
-        }
-
-        if (vm.descripcion == "") {
-            vm.errorDescripcion = true;
-            valido = false;
-        } else {
-            vm.errorDescripcion = false;
-        }
-
-        if (vm.duracion == "") {
-            vm.errorDuracion = true;
-            valido = false;
-        } else {
-            vm.errorDuracion = false;
-        }
+        } 
 
         return valido;
     }
