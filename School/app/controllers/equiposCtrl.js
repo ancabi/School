@@ -21,6 +21,7 @@ function equiposCtrl($scope, $http, $window, notify, $modal) {
     getJugadores();
     getNextEntrenamiento();
     getNextJornada();
+    getClasificacion();
 
     function getJugadores() {
 
@@ -60,6 +61,21 @@ function equiposCtrl($scope, $http, $window, notify, $modal) {
             .then(function (response) {
                 if (response.data.cod == "OK") {
                     vm.jornada = response.data.d.jornadas;
+                } else {
+                    notify({ message: response.data.msj, classes: 'alert-danger' });
+                }
+                vm.loading = false;
+            });
+
+    }
+
+    function getClasificacion() {
+
+        vm.loading = true;
+        $http.post(webroot + "Liga/getLigaClasificacion")
+            .then(function (response) {
+                if (response.data.cod == "OK") {
+                    vm.clasificacion = response.data.d.clasificacion;
                 } else {
                     notify({ message: response.data.msj, classes: 'alert-danger' });
                 }

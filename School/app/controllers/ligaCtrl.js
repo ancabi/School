@@ -1,6 +1,6 @@
-﻿angular.module("school").controller("ligaCtrl", ["$scope", "$http", "$window", "notify", "$modal", ligaCtrl]);
+﻿angular.module("school").controller("ligaCtrl", ["$scope", "$http", "$window", "$filter", "notify", "$modal", ligaCtrl]);
 
-function ligaCtrl($scope, $http, $window, notify, $modal) {
+function ligaCtrl($scope, $http, $window, $filter, notify, $modal) {
     var vm = this;
     vm.session = $window.sessionStorage;
 
@@ -17,8 +17,10 @@ function ligaCtrl($scope, $http, $window, notify, $modal) {
     vm.getLigaEquipos = getLigaEquipos;
     vm.getLigaResultados = getLigaResultados;
     vm.addJornada = addJornada;
+    vm.addResultado = addResultado;
 
     getLiga();
+    getClasificacion();
     
     
     function getLiga() {
@@ -65,6 +67,21 @@ function ligaCtrl($scope, $http, $window, notify, $modal) {
             });
     }
 
+    function getClasificacion() {
+
+        vm.loading = true;
+        $http.post(webroot + "Liga/getLigaClasificacion")
+            .then(function (response) {
+                if (response.data.cod == "OK") {
+                    vm.clasificacion = response.data.d.clasificacion;
+                } else {
+                    notify({ message: response.data.msj, classes: 'alert-danger' });
+                }
+                vm.loading = false;
+            });
+
+    }
+
     function addJornada() {
 
         var modalEntrenamiento = $modal.open({
@@ -80,6 +97,30 @@ function ligaCtrl($scope, $http, $window, notify, $modal) {
         }).result.then(function (result) {
             if (result) {
                 loadJornadas();
+                
+            }
+        });
+
+    }
+
+    function addResultado() {
+
+        var partidos = $filter('filter')(vm.jornadas, { 'jornada': vm.jornada });
+
+        var modalEntrenamiento = $modal.open({
+            templateUrl: 'modalResultados.html',
+            size: "lg",
+            controller: modalResultadoCtrl,
+            controllerAs: 'vm',
+            backdrop: 'static',
+            windowClass: 'hmodal-success',
+            resolve: {
+                item: function () { return partidos; }
+            }
+        }).result.then(function (result) {
+            if (result) {
+                loadJornadas();
+                getClasificacion();
             }
         });
 
@@ -133,11 +174,8 @@ function modalCtrl($scope, $modalInstance, $http, notify, item) {
     }
 
     function aceptar() {
-        //if (vm.edit) {
-        //    saveEntrenamiento();
-        //} else {
+
             addJornada();
-        //}
     }
 
     function addJornada() {
@@ -160,23 +198,42 @@ function modalCtrl($scope, $modalInstance, $http, notify, item) {
             //vm.saving = false;
         //}
     }
+}
 
-    function saveEntrenamiento() {
+
+modalResultadoCtrl.$inject = ['$scope', '$modalInstance', '$http', 'notify', 'item'];
+
+function modalResultadoCtrl($scope, $modalInstance, $http, notify, item) {
+    var vm = this;
+
+    vm.jornada = item;
+
+    vm.closeModal = closeModal;
+    vm.addJornada = addJornada;
+    vm.aceptar = aceptar;
+
+    
+
+    function closeModal(res) {
+        $modalInstance.close(res);
+    }
+
+    function aceptar() {
+        //if (vm.edit) {
+        //    saveEntrenamiento();
+        //} else {
+            addJornada();
+        //}
+    }
+
+    function addJornada() {
         vm.saving = true;
         if (validarCampos()) {
-            $http.post(webroot + "Entrenamientos/saveEntrenamiento", {
-                id: item.id,
-                nombre: vm.nombre,
-                tipo: vm.tipo,
-                descripcion: vm.descripcion,
-                duracion: vm.duracion
+            $http.post(webroot + "Liga/saveResultados", {
+                jornada:vm.jornada
             }).then(function (response) {
                 if (response.data.cod == "OK") {
-                    item.nombre = vm.nombre;
-                    item.tipo = vm.tipo;
-                    item.descripcion = vm.descripcion;
-                    item.duracion = vm.duracion;
-                    closeModal();
+                    closeModal(true);
                 } else {
                     notify({ message: response.data.msg, classes: 'alert-danger' });
                 }
@@ -186,16 +243,19 @@ function modalCtrl($scope, $modalInstance, $http, notify, item) {
 
         } else {
             vm.saving = false;
+            swal("Cuidado", "Debe completar todos los resultdos", "warning");
         }
     }
 
     function validarCampos() {
         var valido = true;
 
-        if (vm.ligaequipos.length != 0) {
-            swal("Cuidado", "Debe asignar un partido a todos los equipos", "warning");
-            valido = false;
-        } 
+        angular.forEach(vm.jornada,
+            function(j) {
+                if (j.resultado_local == undefined || j.resultado_visitante == undefined) {
+                    valido = false;
+                }
+            });
 
         return valido;
     }

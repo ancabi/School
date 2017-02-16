@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using MySql.Data.MySqlClient;
+using school.Controllers;
 using school.Helpers;
 using school.Models;
 
@@ -151,6 +152,39 @@ namespace School.Controllers
 
         }
 
+        public JsonResult getLigaClasificacion()
+        {
+
+            RespGeneric resp = new RespGeneric("KO");
+            DataTable dt = new DataTable();
+
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            {
+                using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
+                {
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                    {
+                        cmd.CommandText = "SELECT c.*, e.nombre FROM liga_clasificacion c INNER JOIN liga_equipos e ON e.id=c.id_equipo WHERE c.id_liga=?id ORDER BY puntos DESC";
+                        cmd.Parameters.AddWithValue("?id", MainController.getIdLigaEquipoSelected());
+                        
+                        da.Fill(dt);
+                        if (dt.Rows.Count > 0)
+                        {
+                            resp.cod = "OK";
+                            resp.d.Add("clasificacion", dt.ToList());
+                        }
+                        else
+                        {
+                            resp.cod = "KO";
+                        }
+                    }
+                }
+            }
+
+            return Json(resp);
+
+        }
+
         [HttpPost]
         public JsonResult addJornada(List<Dictionary<string,object>> locales,List<Dictionary<string,object>> visitantes )
         {
@@ -193,6 +227,115 @@ namespace School.Controllers
                 }
             }
             return Json(resp);
+        }
+
+        [HttpPost]
+        public JsonResult saveResultados(List<Dictionary<string,object>> jornada)
+        {
+            RespGeneric resp = new RespGeneric("KO");
+
+            long rows = 0;
+
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            {
+                using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
+                {
+                        
+                    cmd.CommandText = "UPDATE liga_partidos SET resultado_local=?local, resultado_visitante=?visitante WHERE id=?id";
+
+                    foreach (Dictionary<string, object> j in jornada)
+                    {
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.AddWithValue("?local", j["resultado_local"]);
+                        cmd.Parameters.AddWithValue("?visitante", j["resultado_visitante"]);
+                        cmd.Parameters.AddWithValue("?id", j["id"]);
+
+                        con.Open();
+                        rows+=cmd.ExecuteNonQuery();
+                        con.Close();
+
+                        refreshClasificacion(j);
+
+                    }
+                        if (rows == jornada.Count)
+                        {
+                            resp.cod = "OK";
+                        }
+                        else
+                        {
+                            resp.cod = "KO";
+                            resp.msg = "Error";
+                        }
+                    
+                }
+            }
+            return Json(resp);
+        }
+
+        private void refreshClasificacion(Dictionary<string, object> j)
+        {
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            {
+                using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
+                {
+                    int gLocal = Int32.Parse(j["resultado_local"].ToString());
+                    int gVisitante = Int32.Parse(j["resultado_visitante"].ToString());
+                    string resultadoLocal = "";
+                    string resultadoVisitante = "";
+                    int puntosLocal = 0;
+                    int puntosVisitante = 0;
+                    if (gLocal > gVisitante)
+                    {
+                        resultadoLocal = "ganados=ganados+1";
+                        resultadoVisitante = "perdidos=perdidos+1";
+                        puntosLocal = 3;
+                        puntosVisitante = 0;
+                    }else if (gLocal < gVisitante)
+                    {
+                        resultadoLocal = "perdidos=perdidos+1";
+                        resultadoVisitante = "ganados=ganados+1";
+                        puntosLocal = 0;
+                        puntosVisitante = 3;
+                    }
+                    else
+                    {
+                        resultadoLocal = "empatados=empatados+1";
+                        resultadoVisitante = "empatados=empatados+1";
+                        puntosLocal = 1;
+                        puntosVisitante = 1;
+                    }
+
+                    cmd.CommandText = String.Format("UPDATE liga_clasificacion SET puntos=puntos+?puntos, partidos=partidos+1, goles_favor=?gFavor, goles_contra=?gContra, {0} WHERE id_liga=?idLiga AND id_equipo=?idEquipo",resultadoLocal);
+
+                        cmd.Parameters.AddWithValue("?puntos", puntosLocal);
+                        cmd.Parameters.AddWithValue("?gFavor", j["resultado_local"]);
+                        cmd.Parameters.AddWithValue("?gContra", j["resultado_visitante"]);
+                        cmd.Parameters.AddWithValue("?idLiga", j["id_liga"]);
+                        cmd.Parameters.AddWithValue("?idEquipo", j["id_local"]);
+
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+
+                    
+                    cmd.Parameters.Clear();
+
+                    cmd.CommandText = String.Format("UPDATE liga_clasificacion SET puntos=puntos+?puntos, partidos=partidos+1, goles_favor=?gFavor, goles_contra=?gContra, {0} WHERE id_liga=?idLiga AND id_equipo=?idEquipo",resultadoVisitante);
+
+                        cmd.Parameters.AddWithValue("?puntos", puntosVisitante);
+                        cmd.Parameters.AddWithValue("?gFavor", j["resultado_visitante"]);
+                        cmd.Parameters.AddWithValue("?gContra", j["resultado_local"]);
+                        cmd.Parameters.AddWithValue("?idLiga", j["id_liga"]);
+                        cmd.Parameters.AddWithValue("?idEquipo", j["id_visitante"]);
+
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+
+                    }
+                    
+                }
+            
         }
 
         public string getSiguienteJornada(int idLiga)
