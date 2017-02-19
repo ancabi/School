@@ -55,7 +55,7 @@ namespace School.Controllers
 
         }
 
-        public JsonResult getLigaEquipos(int idLiga)
+        public JsonResult getLigaEquipos()
         {
 
             RespGeneric resp = new RespGeneric("KO");
@@ -68,7 +68,7 @@ namespace School.Controllers
                     using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
                     {
                         cmd.CommandText = "SELECT * FROM school.liga_equipos where id_liga=?id";
-                        cmd.Parameters.AddWithValue("?id", idLiga);
+                        cmd.Parameters.AddWithValue("?id", MainController.getIdLigaEquipoSelected());
                         da.Fill(dt);
                         if (dt.Rows.Count > 0)
                         {
@@ -84,6 +84,30 @@ namespace School.Controllers
             }
 
             return Json(resp);
+
+        }
+
+        public List<Dictionary<string,object>> getListLigaEquipos()
+        {
+
+
+            DataTable dt = new DataTable();
+
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            {
+                using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
+                {
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                    {
+                        cmd.CommandText = "SELECT * FROM school.liga_equipos where id_liga=?id";
+                        cmd.Parameters.AddWithValue("?id", MainController.getIdLigaEquipoSelected());
+                        da.Fill(dt);
+
+                        return dt.ToList();
+
+                    }
+                }
+            }
 
         }
 
@@ -230,7 +254,7 @@ namespace School.Controllers
         }
 
         [HttpPost]
-        public JsonResult saveResultados(List<Dictionary<string,object>> jornada)
+        public JsonResult saveResultados(List<Dictionary<string,object>> jornada, bool edit)
         {
             RespGeneric resp = new RespGeneric("KO");
 
@@ -254,9 +278,18 @@ namespace School.Controllers
                         rows+=cmd.ExecuteNonQuery();
                         con.Close();
 
-                        refreshClasificacion(j);
+                        if (!edit)
+                        {
+                            refreshClasificacion(j);
+                        }
 
                     }
+
+                    if (edit)
+                    {
+                        recalcularClasificacion();
+                    }
+
                         if (rows == jornada.Count)
                         {
                             resp.cod = "OK";
@@ -270,6 +303,18 @@ namespace School.Controllers
                 }
             }
             return Json(resp);
+        }
+
+        private void recalcularClasificacion()
+        {
+            List<Dictionary<String, object>> jornadas = getJornadasPrivate();
+
+            inicializarLiga();
+
+            foreach(Dictionary<string,object> j in jornadas)
+            {
+                refreshClasificacion(j);
+            }
         }
 
         private void refreshClasificacion(Dictionary<string, object> j)
@@ -336,6 +381,48 @@ namespace School.Controllers
                     
                 }
             
+        }
+
+        private List<Dictionary<String,object>> getJornadasPrivate()
+        {
+            DataTable dt = new DataTable();
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            {
+                using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
+                {
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                    {
+                        cmd.CommandText = "SELECT p.*, l.nombre AS 'local', v.nombre AS visitante FROM school.liga_partidos p INNER JOIN liga_equipos l ON l.id = p.id_local INNER JOIN liga_equipos v ON v.id = p.id_visitante where p.id_liga=?id";
+                        cmd.Parameters.AddWithValue("?id", MainController.getIdLigaEquipoSelected());
+                        da.Fill(dt);
+                       return dt.ToList();
+                    }
+                }
+            }
+        }
+
+        private void inicializarLiga()
+        {
+            List<Dictionary<string,object>> equipos = getListLigaEquipos();
+
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            {
+                using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
+                {
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                    {
+                        cmd.CommandText = "INSERT INTO liga_clasificacion (id_liga,id_equipo,puntos,partidos,goles_favor,goles_contra,ganados,empatados,perdidos) VALUES (?liga,?equipo,0,0,0,0,0,0,0) ON DUPLICATE KEY UPDATE puntos=0,partidos=0,goles_favor=0,goles_contra=0,ganados=0,empatados=0,perdidos=0; ";
+                        foreach(Dictionary<string,object> e in equipos)
+                        {
+                            cmd.Parameters.Clear();
+                            cmd.Parameters.AddWithValue("?liga", e["id_liga"]);
+                            cmd.Parameters.AddWithValue("?equipo", e["id"]);
+                        }
+                        
+
+                    }
+                }
+            }
         }
 
         public string getSiguienteJornada(int idLiga)
