@@ -243,6 +243,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\controllers\comunicadosCtrl.js" />
+    <Content Include="app\controllers\ejerciciosCtrl.js" />
     <Content Include="app\controllers\ligaCtrl.js" />
     <Content Include="app\school.js" />
     <Content Include="app\app.js" />
@@ -439,6 +440,8 @@
     <Content Include="Plugins\angular-bootstrap\ui-bootstrap-tpls.min.js" />
     <Content Include="Plugins\angular-bootstrap\ui-bootstrap.js" />
     <Content Include="Plugins\angular-bootstrap\ui-bootstrap.min.js" />
+    <Content Include="Plugins\angular-chart.js\dist\angular-chart.js" />
+    <Content Include="Plugins\angular-chart.js\dist\angular-chart.min.js" />
     <Content Include="Plugins\angular-chartist.js\dist\angular-chartist.js" />
     <Content Include="Plugins\angular-chartist.js\dist\angular-chartist.min.js" />
     <Content Include="Plugins\angular-chartist.js\gulpfile.babel.js" />
@@ -849,6 +852,10 @@
     <Content Include="Plugins\calendar\calendar.min.css" />
     <Content Include="Plugins\calendar\calendar.min.js" />
     <Content Include="Plugins\calendar\index.html" />
+    <Content Include="Plugins\chart.js\dist\Chart.bundle.js" />
+    <Content Include="Plugins\chart.js\dist\Chart.bundle.min.js" />
+    <Content Include="Plugins\chart.js\dist\Chart.js" />
+    <Content Include="Plugins\chart.js\dist\Chart.min.js" />
     <Content Include="Plugins\chartist\custom\chartist.css" />
     <Content Include="Plugins\chartist\dist\chartist.js" />
     <Content Include="Plugins\chartist\dist\chartist.min.css" />
@@ -3072,6 +3079,7 @@
     <Content Include="Content\Icons\pe-icon-7-stroke\fonts\Pe-icon-7-stroke.eot" />
     <Content Include="Content\Icons\pe-icon-7-stroke\fonts\Pe-icon-7-stroke.ttf" />
     <Content Include="Content\Icons\pe-icon-7-stroke\fonts\Pe-icon-7-stroke.woff" />
+    <Content Include="Plugins\angular-chart.js\dist\angular-chart.min.js.map" />
     <None Include="Properties\PublishProfiles\school.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -3137,6 +3145,7 @@
     <Content Include="Views\Shared\_Right_Sidebar.cshtml" />
     <Content Include="Views\Liga\Liga.cshtml" />
     <Content Include="Views\Comunicados\Enviar.cshtml" />
+    <Content Include="Views\Entrenamientos\Ejercicios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

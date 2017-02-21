@@ -62,7 +62,7 @@ function equiposCtrl($scope, $http, $window, notify, $modal) {
                 if (response.data.cod == "OK") {
                     vm.jornada = response.data.d.jornadas;
                 } else {
-                    notify({ message: response.data.msj, classes: 'alert-danger' });
+                    //notify({ message: response.data.msj, classes: 'alert-danger' });
                 }
                 vm.loading = false;
             });

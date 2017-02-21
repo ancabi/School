@@ -417,6 +417,9 @@ namespace School.Controllers
                             cmd.Parameters.Clear();
                             cmd.Parameters.AddWithValue("?liga", e["id_liga"]);
                             cmd.Parameters.AddWithValue("?equipo", e["id"]);
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+                            con.Close();
                         }
                         
 
