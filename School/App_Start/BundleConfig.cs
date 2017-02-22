@@ -81,8 +81,8 @@ namespace School
                 "~/Plugins/angular-sweetalert/ngSweetAlert.min.js",
                 "~/Plugins/iCheck/icheck.js",
                 "~/Plugins/sparkline/index.js",
-                "~/Plugins/chartjs/Chart.js",
-                "~/Plugins/angles/angles.js",
+                "~/Plugins/chart.js/dist/chart.js",
+                "~/Plugins/angular-chart.js/dist/angular-chart.js",
                 "~/Plugins/peity/jquery.peity.js",
                 "~/Plugins/angular-peity/angular-peity.js",
                 "~/Plugins/angular-notify/dist/angular-notify.min.js",
@@ -166,6 +166,9 @@ namespace School
 
             bundles.Add(new ScriptBundle("~/bundles/comunicados/js").Include(
                       "~/app/controllers/comunicadosCtrl.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/ejercicios/js").Include(
+                      "~/app/controllers/ejerciciosCtrl.js"));
 
 
             BundleTable.EnableOptimizations = false;

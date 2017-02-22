@@ -9,6 +9,14 @@ function ligaCtrl($scope, $http, $window, $filter, notify, $modal) {
     vm.ligaequipos_disp = [];
     vm.ligaresultados = [];
     vm.ligaresultados_disp = [];
+    vm.labelsPartidos = ["Ganados", "Empatados", "Perdidos"];
+    vm.labelsGoles = ["A favor", "En contra"];
+    vm.labelsPuntos = [];
+    vm.dataPartidos = [];
+    vm.dataGoles = [];
+    vm.dataPuntos = [];
+    vm.seriesPuntos = ["Puntos"];
+    vm.colors = ["#356cbf", "#3775d3", "#4f8dea", "#6ba2f4"];
 
     vm.nombreliga = "";
     vm.idliga = 0;
@@ -53,6 +61,7 @@ function ligaCtrl($scope, $http, $window, $filter, notify, $modal) {
           .then(function (response) {
               if (response.data.cod === "OK") {
                   vm.ligaresultados = response.data.d.ligaresultados;
+                  
               } else {
                   notify({ message: 'No se ha podido mostrar el historico.', classes: 'alert-danger' });
               }
@@ -63,7 +72,7 @@ function ligaCtrl($scope, $http, $window, $filter, notify, $modal) {
         $http.post(webroot + "Liga/getJornadas", { idLiga: vm.idliga })
             .then(function (response) {
                 vm.jornadas = response.data.d.jornadas;
-                vm.jornada = vm.jornadas[0].jornada;
+                vm.jornada = vm.jornadas[vm.jornadas.length-1].jornada;
             });
     }
 
@@ -74,6 +83,24 @@ function ligaCtrl($scope, $http, $window, $filter, notify, $modal) {
             .then(function (response) {
                 if (response.data.cod == "OK") {
                     vm.clasificacion = response.data.d.clasificacion;
+
+                    angular.forEach(vm.clasificacion,
+                        function(c) {
+                            if (c.id_equipo == vm.session.idEquipo) {
+                                vm.dataPartidos.push(c.ganados);
+                                vm.dataPartidos.push(c.empatados);
+                                vm.dataPartidos.push(c.perdidos);
+
+                                vm.dataGoles.push(c.goles_favor);
+                                vm.dataGoles.push(c.goles_contra);
+                            }
+
+                            vm.labelsPuntos.push(c.nombre);
+                            vm.dataPuntos.push(c.puntos);
+
+                        });
+
+
                 } else {
                     notify({ message: response.data.msj, classes: 'alert-danger' });
                 }
@@ -207,6 +234,9 @@ function modalResultadoCtrl($scope, $modalInstance, $http, notify, item) {
     var vm = this;
 
     vm.jornada = item;
+    
+    vm.edit = !(vm.jornada[0].resultado_local == undefined);
+    
 
     vm.closeModal = closeModal;
     vm.addJornada = addJornada;
@@ -230,7 +260,8 @@ function modalResultadoCtrl($scope, $modalInstance, $http, notify, item) {
         vm.saving = true;
         if (validarCampos()) {
             $http.post(webroot + "Liga/saveResultados", {
-                jornada:vm.jornada
+                jornada: vm.jornada,
+                edit:vm.edit
             }).then(function (response) {
                 if (response.data.cod == "OK") {
                     closeModal(true);
