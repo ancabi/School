@@ -96,19 +96,53 @@ function mainCtrl($scope, $http, $timeout, $window, $modal, PANEL_HCLASES) {
 
 }
 
-var yy;
-var calendarArray = [];
-var monthOffset = [6, 7, 8, 9, 10, 11, 0, 1, 2, 3, 4, 5];
-var monthArray = [["ENE", "enero"], ["FEB", "Febrero"], ["MAR", "Marzo"], ["ABR", "Abril"], ["MAY", "Mayo"], ["JUN", "Junio"], ["JUL", "Julio"], ["AGO", "Agosto"], ["SEP", "Septiembre"], ["OCT", "Octubre"], ["NOV", "Noviembre"], ["DIC", "Diciembre"]];
-var letrasArray = ["L", "M", "X", "J", "V", "S", "D"];
-var dayArray = ["7", "1", "2", "3", "4", "5", "6"];
-
 $(document).ready(function () {
-    $(document).on('click', '.calendar-day.have-events', schoolteDay);
-    $(document).on('click', '.specific-day', schooltecalendar);
-    $(document).on('click', '.calendar-month-view-arrow', offsetcalendar);
-    $(window).resize(calendarScale);
-    calendarSet();
-    calendarScale();
-    $('[data-toggle="tooltip"]').tooltip(); 
+
+
+        /* initialize the calendar
+         -----------------------------------------------------------------*/
+        var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+        var i = 0;
+        var events = [];
+
+        $.ajax(
+        {
+            url: "/Calendario/getCalendario",
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (data) {
+                var res = data.d.calendario;
+                console.log(res);
+                $.each(res, function () {
+                    var fecha = moment(res[i].fecha).format("YYYY-MM-DD");
+                    console.log(res[i]);
+                    events.push({ title: res[i].titulo, start: fecha });
+                    i++;
+                });
+            }
+        });
+
+        $('#calendar').fullCalendar({
+            lang: 'es',
+            //editable: true,
+            //droppable: true, // this allows things to be dropped onto the calendar
+            //drop: function () {
+                // is the "remove after drop" checkbox checked?
+            //    if ($('#drop-remove').is(':checked')) {
+            //        // if so, remove the element from the "Draggable Events" list
+            //        $(this).remove();
+            //    }
+            //},
+            events: events
+        });
+
+
+
+
+
 });

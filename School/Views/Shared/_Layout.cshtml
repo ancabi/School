@@ -78,9 +78,8 @@
         var webroot = "@Url.Content("~/")";
 	    var tplVersion = "?v4";
     </script>
-
-    <!-- Section for main scripts render -->
-    @Scripts.Render("~/bundles/jquery/js")    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <!-- Section for main scripts render -->   
     @if (Request.IsLocal)
     {
         <script src="~/Plugins/angular/angular.js"></script>

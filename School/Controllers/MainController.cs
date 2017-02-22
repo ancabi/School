@@ -19,7 +19,7 @@ namespace school.Controllers
     public class MainController : Controller
     {
         private static JsonResult equipos = null;
-        private  static Dictionary<string,object> equipoSelected = null;
+        private static Dictionary<string, object> equipoSelected = null;
 
         public ActionResult Index()
         {
@@ -29,7 +29,7 @@ namespace school.Controllers
         [HttpPost]
         public JsonResult getEquipos()
         {
-            if (equipos == null && Session.Count!=0)
+            if (equipos == null && Session.Count != 0)
             {
                 RespGeneric resp = new RespGeneric("KO");
                 DataTable dt = new DataTable();
@@ -58,11 +58,11 @@ namespace school.Controllers
                 equipos = Json(resp);
             }
             return equipos;
-            
+
         }
 
         [HttpPost]
-        public void setEquipoSelected(Dictionary<string,object> e)
+        public void setEquipoSelected(Dictionary<string, object> e)
         {
             equipoSelected = e;
 
@@ -70,11 +70,11 @@ namespace school.Controllers
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
-                        cmd.CommandText = "UPDATE school.usuarios SET idultimo_equipo=?id WHERE id=?id";
-                        cmd.Parameters.AddWithValue("?id", Session["idusuario"]);
-                        con.Open();
-                        cmd.ExecuteNonQuery();
-                        con.Close();
+                    cmd.CommandText = "UPDATE school.usuarios SET idultimo_equipo=?id WHERE id=?id";
+                    cmd.Parameters.AddWithValue("?id", Session["idusuario"]);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
                 }
             }
         }
@@ -94,9 +94,9 @@ namespace school.Controllers
                             cmd.CommandText = "SELECT * FROM school.liga_equipos where id=?id";
                             cmd.Parameters.AddWithValue("?id", Session["idultimo_equipo"]);
                             da.Fill(dt);
-                            
+
                             equipoSelected = dt.ToList()[0];
-                            
+
                         }
                     }
                 }
@@ -106,11 +106,11 @@ namespace school.Controllers
 
         public static void clearEquipo()
         {
-            
-                equipoSelected=null;
-            
-                equipos = null;
-            
+
+            equipoSelected = null;
+
+            equipos = null;
+
         }
 
         public static int getIdEquipoSelected()
