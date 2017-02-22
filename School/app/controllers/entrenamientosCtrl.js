@@ -5,6 +5,7 @@ entrenamientosCtrl.$inject = ["$scope", "$http", "$filter", "$modal", "$document
 
 function entrenamientosCtrl($scope, $http, $filter, $modal, $document, notify, $window) {
     vm = this;
+    vm.session = $window.sessionStorage;
 
     vm.entrenamientos = [];
     vm.entrenamientos_disp = [];

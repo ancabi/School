@@ -34,14 +34,14 @@
 													<th class="text-center pointer" st-sort="tipo">TIPO</th>
 													<th class="text-center">DESCRIPCIÓN</th>
 													<th class="text-center pointer" st-sort="duracion">DURACIÓN</th>
-													<th class="text-center">#</th>
+													<th class="text-center"></th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr ng-repeat="item in vm.entrenamientos_disp track by $index">
 													<td class="text-center">{{item.nombre}}</td>
 													<td class="text-center">{{item.tipo}}</td>
-													<td class="text-center">{{item.descripcion | limitTo: 200p}}</td>
+													<td class="text-center">{{item.descripcion | limitTo: 100}}</td>
 													<td class="text-center">{{item.duracion}} minutos</td>
 													<td class="text-center">
 														<button class="btn btn-default btn-sm" ng-click="vm.editEntrenamiento(item)"><i class="fa fa-pencil"></i></button>

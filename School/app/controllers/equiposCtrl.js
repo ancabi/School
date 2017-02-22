@@ -98,7 +98,7 @@ function equiposCtrl($scope, $http, $window, notify, $modal) {
             }
         }).result.then(function (result) {
             if (result) {
-                
+                getNextEntrenamiento();
             }
         });
 

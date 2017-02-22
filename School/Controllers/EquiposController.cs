@@ -116,7 +116,7 @@ namespace school.Controllers
                     {
                         using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
                         {
-                            cmd.CommandText = "SELECT * FROM school.entrenamiento_equipo eq INNER JOIN entrenamientos en ON en.id =eq.identrenamiento where idequipo=?idequipo ORDER BY fecha LIMIT 1 ";
+                            cmd.CommandText = "SELECT * FROM school.entrenamiento_equipo eq INNER JOIN entrenamientos en ON en.id =eq.identrenamiento where idequipo=?idequipo ORDER BY fecha DESC LIMIT 1 ";
                             cmd.Parameters.AddWithValue("?idequipo", MainController.getIdEquipoSelected());
                             da.Fill(dt);
                             if (dt.Rows.Count > 0)
@@ -152,7 +152,7 @@ namespace school.Controllers
                 {
                     using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
                     {
-                        cmd.CommandText = "SELECT p.*, l.nombre AS 'local', v.nombre AS visitante FROM school.liga_partidos p INNER JOIN liga_equipos l ON l.id = p.id_local INNER JOIN liga_equipos v ON v.id = p.id_visitante where p.id_liga=?id AND resultado_local IS NULL";
+                        cmd.CommandText = "SELECT p.*, l.nombre AS 'local', v.nombre AS visitante FROM school.liga_partidos p INNER JOIN liga_equipos l ON l.id = p.id_local INNER JOIN liga_equipos v ON v.id = p.id_visitante where p.id_liga=?id ORDER BY jornada DESC LIMIT 2";
                         cmd.Parameters.AddWithValue("?id", MainController.getIdLigaEquipoSelected());
                         da.Fill(dt);
                         if (dt.Rows.Count > 0)

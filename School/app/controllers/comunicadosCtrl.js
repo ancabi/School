@@ -13,13 +13,14 @@ function comunicadosCtrl($scope, $http, $filter, $modal, $document, notify, $win
     vm.getComunicados = getComunicados;
     vm.enviarComunicado = enviarComunicado;
 
-    getComunicados();
+    
     loadEquipos();
     
 
     function loadEquipos() {
         $http.post(webroot + "Main/getEquipos").then(function(response) {
             vm.equipos = response.data.d.equipos;
+            getComunicados();
             });
     }
 

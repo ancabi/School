@@ -350,7 +350,7 @@ namespace School.Controllers
                         puntosVisitante = 1;
                     }
 
-                    cmd.CommandText = String.Format("UPDATE liga_clasificacion SET puntos=puntos+?puntos, partidos=partidos+1, goles_favor=?gFavor, goles_contra=?gContra, {0} WHERE id_liga=?idLiga AND id_equipo=?idEquipo",resultadoLocal);
+                    cmd.CommandText = String.Format("UPDATE liga_clasificacion SET puntos=puntos+?puntos, partidos=partidos+1, goles_favor=goles_favor+?gFavor, goles_contra=goles_contra+?gContra, {0} WHERE id_liga=?idLiga AND id_equipo=?idEquipo",resultadoLocal);
 
                         cmd.Parameters.AddWithValue("?puntos", puntosLocal);
                         cmd.Parameters.AddWithValue("?gFavor", j["resultado_local"]);
@@ -365,7 +365,7 @@ namespace School.Controllers
                     
                     cmd.Parameters.Clear();
 
-                    cmd.CommandText = String.Format("UPDATE liga_clasificacion SET puntos=puntos+?puntos, partidos=partidos+1, goles_favor=?gFavor, goles_contra=?gContra, {0} WHERE id_liga=?idLiga AND id_equipo=?idEquipo",resultadoVisitante);
+                    cmd.CommandText = String.Format("UPDATE liga_clasificacion SET puntos=puntos+?puntos, partidos=partidos+1, goles_favor=goles_favor+?gFavor, goles_contra=goles_contra+?gContra, {0} WHERE id_liga=?idLiga AND id_equipo=?idEquipo", resultadoVisitante);
 
                         cmd.Parameters.AddWithValue("?puntos", puntosVisitante);
                         cmd.Parameters.AddWithValue("?gFavor", j["resultado_visitante"]);

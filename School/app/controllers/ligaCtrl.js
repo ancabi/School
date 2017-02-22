@@ -83,7 +83,10 @@ function ligaCtrl($scope, $http, $window, $filter, notify, $modal) {
             .then(function (response) {
                 if (response.data.cod == "OK") {
                     vm.clasificacion = response.data.d.clasificacion;
-
+                    vm.dataPartidos = [];
+                    vm.dataGoles = [];
+                    vm.labelsPuntos = [];
+                    vm.dataPuntos = [];
                     angular.forEach(vm.clasificacion,
                         function(c) {
                             if (c.id_equipo == vm.session.idEquipo) {
