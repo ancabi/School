@@ -267,13 +267,30 @@
     <Content Include="app\templates\notify.html" />
     <Content Include="app\templates\panel_tools.html" />
     <Content Include="app\templates\panel_tools_fullscreen.html" />
+    <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\email.css" />
     <Content Include="Content\Icons\pe-icon-7-stroke\css\helper.css" />
     <Content Include="Content\Icons\pe-icon-7-stroke\css\pe-icon-7-stroke.css" />
     <Content Include="Content\Icons\pe-icon-7-stroke\fonts\Pe-icon-7-stroke.svg" />
     <Content Include="Content\img\green%402x.png" />
     <Content Include="Content\img\green.png" />
+    <Content Include="Content\patterns\1.png" />
+    <Content Include="Content\patterns\2.png" />
+    <Content Include="Content\patterns\3.png" />
+    <Content Include="Content\patterns\4.png" />
+    <Content Include="Content\patterns\5.png" />
+    <Content Include="Content\patterns\6.png" />
+    <Content Include="Content\patterns\7.png" />
+    <Content Include="Content\patterns\congruent_pentagon.png" />
+    <Content Include="Content\patterns\header-profile-skin-1.png" />
+    <Content Include="Content\patterns\header-profile-skin-2.png" />
+    <Content Include="Content\patterns\header-profile-skin-3.png" />
+    <Content Include="Content\patterns\header-profile.png" />
+    <Content Include="Content\patterns\otis_redding.png" />
+    <Content Include="Content\patterns\shattered.png" />
+    <Content Include="Content\patterns\triangular.png" />
     <Content Include="Content\style.css" />
     <Content Include="Content\style_custom.css" />
     <Content Include="Content\style_shool.css" />
@@ -2520,6 +2537,10 @@
     <Content Include="Plugins\sweetalert\lib\sweet-alert.min.css" />
     <Content Include="Plugins\sweetalert\lib\sweet-alert.min.js" />
     <Content Include="Plugins\sweetalert\sweetalert.gif" />
+    <Content Include="Plugins\toastr\angular-toastr.min.js" />
+    <Content Include="Plugins\toastr\angular-toastr.tpls.min.js" />
+    <Content Include="Plugins\toastr\toastr.min.css" />
+    <Content Include="Plugins\toastr\toastr.min.js" />
     <Content Include="Plugins\ui-select\dist\select.css" />
     <Content Include="Plugins\ui-select\dist\select.js" />
     <Content Include="Plugins\ui-select\dist\select.min.css" />
@@ -3146,6 +3167,8 @@
     <Content Include="Views\Liga\Liga.cshtml" />
     <Content Include="Views\Comunicados\Enviar.cshtml" />
     <Content Include="Views\Entrenamientos\Ejercicios.cshtml" />
+    <Content Include="Views\Shared\_RightSidebar.cshtml" />
+    <Content Include="Views\Shared\_TopNavbar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

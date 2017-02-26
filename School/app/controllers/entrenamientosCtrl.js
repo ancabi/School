@@ -1,14 +1,15 @@
 ﻿angular.module("school").controller("entrenamientosCtrl", entrenamientosCtrl);
 
-entrenamientosCtrl.$inject = ["$scope", "$http", "$filter", "$modal", "$document", "notify", "$window"];
+entrenamientosCtrl.$inject = ["$scope", "$http", "$filter", "$modal", "$document", "toastr", "$window"];
 
 
-function entrenamientosCtrl($scope, $http, $filter, $modal, $document, notify, $window) {
+function entrenamientosCtrl($scope, $http, $filter, $modal, $document, toastr, $window) {
     vm = this;
     vm.session = $window.sessionStorage;
 
     vm.entrenamientos = [];
     vm.entrenamientos_disp = [];
+    vm.loading = true;
 
     //FUNCTIONS
     vm.addEntrenamiento = addEntrenamiento;
@@ -27,8 +28,10 @@ function entrenamientosCtrl($scope, $http, $filter, $modal, $document, notify, $
               if (response.data.cod === "OK") {
                   vm.entrenamientos = response.data.d.entrenamientos;
                   vm.entrenamientos_disp = [].concat(response.data.d.entrenamientos);
+                  vm.loading = false;
               } else {
-                  notify({ message: 'No se ha podido mostrar el historico.', classes: 'alert-danger' });
+                  toastr.warning({ title: "Title example", body: "This is example of Toastr notification box." });
+                  vm.loading = false;
               }
           });
     }
@@ -53,7 +56,7 @@ function entrenamientosCtrl($scope, $http, $filter, $modal, $document, notify, $
               if (response.data.cod === "OK") {
                   vm.entrenamientos.splice(vm.entrenamientos.indexOf(row),1);
               } else {
-                  notify({ message: 'Error al borrar el entrenamiento', classes: 'alert-danger' });
+                  toastr.warning({ title: "Title example", body: "This is example of Toastr notification box." });
               }
           });
     }
@@ -79,9 +82,9 @@ function entrenamientosCtrl($scope, $http, $filter, $modal, $document, notify, $
     }
 
 }
-modalCtrl.$inject = ['$scope', '$modalInstance', '$http', 'notify','item'];
+modalCtrl.$inject = ['$scope', '$modalInstance', '$http', 'toastr','item'];
 
-function modalCtrl($scope, $modalInstance, $http, notify,item) {
+function modalCtrl($scope, $modalInstance, $http, toastr,item) {
     var vm = this;
 
     if (item == null) {
@@ -128,7 +131,7 @@ function modalCtrl($scope, $modalInstance, $http, notify,item) {
                 if (response.data.cod == "OK") {
                     closeModal(true);
                 } else {
-                    notify({ message: response.data.msg, classes: 'alert-danger' });
+                    toastr.warning({ title: "Title example", body: "This is example of Toastr notification box." });
                 }
                 vm.saving = false;
                 
@@ -156,7 +159,7 @@ function modalCtrl($scope, $modalInstance, $http, notify,item) {
                     item.duracion = vm.duracion;
                     closeModal();
                 } else {
-                    notify({ message: response.data.msg, classes: 'alert-danger' });
+                    toastr.warning({ title: "Title example", body: "This is example of Toastr notification box." });
                 }
                 vm.saving = false;
                 

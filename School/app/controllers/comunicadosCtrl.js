@@ -1,14 +1,15 @@
 ﻿angular.module("school").controller("comunicadosCtrl", comunicadosCtrl);
 
-comunicadosCtrl.$inject = ["$scope", "$http", "$filter", "$modal", "$document", "notify", "$window"];
+comunicadosCtrl.$inject = ["$scope", "$http", "$filter", "$modal", "$document", "$window","toastr"];
 
 
-function comunicadosCtrl($scope, $http, $filter, $modal, $document, notify, $window) {
+function comunicadosCtrl($scope, $http, $filter, $modal, $document, $window,toastr) {
     var vm = this;
 
     vm.comunicados = [];
     vm.equipos = [];
     vm.jornadas = [];
+    vm.loading = true;
 
     vm.getComunicados = getComunicados;
     vm.enviarComunicado = enviarComunicado;
@@ -29,7 +30,7 @@ function comunicadosCtrl($scope, $http, $filter, $modal, $document, notify, $win
           .then(function (response) {
               if (response.data.cod === "OK") {
                   vm.comunicados = response.data.d.comunicados;
-
+                  
                   angular.forEach(vm.comunicados,
                       function(c) {
                           var ids = c.idequipos.split(";");
@@ -46,12 +47,14 @@ function comunicadosCtrl($scope, $http, $filter, $modal, $document, notify, $win
 
                                   }
                           }
-                          c.equipos=c.equipos.substring(0, c.equipos.length - 2);
+                          c.equipos = c.equipos.substring(0, c.equipos.length - 2);
+                          vm.loading = false;
                       });
 
 
               } else {
-                  notify({ message: "No hay comunicados.", classes: "alert-danger" });
+                  toastr.warning({ title: "Title example", body: "This is example of Toastr notification box." });
+                  vm.loading = false;
               }
           });
     }
@@ -75,9 +78,9 @@ function comunicadosCtrl($scope, $http, $filter, $modal, $document, notify, $win
 
 }
 
-modalComunicadoCtrl.$inject = ['$scope', '$modalInstance', '$http', 'notify'];
+modalComunicadoCtrl.$inject = ['$scope', '$modalInstance', '$http'];
 
-function modalComunicadoCtrl($scope, $modalInstance, $http, notify) {
+function modalComunicadoCtrl($scope, $modalInstance, $http) {
     var vm = this;
     vm.titulo = "";
     vm.descripcion = "";

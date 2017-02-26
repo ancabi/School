@@ -1,9 +1,9 @@
-angular.module('school').controller('mainCtrl', ["$scope", "$http", "$timeout", "$window", "$modal", "PANEL_HCLASES", mainCtrl]);
+angular.module('school').controller('mainCtrl', ["$scope", "$http", "$timeout", "$window", "$modal","toastr", mainCtrl]);
 
-function mainCtrl($scope, $http, $timeout, $window, $modal, PANEL_HCLASES) {
+function mainCtrl($scope, $http, $timeout, $window, $modal,toastr) {
     var vm = this;
     vm.session = $window.sessionStorage;
-    vm.PANEL_HCLASES = PANEL_HCLASES;
+    
 
     vm.rows = [];
     vm.equipo = {};
@@ -27,7 +27,8 @@ function mainCtrl($scope, $http, $timeout, $window, $modal, PANEL_HCLASES) {
               if (response.data.cod === "OK") {
                   vm.rows = response.data.d.eventos;
               } else {
-                  notify({ message: 'No se ha podido mostrar el historico.', classes: 'alert-danger' });
+                  //notify({ message: 'No se ha podido mostrar el historico.', classes: 'alert-danger' });
+                  toastr.warning({ title: "Title example", body: "This is example of Toastr notification box." });
               }
           });
     }
@@ -40,7 +41,8 @@ function mainCtrl($scope, $http, $timeout, $window, $modal, PANEL_HCLASES) {
                   loadEquipo();
                   
               } else {
-                  notify({ message: 'Error', classes: 'alert-danger' });
+                  //notify({ message: 'Error', classes: 'alert-danger' });
+                  toastr.warning({ title: "Title example", body: "This is example of Toastr notification box." });
               }
           });
     }

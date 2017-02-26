@@ -1,9 +1,9 @@
 ﻿angular.module("school").controller("eventosCtrl", eventosCtrl);
 
-eventosCtrl.$inject = ["$scope", "$http", "$filter", "$modal", "$document", "notify", "sweetAlert", "$window", "PANEL_HCLASES"];
+eventosCtrl.$inject = ["$scope", "$http", "$filter", "$modal", "$document", "notify", "sweetAlert", "$window"];
 
 
-function eventosCtrl($scope, $http, $filter, $modal, $document, notify, sweetAlert, $window, PANEL_HCLASES) {
+function eventosCtrl($scope, $http, $filter, $modal, $document, notify, sweetAlert, $window) {
     vm = this;
 
     vm.rows = [];

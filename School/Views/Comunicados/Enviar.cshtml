@@ -4,7 +4,7 @@
 
 <div ng-controller="comunicadosCtrl as vm">
 	<div class="small-header">
-		<div class="hpanel">
+		<div class="ibox">
 			<div class="panel-body">
 				<h2 class="font-light m-b-xs">
 					Comunicados
@@ -13,17 +13,26 @@
 			</div>
 		</div>
 	</div>
+	
+	
+		<div class="spiner-example" ng-if="vm.loading">
+			<div class="sk-spinner sk-spinner-chasing-dots">
+				<div class="sk-dot1"></div>
+				<div class="sk-dot2"></div>
+			</div>
+		</div>
+	
 
-	<div class="normalheader animated zoomIn">
+	<div class="normalheader animated fadeInRight" ng-if="!vm.loading">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="hpanel">
-					<div class="panel-heading hbuilt text-right">
+				<div class="ibox">
+					<div class="ibox-title text-right">
 						<a href="#" target="_self" class="btn btn-primary" id="btnNewComunicado" @*data-toggle="tooltip"*@ data-placement="bottom" title="Añadir Comunicado" ng-click="vm.enviarComunicado()">
 							<i class="fa fa-plus-circle" aria-hidden="true"></i>
 						</a>
 					</div>
-					<div class="panel-body" style="margin-bottom:20px;">
+					<div class="ibox-content" style="margin-bottom:20px;">
 						<div class="row">
 							<div class="row m-t-lg">
 								<div class="col-md-12">
@@ -58,7 +67,6 @@
 
 	<script type="text/ng-template" id="modalComunicado.html">
 		<form role="form">
-			<div class="color-line"></div>
 			<div class="modal-header modal-header-small text-center">
 				<h4 class="modal-title">Nuevo Comunicado</h4>
 			</div>
@@ -84,7 +92,7 @@
 						<label>Fecha</label>
 						<a class="dropdown-toggle" id="fecha" role="button" data-toggle="dropdown" data-target="#" href="#">
 							<div class="input-group">
-								<input type="text" placeholder="Fecha" class="form-control" data-ng-model="vm.fecha" required><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+								<input type="text" placeholder="Fecha" class="form-control" data-ng-model="vm.fecha" required><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 							</div>
 						</a>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">

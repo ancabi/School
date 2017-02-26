@@ -24,8 +24,17 @@
     <link href="~/Plugins/fontawesome/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Plugins/flexslider/flexslider.min.css" rel="stylesheet" />
     <link href="~/Content/Icons/pe-icon-7-stroke/css/pe-icon-7-stroke.css" rel="stylesheet" />
-    <link href="~/Plugins/summernote/dist/summernote.css" rel="stylesheet" />
+	<link href="~/Plugins/summernote/dist/summernote.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-1.10.2.min.js"></script>
     @Styles.Render("~/bundles/plugins/css")
+	@if (Request.IsLocal)
+	{
+		<script src="~/Plugins/angular/angular.js"></script>
+	}
+	else
+	{
+		<script src="~/Plugins/angular/angular.min.js"></script>
+	}
     @*@Styles.Render("~/bundles/flexslider/css")*@
 
     <!-- DEFAULT style -->
@@ -39,55 +48,41 @@
             {@RenderSection("Styles", required: false)}
 </head>
 <body ng-controller="mainCtrl as vm" class="@Html.PageClass()">
-    <!-- Simple splash screen-->
-    <div class="splash">
-        <div class="color-line"></div>
-        <div class="splash-title">
-            <h1>CARGANDO</h1>
-            <div class="spinner">
-                <div class="rect1"></div> <div class="rect2"></div> <div class="rect3"></div> <div class="rect4"></div> <div class="rect5"></div>
-            </div>
-        </div>
-    </div>
     <!--[if lt IE 7]>
     <p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <!-- Header -->
-    <div id="header">
-        @Html.Partial("_Header")
-    </div>
+	<div id="wrapper" class="@Html.PageClass()">
 
-    <!-- Navigation -->
-    <aside id="menu">
-        @Html.Partial("_Navigation")
-    </aside>
+		<!-- Navigation -->
+		@Html.Partial("_Navigation")
 
-    <!-- Main view  -->
-    <div id="wrapper">
-        @RenderBody()
+		<!-- Page wraper -->
+		<div id="page-wrapper" class="gray-bg @ViewBag.SpecialClass">
 
-        <!-- Right Sidebar -->
-        @Html.Partial("_Right_Sidebar")
+			<!-- Top Navbar -->
+			@Html.Partial("_TopNavbar")
 
-        <!-- Footer-->
-        @Html.Partial("_Footer")
-    </div>
+			<!-- Main view  -->
+			@RenderBody()
+
+			<!-- Footer -->
+			@Html.Partial("_Footer")
+
+		</div>
+		<!-- End page wrapper-->
+		<!-- Right Sidebar -->
+		@Html.Partial("_RightSidebar")
+
+	</div>
 
     <!-- Directorio Raiz del Proyecto para las llamadas $http -->
     <script>
         var webroot = "@Url.Content("~/")";
-	    var tplVersion = "?v4";
     </script>
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    
     <!-- Section for main scripts render -->   
-    @if (Request.IsLocal)
-    {
-        <script src="~/Plugins/angular/angular.js"></script>
-    }
-    else
-    {
-        <script src="~/Plugins/angular/angular.min.js"></script>
-    }
+
     @Scripts.Render("~/bundles/bootstrap/js")
     @Scripts.Render("~/bundles/jqueryui/js")
     @Scripts.Render("~/bundles/plugins/js")

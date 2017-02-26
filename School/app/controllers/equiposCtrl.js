@@ -1,14 +1,14 @@
-﻿angular.module("school").controller("equiposCtrl", ["$scope", "$http", "$window", "notify", "$modal", equiposCtrl]);
+﻿angular.module("school").controller("equiposCtrl", ["$scope", "$http", "$window", "toastr", "$modal", equiposCtrl]);
 
 
-function equiposCtrl($scope, $http, $window, notify, $modal) {
+function equiposCtrl($scope, $http, $window, toastr, $modal) {
     var vm = this;
     vm.session = $window.sessionStorage;
 
     vm.jugadores = [];
     vm.jugadores_disp = [];
     vm.entrenamiento = null;
-    vm.loading1 = true;
+    vm.loading = true;
 
 
     if (vm.session.usuario == null) {
@@ -32,7 +32,7 @@ function equiposCtrl($scope, $http, $window, notify, $modal) {
                     vm.jugadores = response.data.d.jugadores;
                     vm.jugadores_disp = [].concat(response.data.d.jugadores);
                 } else {
-                    notify({ message: response.data.msj, classes: 'alert-danger' });
+                    toastr.warning({ title: "Title example", body: "This is example of Toastr notification box." });
                 }
                 vm.loading = false;
             });
@@ -47,7 +47,7 @@ function equiposCtrl($scope, $http, $window, notify, $modal) {
                 if (response.data.cod == "OK") {
                     vm.entrenamiento = response.data.d.jugadores;
                 } else {
-                    notify({ message: response.data.msj, classes: 'alert-danger' });
+                     toastr.warning({ title: "Title example", body: "This is example of Toastr notification box." });
                 }
                 vm.loading = false;
             });
@@ -77,7 +77,7 @@ function equiposCtrl($scope, $http, $window, notify, $modal) {
                 if (response.data.cod == "OK") {
                     vm.clasificacion = response.data.d.clasificacion;
                 } else {
-                    notify({ message: response.data.msj, classes: 'alert-danger' });
+                    toastr.warning({ title: "Title example", body: "This is example of Toastr notification box." });
                 }
                 vm.loading = false;
             });
@@ -107,9 +107,9 @@ function equiposCtrl($scope, $http, $window, notify, $modal) {
 
 }
 
-modalCtrl.$inject = ['$scope', '$modalInstance', '$http', 'notify', 'item'];
+modalCtrl.$inject = ['$scope', '$modalInstance', '$http', 'toastr', 'item'];
 
-function modalCtrl($scope, $modalInstance, $http, notify, item) {
+function modalCtrl($scope, $modalInstance, $http, toastr, item) {
     var vm = this;
 
     vm.entrenamientos = [];
@@ -149,7 +149,7 @@ function modalCtrl($scope, $modalInstance, $http, notify, item) {
                 if (response.data.cod == "OK") {
                     closeModal(true);
                 } else {
-                    notify({ message: response.data.msg, classes: 'alert-danger' });
+                    toastr.warning({ title: "Title example", body: "This is example of Toastr notification box." });
                 }
                 vm.saving = false;
 

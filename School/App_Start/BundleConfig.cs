@@ -11,7 +11,7 @@ namespace School
             // Global style
             bundles.Add(new StyleBundle("~/bundles/style/css").Include(
                       "~/Content/style.css", new CssRewriteUrlTransform()).Include(
-                      "~/Content/style_custom.css", new CssRewriteUrlTransform()));
+                      "~/Content/animate.css", new CssRewriteUrlTransform()));
 
             // school style
             bundles.Add(new StyleBundle("~/bundles/school/css").Include(
@@ -40,7 +40,7 @@ namespace School
 
             // Plugins CSS
             bundles.Add(new StyleBundle("~/bundles/plugins/css").Include(
-                "~/plugins/angular-notify/dist/angular-notify.min.css",
+                "~/plugins/toastr/toastr.min.css",
                 "~/plugins/metisMenu/dist/metisMenu.min.css",
                 "~/plugins/animate.css/animate.css",
                 "~/plugins/sweetalert/lib/sweet-alert.min.css",
@@ -85,7 +85,9 @@ namespace School
                 "~/Plugins/angular-chart.js/dist/angular-chart.js",
                 "~/Plugins/peity/jquery.peity.js",
                 "~/Plugins/angular-peity/angular-peity.js",
-                "~/Plugins/angular-notify/dist/angular-notify.min.js",
+                "~/Plugins/toastr/toastr.min.js",
+                "~/Plugins/toastr/angular-toastr.min.js",
+                "~/Plugins/toastr/angular-toastr.tpls.min.js",
                 "~/Plugins/angular-ui-utils/ui-utils.js",
                 "~/Plugins/angular-ui-map/ui-map.js",
                 "~/Plugins/fullcalendar/dist/fullcalendar.js",

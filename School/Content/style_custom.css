@@ -88,11 +88,11 @@ input[readonly] {
     color: #000000;
 }
 
-/*.hpanel.hbg-promocion .panel-body {
+/*.ibox.hbg-promocion .panel-body {
     background: #d8e8f5;
 }
 
-.hpanel.hbg-cmaestra .panel-body {
+.ibox.hbg-cmaestra .panel-body {
     background: #fffbc3;
 }
 
@@ -177,7 +177,7 @@ h5 {
         color: #008896;
     }
 
-.hpanel.hblue .panel-body {
+.ibox.hblue .panel-body {
     border-top: 2px solid #008896;
 }
 

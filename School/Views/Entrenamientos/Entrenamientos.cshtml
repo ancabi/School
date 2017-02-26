@@ -4,8 +4,8 @@
 
 <div ng-controller="entrenamientosCtrl as vm">
 	<div class="small-header">
-		<div class="hpanel">
-			<div class="panel-body">
+		<div class="ibox">
+			<div class="ibox-content">
 				<h2 class="font-light m-b-xs">
 					Entrenamientos
 				</h2>
@@ -13,16 +13,22 @@
 			</div>
 		</div>
 	</div>
-	<div class="normalheader animated zoomIn">
+	<div class="spiner-example" ng-if="vm.loading">
+		<div class="sk-spinner sk-spinner-chasing-dots">
+			<div class="sk-dot1"></div>
+			<div class="sk-dot2"></div>
+		</div>
+	</div>
+	<div class="normalheader animated fadeInRight">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="hpanel">
-					<div class="panel-heading hbuilt text-right">
+				<div class="ibox">
+					<div class="ibox-title text-right">
 						<button class="btn btn-success" id="btnNewEvento" data-toggle="tooltip" data-placement="bottom" title="Añadir Entrenamiento" ng-click="vm.addEntrenamiento()">
 							<i class="fa fa-plus-circle" aria-hidden="true"></i>
 						</button>
 					</div>
-					<div class="panel-body" style="margin-bottom:20px;">
+					<div class="ibox-content" style="margin-bottom:20px;">
 						<div class="row">
 							<div class="row m-t-lg">
 								<div class="col-md-12">

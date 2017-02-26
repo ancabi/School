@@ -1,66 +1,6 @@
-﻿.color-line {
-    background: #f7f9fa;
-    height: 6px;
-    background-image: -webkit-linear-gradient(to right, #003a45, #003a45 25%, #106778 25%, #106778 35%, #2ca0b6 35%, #2ca0b6 45%, #26bad6 45%, #26bad6 55%, #00c2e7 55%, #00c2e7 65%, #aaf75f 65%, #aaf75f 75%, #66ce00 85%, #66ce00 100%);
-    background-image: -moz-linear-gradient(to right, #003a45, #003a45 25%, #106778 25%, #106778 35%, #2ca0b6 35%, #2ca0b6 45%, #26bad6 45%, #26bad6 55%, #00c2e7 55%, #00c2e7 65%, #aaf75f 65%, #aaf75f 75%, #66ce00 85%, #66ce00 100%);
-    background-image: -ms-linear-gradient(to right, #003a45, #003a45 25%, #106778 25%, #106778 35%, #2ca0b6 35%, #2ca0b6 45%, #26bad6 45%, #26bad6 55%, #00c2e7 55%, #00c2e7 65%, #aaf75f 65%, #aaf75f 75%, #66ce00 85%, #66ce00 100%);
-    background-image: linear-gradient(to right, #003a45, #003a45 25%, #106778 25%, #106778 35%, #2ca0b6 35%, #2ca0b6 45%, #26bad6 45%, #26bad6 55%, #00c2e7 55%, #00c2e7 65%, #aaf75f 65%, #aaf75f 75%, #66ce00 85%, #66ce00 100%);
-    background-size: 100% 6px;
-    background-position: 50% 100%;
-    background-repeat: no-repeat;
+﻿.iconMain {
+	font-size:5vw
 }
-
-.profile-picture {
-    background-color: #fff;
-}
-
-.hpanel.hprimary .panel-body {
-    border-top: 2px solid #66ce00;
-}
-
-.panel-button:hover {
-    background-color: #deffbe;
-}
-
-.text-primary {
-    color: #008896;
-}
-
-.btn-ok {
-    background-color: #008896;
-    border-color: #008896;
-    color: #FFFFFF;
-}
-
-    .btn-ok:hover {
-        background-color: #3380bb;
-        border-color: #3380bb;
-        color: #FFFFFF;
-    }
-
-    .btn-ok:focus {
-        background-color: #008896;
-        border-color: #008896;
-        color: #FFFFFF;
-    }
-
-.btn-cancel {
-    background-color: #66ce00;
-    border-color: #66ce00;
-    color: #008896;
-}
-
-    .btn-cancel:hover {
-        background-color: #fff466;
-        border-color: #fff466;
-        color: #008896;
-    }
-
-    .btn-cancel:focus {
-        background-color: #66ce00;
-        border-color: #66ce00;
-        color: #008896;
-    }
 
 	.st-sort-ascent:before{
     content: '\25B2';

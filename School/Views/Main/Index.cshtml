@@ -22,9 +22,9 @@
 
                 <div class="col-lg-3">
                     <a href="@Url.Action("Calendario", "Calendario")">
-                        <div class="hpanel hprimary">
+                        <div class="ibox ">
                             <div class="panel-body panel-button text-center">
-                                <i class="fa fa-calendar fa-fw m-r-xs" style="font-size:100px;"></i><br />
+                                <i class="fa fa-calendar fa-fw m-r-xs iconMain" ></i><br />
                                 <p class="text-primary text-ellipsis">Calendario</p>
                             </div>
                         </div>
@@ -32,9 +32,9 @@
                 </div>
                 <div class="col-lg-3">
                     <a href="@Url.Action("Eventos", "Eventos")">
-                        <div class="hpanel hprimary">
+                        <div class="ibox ">
                             <div class="panel-body panel-button text-center">
-                                <i class="fa fa-list-ul fa-fw m-r-xs" style="font-size:100px;"></i><br />
+                                <i class="fa fa-list-ul fa-fw m-r-xs iconMain"></i><br />
                                 <p class="text-primary text-ellipsis">Eventos</p>
                             </div>
                         </div>
@@ -42,9 +42,9 @@
                 </div>
                 <div class="col-lg-3">
                     <a href="@Url.Action("Equipos", "Equipos")">
-                        <div class="hpanel hprimary">
+                        <div class="ibox ">
                             <div class="panel-body panel-button text-center">
-                                <i class="fa fa-users fa-fw m-r-xs" style="font-size:100px;"></i><br />
+                                <i class="fa fa-users fa-fw m-r-xs iconMain"></i><br />
                                 <p class="text-primary text-ellipsis">Mis Equipos</p>
                             </div>
                         </div>
@@ -52,9 +52,9 @@
                 </div>
                 <div class="col-lg-3">
                     <a href="@Url.Action("Planificacion", "Planificacion")">
-                        <div class="hpanel hprimary">
+                        <div class="ibox ">
                             <div class="panel-body panel-button text-center">
-                                <i class="fa fa-check-square-o fa-fw m-r-xs" style="font-size:100px;"></i><br />
+                                <i class="fa fa-check-square-o fa-fw m-r-xs iconMain"></i><br />
                                 <p class="text-primary text-ellipsis">Planificación</p>
                             </div>
                         </div>
@@ -63,35 +63,38 @@
             </div>
             <div class="col-lg-12">
                 <div class="col-lg-6">
-                    <div class="hpanel hprimary">
-                        <div class="panel-body panel-main">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <p class="m-b-xs text-primary text-ellipsis text-center" style="font-size: 22px">Eventos</p>
-                                        <div class="col-lg-12" ng-repeat="evento in vm.rows track by $index">
-                                            <p class="col-lg-12" ng-class="{rojo: evento.nivel==3, naranja: evento.nivel==2, verde: evento.nivel==1}" style="background:#f4f4f4; padding:5px;">{{evento.titulo}}</p>
-                                        </div>
-                                </div>
-                            </div>
-                            <div class="row m-t-xs">
-                            </div>
-                        </div>
-                    </div>
+	                <div class="ibox">
+		                <div clasS="ibox-title">
+			                <h3>Eventos</h3>
+		                </div>
+		                <div class="ibox-content">
+			                <div class="row">
+				                <div class="col-lg-12">
+					                <div ng-repeat="evento in vm.rows track by $index">
+						                <p class="col-lg-12 p-xs" ng-class="{'label-danger': evento.nivel==3, 'label-warning': evento.nivel==2, 'label-primary': evento.nivel==1}">{{evento.titulo}}</p>
+					                </div>
+				                </div>
+			                </div>
+			                <div class="row m-t-xs">
+			                </div>
+		                </div>
+	                </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="hpanel hprimary">
-                        <div class="panel-body panel-main">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <p class="m-b-xs text-primary text-ellipsis text-center" style="font-size: 22px">Comunicados</p>
-                                </div>
-                            </div>
-                            <div class="row m-t-xs">
-                                <div class="col-lg-12">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+	                <div class="ibox">
+						<div class="ibox-title">
+							
+								<h3>Comunicados</h3>
+							
+						</div>
+		                <div class="ibox-content">
+
+			                <div class="row m-t-xs">
+				                <div class="col-lg-12">
+				                </div>
+			                </div>
+		                </div>
+	                </div>
                 </div>
             </div>
 

@@ -1,34 +1,32 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout_Blank.cshtml";
-    ViewBag.Title = "Login";
 }
-<div class="content animate-panel" ng-controller="loginCtrl as vm">
-    <div class="login-container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="hpanel">                    
-                    <div class="panel-body login-panel">
-                        <img class="img-responsive center-block m-b-lg" src="~/images/logo_grupo.png" />
-                        <form ng-submit="vm.login()">
-                            <div class="form-group">
-                                <label class="control-label" for="txtUsuario">Usuario</label>
-                                <input type="text" ng-model="vm.usuario" title="Por favor introduzca su usuario" required="" class="form-control" autofocus />
-                                <span class="help-block small">Tu usuario en la aplicación</span>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" for="txtPassword">Contraseña</label>
-                                <input type="password" ng-model="vm.pass" title="Por favor introduzca su contraseña" placeholder="******" class="form-control" />
-                                <span class="help-block small">Tu contraseña segura</span>
-                            </div>
-                            <button type="submit" ladda="vm.loading" data-style="zoom-in" class="btn btn-login btn-block">Iniciar sesión</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    @section scripts {
-        @Scripts.Render("~/bundles/login/js")
-    }
+
+
+<div class="middle-box text-center loginscreen  animated fadeInDown" ng-controller="loginCtrl as vm">
+	<div>
+		<div>
+
+			<h1 class="logo-name"><img src="~/images/logo_activa.png" /></h1>
+
+		</div>
+		<h3>School tracing</h3>
+		<form class="m-t" role="form" ng-submit="vm.login()">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Username" required="" ng-model="vm.usuario">
+			</div>
+			<div class="form-group">
+				<input type="password" class="form-control" placeholder="Password" required="" ng-model="vm.pass">
+			</div>
+			<button type="submit" class="btn btn-primary block full-width m-b">Login</button>
+
+			<a href="#"><small>Recuperar contraseña</small></a>
+			<a class="btn btn-sm btn-white btn-block">Crear cuenta</a>
+		</form>
+            
+	</div>
 </div>
 
+@section scripts {
+	@Scripts.Render("~/bundles/login/js")
+}

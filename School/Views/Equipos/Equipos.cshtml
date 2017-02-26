@@ -4,8 +4,8 @@
 
 <div ng-controller="equiposCtrl as vm">
 	<div class="small-header">
-		<div class="hpanel">
-			<div class="panel-body">
+		<div class="ibox">
+			<div class="ibox-content">
 				<h2 class="font-light m-b-xs">
 					Equipos
 				</h2>
@@ -13,11 +13,17 @@
 			</div>
 		</div>
 	</div>
-	<div class="normalheader animated zoomIn">
+	<div class="spiner-example" ng-if="vm.loading">
+		<div class="sk-spinner sk-spinner-chasing-dots">
+			<div class="sk-dot1"></div>
+			<div class="sk-dot2"></div>
+		</div>
+	</div>
+	<div class="normalheader animated fadeInRight" ng-if="!vm.loading">
 		<div class="row">
 			<div class="col-md-6">
-				<div class="hpanel">
-					<div class="panel-body" style="margin-bottom: 20px;">
+				<div class="ibox">
+					<div class="ibox-content" style="margin-bottom: 20px;">
 						<div class="row">
 							<div class="h2">Lista de jugadores <button title="Agregar jugador" class="btn btn-sm btn-success"><i class="fa fa-plus" aria-hidden="true"></i></button></div>
 						</div>
@@ -87,8 +93,8 @@
 				</div>
 			</div>
 			<div class="col-md-6">
-				<div class="hpanel">
-					<div class="panel-body" style="margin-bottom: 20px;">
+				<div class="ibox">
+					<div class="ibox-content" style="margin-bottom: 20px;">
 						<div class="row">
 							<div class="h2">Clasificación</div>
 						</div>
@@ -130,8 +136,8 @@
 		</div>
 		<div class="row">
 			<div class="col-md-6">
-				<div class="hpanel">
-					<div class="panel-body" style="margin-bottom: 20px;">
+				<div class="ibox">
+					<div class="ibox-content" style="margin-bottom: 20px;">
 						
 							<div class="row">
 								<div class="h2">
@@ -156,8 +162,8 @@
 			
 		</div>
 		<div class="col-md-6">
-			<div class="hpanel">
-				<div class="panel-body" style="margin-bottom: 20px;">
+			<div class="ibox">
+				<div class="ibox-content" style="margin-bottom: 20px;">
 					<div class="row">
 						<div class="h2">Próxima fecha</div>
 						<div class="table-responsive">

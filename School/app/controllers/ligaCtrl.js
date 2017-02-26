@@ -1,6 +1,6 @@
-﻿angular.module("school").controller("ligaCtrl", ["$scope", "$http", "$window", "$filter", "notify", "$modal", ligaCtrl]);
+﻿angular.module("school").controller("ligaCtrl", ["$scope", "$http", "$window", "$filter", "toastr", "$modal", ligaCtrl]);
 
-function ligaCtrl($scope, $http, $window, $filter, notify, $modal) {
+function ligaCtrl($scope, $http, $window, $filter, toastr, $modal) {
     var vm = this;
     vm.session = $window.sessionStorage;
 
@@ -17,7 +17,7 @@ function ligaCtrl($scope, $http, $window, $filter, notify, $modal) {
     vm.dataPuntos = [];
     vm.seriesPuntos = ["Puntos"];
     vm.colors = ["#356cbf", "#3775d3", "#4f8dea", "#6ba2f4"];
-
+    vm.loading = true;
     vm.nombreliga = "";
     vm.idliga = 0;
 
@@ -41,7 +41,7 @@ function ligaCtrl($scope, $http, $window, $filter, notify, $modal) {
                   getLigaEquipos(vm.liga[0].id);
                   loadJornadas();
               } else {
-                  notify({ message: 'No se ha podido mostrar el historico.', classes: 'alert-danger' });
+                  toastr.warning({ title: "Title example", body: response.data.msg });
               }
           });
     }
@@ -52,7 +52,7 @@ function ligaCtrl($scope, $http, $window, $filter, notify, $modal) {
                   vm.ligaequipos = response.data.d.ligaequipos;
                   vm.ligaequipos_disp = response.data.d.ligaequipos;
               } else {
-                  notify({ message: 'No se ha podido mostrar el historico.', classes: 'alert-danger' });
+                  toastr.warning({ title: "Title example", body: response.data.msg });
               }
           });
     }
@@ -63,7 +63,7 @@ function ligaCtrl($scope, $http, $window, $filter, notify, $modal) {
                   vm.ligaresultados = response.data.d.ligaresultados;
                   
               } else {
-                  notify({ message: 'No se ha podido mostrar el historico.', classes: 'alert-danger' });
+                  toastr.warning({ title: "Title example", body: response.data.msg });
               }
           });
     }
@@ -72,7 +72,8 @@ function ligaCtrl($scope, $http, $window, $filter, notify, $modal) {
         $http.post(webroot + "Liga/getJornadas", { idLiga: vm.idliga })
             .then(function (response) {
                 vm.jornadas = response.data.d.jornadas;
-                vm.jornada = vm.jornadas[vm.jornadas.length-1].jornada;
+                vm.jornada = vm.jornadas[vm.jornadas.length - 1].jornada;
+                vm.loading = false;
             });
     }
 
@@ -105,7 +106,7 @@ function ligaCtrl($scope, $http, $window, $filter, notify, $modal) {
 
 
                 } else {
-                    notify({ message: response.data.msj, classes: 'alert-danger' });
+                    toastr.warning({ title: "Title example", body: response.data.msg });
                 }
                 vm.loading = false;
             });
@@ -158,9 +159,9 @@ function ligaCtrl($scope, $http, $window, $filter, notify, $modal) {
 
 }
 
-modalCtrl.$inject = ['$scope', '$modalInstance', '$http', 'notify', 'item'];
+modalCtrl.$inject = ['$scope', '$modalInstance', '$http', 'toastr', 'item'];
 
-function modalCtrl($scope, $modalInstance, $http, notify, item) {
+function modalCtrl($scope, $modalInstance, $http, toastr, item) {
     var vm = this;
 
     
@@ -190,7 +191,7 @@ function modalCtrl($scope, $modalInstance, $http, notify, item) {
               if (response.data.cod === "OK") {
                   vm.ligaequipos = response.data.d.ligaequipos;
               } else {
-                  notify({ message: 'No se ha podido mostrar el historico.', classes: 'alert-danger' });
+                  toastr.warning({ title: "Title example", body: response.data.msg });
               }
           });
     }
@@ -218,7 +219,7 @@ function modalCtrl($scope, $modalInstance, $http, notify, item) {
                 if (response.data.cod == "OK") {
                     closeModal(true);
                 } else {
-                    notify({ message: response.data.msg, classes: 'alert-danger' });
+                    toastr.warning({ title: "Title example", body: response.data.msg });
                 }
                 vm.saving = false;
 
@@ -231,9 +232,9 @@ function modalCtrl($scope, $modalInstance, $http, notify, item) {
 }
 
 
-modalResultadoCtrl.$inject = ['$scope', '$modalInstance', '$http', 'notify', 'item'];
+modalResultadoCtrl.$inject = ['$scope', '$modalInstance', '$http', 'toastr', 'item'];
 
-function modalResultadoCtrl($scope, $modalInstance, $http, notify, item) {
+function modalResultadoCtrl($scope, $modalInstance, $http, toastr, item) {
     var vm = this;
 
     vm.jornada = item;
@@ -269,7 +270,7 @@ function modalResultadoCtrl($scope, $modalInstance, $http, notify, item) {
                 if (response.data.cod == "OK") {
                     closeModal(true);
                 } else {
-                    notify({ message: response.data.msg, classes: 'alert-danger' });
+                    toastr.warning({ title: "Title example", body: response.data.msg });
                 }
                 vm.saving = false;
 

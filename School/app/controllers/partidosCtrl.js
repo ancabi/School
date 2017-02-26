@@ -1,9 +1,9 @@
 ﻿angular.module("school").controller("partidosCtrl", partidosCtrl);
 
-partidosCtrl.$inject = ["$scope", "$http", "$filter", "$modal", "$document", "notify", "sweetAlert", "$window", "PANEL_HCLASES"];
+partidosCtrl.$inject = ["$scope", "$http", "$filter", "$modal", "$document", "notify", "sweetAlert", "$window"];
 
 
-function partidosCtrl($scope, $http, $filter, $modal, $document, notify, sweetAlert, $window, PANEL_HCLASES) {
+function partidosCtrl($scope, $http, $filter, $modal, $document, notify, sweetAlert, $window) {
 
    
 

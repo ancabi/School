@@ -24,7 +24,6 @@ function loginCtrl($scope, $http, $window) {
                 .then(function (response) {
                     if (response.data.cod === "OK") {
                         $window.sessionStorage.webroot = webroot;
-                        $window.sessionStorage.articulosUrl = "http://intranet.topdigital.es/electro_img/";
                         $window.sessionStorage.usuario = response.data.d.usuario;
                         $window.sessionStorage.tipo = response.data.d.tipo;
                         $window.sessionStorage.cif = response.data.d.cif;
