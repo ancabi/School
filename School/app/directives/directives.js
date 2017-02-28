@@ -288,7 +288,7 @@ function icheck($timeout) {
     return {
         restrict: 'A',
         require: 'ngModel',
-        link: function($scope, element, $attrs, ngModel) {
+        link: ["$scope","element","$attrs","ngModel",function($scope, element, $attrs, ngModel) {
             return $timeout(function() {
                 var value;
                 value = $attrs['value'];
@@ -314,7 +314,7 @@ function icheck($timeout) {
                         }
                     });
             });
-        }
+        }]
     };
 }
 
@@ -576,7 +576,7 @@ angular
     .directive('minimalizaSidebar', ["$timeout",minimalizaSidebar])
     .directive('vectorMap', vectorMap)
     .directive('sparkline', sparkline)
-    .directive('icheck', icheck)
+    .directive('icheck', ["$timeout",icheck])
     .directive('ionRangeSlider', ionRangeSlider)
     .directive('dropZone', dropZone)
     .directive('responsiveVideo', responsiveVideo)

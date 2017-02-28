@@ -21,6 +21,11 @@ namespace school.Controllers
             return View();
         }
 
+        public ActionResult Register()
+        {
+            return View();
+        }
+
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();

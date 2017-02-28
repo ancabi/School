@@ -142,6 +142,9 @@ namespace School
             bundles.Add(new ScriptBundle("~/bundles/login/js").Include(
                       "~/app/controllers/loginCtrl.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/register/js").Include(
+                      "~/app/controllers/registerCtrl.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/main/js").Include(
                       "~/app/controllers/mainCtrl.js"));
 

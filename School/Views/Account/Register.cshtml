@@ -1,41 +1,113 @@
-﻿@model School.Models.RegisterViewModel
-@{
-    ViewBag.Title = "Registrarse";
+﻿@{
+	Layout = "~/Views/Shared/_Layout_Blank.cshtml";
 }
 
-<h2>@ViewBag.Title.</h2>
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Cree una cuenta nueva.</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Registrarse" />
-        </div>
-    </div>
-}
+<div class="middle-box text-center loginscreen  animated fadeInDown" ng-controller="registerCtrl as vm">
+	<div>
+		<div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+			<h1 class="logo-name"><img src="~/images/logo_activa.png" /></h1>
+
+		</div>
+		<h3>School tracing</h3>
+		<div ng-if="vm.paso==1">
+			
+			<p style="width: 55rem;margin-left: -10rem">
+				El Club Deportivo Atabal (CDA) es una actividad del Colegio El Atabal donde nuestros alumnos/as practicarán fútbol y/o baloncesto en los entrenamientos y partidos que disputen nuestros equipos. Para poder inscribirse en el CDA el alumno/a deberá estar dado de alta en las actividades extraescolares o abonar la cuota boluntaria del mantenimiento del centro.
+				<br/><br/>
+				-Al inscribirse los alumnos/as recibirán una camiseta de juego y las calcetas verdes y, si pertenecen al AMPA, las calcetas blancas. También podéis adquirir con la inscripción un pack de ropa por 70€ (1 chándal completo, 1 camiseta de manga corta, 1 camiseta de manga larga y 1 pantalón corto).<br/><br/>
+			</p>
+
+		</div>
+		
+		<form class="m-t" role="form" action="login.html">
+			<div ng-if="vm.paso == 2">
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Nombre" ng-model="vm.nombre" required="">
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Apellidos" ng-model="vm.apellidos" required="">
+				</div>
+				<div class="form-group">
+					<input type="email" class="form-control" placeholder="Email" ng-model="vm.email" required="">
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Usuario" required="" ng-model="vm.user">
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" placeholder="Contraseña" required="" ng-model="vm.pass">
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" placeholder="Confirmar contraseña" required="" ng-model="vm.confirmPass">
+				</div>
+			</div>
+			<div ng-if="vm.paso==3">
+				<div class="form-group">
+					<select class="form-control" ng-model="vm.talla">
+						<option value="" selected="" disabled>Talla</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="6">6</option>
+						<option value="8">8</option>
+						<option value="10">10</option>
+						<option value="12">12</option>
+						<option value="xs">XS</option>
+						<option value="s">S</option>
+						<option value="m">M</option>
+						<option value="l">L</option>
+						<option value="xl">XL</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Número que desea llevar en la equipación" required="" ng-model="vm.numero">
+					<small>En caso de número repetidos, se asignará por orden de inscripción</small>
+				</div>
+				<div class="form-group">
+					<select class="form-control" ng-model="vm.categoria">
+						<option value="" selected="" disabled>Categoría</option>
+						<option value="baby">Baby (2012/13) 80€</option>
+						<option value="prebenjamin">Prebenjamin (2010/11) 130€</option>
+						<option value="benjamin">Benjamiín a cadete (2002/09) 160€</option>
+					</select>
+					<small>Las familias tendrán un descuento del <b>10%</b> en la cuota anual del segudo hermano y un <b>15%</b> a partir del tercero</small>
+					<div class="form-group">
+						<div class="checkbox"> <input type="checkbox" ng-model="vm.pack"><label> Pack 70€ (Chándal, 2 camisetas, pantalon corto)</label></div>
+					</div>
+					<div class="form-group">
+						<div class="checkbox"> <input type="checkbox" ng-model="vm.autorizacion"><label ng-click="vm.openAutorizacion()" class="alert-link pointer"> Acepto la <abbr title="Ver autorización">autorización</abbr></label></div>
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary block full-width m-b">Registrar</button>
+			</div>
+		</form>
+		<button class="btn btn-default m-r-lg" ng-click="vm.anteriorPaso()" ng-disabled="vm.paso==1">Anterior</button>
+		<button class="btn btn-default m-l-lg" ng-click="vm.siguientePaso()" ng-disabled="vm.paso==3">Siguiente</button>
+	</div>
+</div>
+
+<script type="text/ng-template" id="modalAutorizacion.html">
+	<form role="form">
+		<div class="color-line"></div>
+		<div class="modal-header modal-header-small text-center">
+			<h4 class="modal-title">Autorización</h4>
+		</div>
+		<div class="modal-body" style="overflow:hidden;">
+			<p>
+				- Autorizo a mi hijo a participar en las actividades que el Club Deportivo Atabal organice durante la temporada 2017/18<br /><br/>
+				- Autorizo al Club Deportivo Atabal a un uso pedagógico de las imágenes tomadas en actividades lectivas, complemetarias y extraescolares organizadas por el colegio y su posterior publicación en la página web del centro.<br /><br />
+				- Me hago responsable de eventuales lesiones que pudieran derivarse como consecuencia de la práctica ordinaria de las actividades propias de la escuela deportiva (ya que las competiciones en las que participamos no cuentan con seguros de lesiones)<br /><br />
+				- Declaro que mi hijo/a no padece ninguna enfermedad o patología que le impida realizar la actividad físico-deportiva en la que lo/a inscribo, renunciando expresamente a exigir responsabilidad alguna por las eventuales lesiones que pudieran derivarse como consecuencia de la práctica ordinaria
+				de las actividades propias de la escuela deportiva. Esta autorización se extiende a la decisiones médico-quirúrgicas que en caso de extrema urgencia y en las que no quepa consulta previa, fuese necesario adoptar la adecuada prescripción facultativa.
+			</p>
+		</div>
+		<div class="modal-footer modal-footer-small">
+			<button type="button" ng-click="vm.closeModal()" class="btn btn-default">Cerrar</button>
+		</div>
+	</form>
+</script>
+
+@section scripts {
+	@Scripts.Render("~/bundles/register/js")
 }
