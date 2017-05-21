@@ -28,7 +28,7 @@ namespace school.Controllers
             RespGeneric resp = new RespGeneric("KO");
             DataTable dt = new DataTable();
 
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
@@ -59,7 +59,7 @@ namespace school.Controllers
             int numReg = 0;
             DataTable dt = new DataTable();
 
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
@@ -102,7 +102,7 @@ namespace school.Controllers
             RespGeneric resp = new RespGeneric("KO");
             DataTable dt = new DataTable();
 
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
@@ -134,7 +134,7 @@ namespace school.Controllers
             int numReg = 0;
             DataTable dt = new DataTable();
 
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
@@ -174,7 +174,7 @@ namespace school.Controllers
             int numReg = 0;
             DataTable dt = new DataTable();
 
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {

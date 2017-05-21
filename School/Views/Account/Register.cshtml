@@ -10,8 +10,8 @@
 			<h1 class="logo-name"><img src="~/images/logo_activa.png" /></h1>
 
 		</div>
-		<h3>School tracing</h3>
-		<div ng-if="vm.paso==1">
+		<h3>DGED El atabal</h3>
+		<div @*ng-if="vm.paso==1"*@>
 			
 			<p style="width: 55rem;margin-left: -10rem">
 				El Club Deportivo Atabal (CDA) es una actividad del Colegio El Atabal donde nuestros alumnos/as practicarán fútbol y/o baloncesto en los entrenamientos y partidos que disputen nuestros equipos. Para poder inscribirse en el CDA el alumno/a deberá estar dado de alta en las actividades extraescolares o abonar la cuota boluntaria del mantenimiento del centro.
@@ -21,31 +21,35 @@
 
 		</div>
 		
-		<form class="m-t" role="form" action="login.html">
-			<div ng-if="vm.paso == 2">
+		<form class="m-t" name="registro" role="form" ng-submit="vm.registrar()">
+			<div @*ng-if="vm.paso == 2"*@>
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Nombre" ng-model="vm.nombre" required="">
+					<input type="text" class="form-control" placeholder="DNI/NIE*" ng-model="vm.dni" required="">
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Apellidos" ng-model="vm.apellidos" required="">
+					<input type="text" class="form-control" placeholder="Nombre*" ng-model="vm.nombre" required="">
 				</div>
 				<div class="form-group">
-					<input type="email" class="form-control" placeholder="Email" ng-model="vm.email" required="">
+					<input type="text" class="form-control" placeholder="Apellidos*" ng-model="vm.apellidos" required="">
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Usuario" required="" ng-model="vm.user">
+					<input type="email" class="form-control" placeholder="Email*" ng-model="vm.email" required="">
+				</div>
+				<div class="form-group" ng-class="{'has-error':vm.userExist}">
+					<input type="text" class="form-control" placeholder="Usuario*" name="usuario" required="" ng-model="vm.user" userunique>
+					<small ng-if="vm.userExist">El usuario ya existe</small>
 				</div>
 				<div class="form-group">
-					<input type="password" class="form-control" placeholder="Contraseña" required="" ng-model="vm.pass">
+					<input type="password" class="form-control" placeholder="Contraseña*" required="" ng-model="vm.pass">
 				</div>
 				<div class="form-group">
-					<input type="password" class="form-control" placeholder="Confirmar contraseña" required="" ng-model="vm.confirmPass">
+					<input type="password" class="form-control" placeholder="Confirmar contraseña*" required="" ng-model="vm.confirmPass">
 				</div>
 			</div>
-			<div ng-if="vm.paso==3">
+			<div @*ng-if="vm.paso==3"*@>
 				<div class="form-group">
-					<select class="form-control" ng-model="vm.talla">
-						<option value="" selected="" disabled>Talla</option>
+					<select class="form-control" ng-model="vm.talla" required="">
+						<option value="" selected="" disabled>Talla*</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
 						<option value="4">4</option>
@@ -61,12 +65,12 @@
 					</select>
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Número que desea llevar en la equipación" required="" ng-model="vm.numero">
+					<input type="number" class="form-control" placeholder="Número que desea llevar en la equipación*" required="" ng-model="vm.numero">
 					<small>En caso de número repetidos, se asignará por orden de inscripción</small>
 				</div>
 				<div class="form-group">
-					<select class="form-control" ng-model="vm.categoria">
-						<option value="" selected="" disabled>Categoría</option>
+					<select class="form-control" ng-model="vm.categoria" required="">
+						<option value="" selected="" disabled>Categoría*</option>
 						<option value="baby">Baby (2012/13) 80€</option>
 						<option value="prebenjamin">Prebenjamin (2010/11) 130€</option>
 						<option value="benjamin">Benjamiín a cadete (2002/09) 160€</option>
@@ -76,14 +80,14 @@
 						<div class="checkbox"> <input type="checkbox" ng-model="vm.pack"><label> Pack 70€ (Chándal, 2 camisetas, pantalon corto)</label></div>
 					</div>
 					<div class="form-group">
-						<div class="checkbox"> <input type="checkbox" ng-model="vm.autorizacion"><label ng-click="vm.openAutorizacion()" class="alert-link pointer"> Acepto la <abbr title="Ver autorización">autorización</abbr></label></div>
+						<div class="checkbox"> <input type="checkbox" ng-model="vm.autorizacion" required=""><label ng-click="vm.openAutorizacion()" class="alert-link pointer"> Acepto la <abbr title="Ver autorización">autorización</abbr></label></div>
 					</div>
 				</div>
 				<button type="submit" class="btn btn-primary block full-width m-b">Registrar</button>
 			</div>
 		</form>
-		<button class="btn btn-default m-r-lg" ng-click="vm.anteriorPaso()" ng-disabled="vm.paso==1">Anterior</button>
-		<button class="btn btn-default m-l-lg" ng-click="vm.siguientePaso()" ng-disabled="vm.paso==3">Siguiente</button>
+		@*<button class="btn btn-default m-r-lg" type="button" ng-click="vm.anteriorPaso()" ng-disabled="vm.paso==1">Anterior</button>
+		<button class="btn btn-default m-l-lg" type="button" ng-click="vm.siguientePaso()" ng-disabled="vm.paso==3">Siguiente</button>*@
 	</div>
 </div>
 

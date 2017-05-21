@@ -29,7 +29,7 @@ namespace School.Controllers
             RespGeneric resp = new RespGeneric("KO");
             DataTable dt = new DataTable();
 
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
@@ -61,7 +61,7 @@ namespace School.Controllers
             RespGeneric resp = new RespGeneric("KO");
             DataTable dt = new DataTable();
 
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
@@ -93,7 +93,7 @@ namespace School.Controllers
 
             DataTable dt = new DataTable();
 
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
@@ -117,7 +117,7 @@ namespace School.Controllers
             RespGeneric resp = new RespGeneric("KO");
             DataTable dt = new DataTable();
 
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
@@ -149,7 +149,7 @@ namespace School.Controllers
             RespGeneric resp = new RespGeneric("KO");
             DataTable dt = new DataTable();
 
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
@@ -182,7 +182,7 @@ namespace School.Controllers
             RespGeneric resp = new RespGeneric("KO");
             DataTable dt = new DataTable();
 
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
@@ -218,7 +218,7 @@ namespace School.Controllers
 
             string jornada = getSiguienteJornada(Int32.Parse(locales[0]["id_liga"].ToString()));
 
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
@@ -260,7 +260,7 @@ namespace School.Controllers
 
             long rows = 0;
 
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
@@ -319,7 +319,7 @@ namespace School.Controllers
 
         private void refreshClasificacion(Dictionary<string, object> j)
         {
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
@@ -386,7 +386,7 @@ namespace School.Controllers
         private List<Dictionary<String,object>> getJornadasPrivate()
         {
             DataTable dt = new DataTable();
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
@@ -405,7 +405,7 @@ namespace School.Controllers
         {
             List<Dictionary<string,object>> equipos = getListLigaEquipos();
 
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
@@ -434,7 +434,7 @@ namespace School.Controllers
             RespGeneric resp = new RespGeneric("KO");
             DataTable dt = new DataTable();
 
-            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, "school")))
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {

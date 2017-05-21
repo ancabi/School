@@ -233,6 +233,7 @@
     <Compile Include="Helpers\BD.cs" />
     <Compile Include="Helpers\Extensiones.cs" />
     <Compile Include="Helpers\HMTLHelperExtensions.cs" />
+    <Compile Include="Helpers\Pbkdf2 [001].cs" />
     <Compile Include="Helpers\Util.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />

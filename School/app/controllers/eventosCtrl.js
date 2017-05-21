@@ -65,7 +65,7 @@ function eventosCtrl($scope, $http, $filter, $modal, $document, notify, sweetAle
 
 }
 
-//angular.module("school").controller("modalEventoCtrl", modalEventoCtrl);
+//angular.module(BD.schema).controller("modalEventoCtrl", modalEventoCtrl);
 
 modalEventoCtrl.$inject = ['$scope', '$modalInstance', '$http', 'notify'];
 

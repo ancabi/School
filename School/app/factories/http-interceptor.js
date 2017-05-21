@@ -4,7 +4,7 @@
             if (typeof response.data === 'string' && response.data.indexOf("Login") > -1) {
                 console.log("LOGIN!!");
                 console.log(response.data);
-                $window.location.href = webroot + "Account/Login";
+                $window.location.href = webroot + "Account/Register";
                 return $q.reject(response);
             } else {
                 return response;

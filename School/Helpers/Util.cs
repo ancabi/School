@@ -1,8 +1,14 @@
 ﻿using school.Helpers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Web;
+using System.Web.Hosting;
+using System.Web.WebPages;
 
 namespace school.Models
 {
@@ -83,6 +89,50 @@ namespace school.Models
         public static string getYearFromNumero(string numero)
         {
             return string.Concat("20", numero.TrimStart().Substring(0, 2));
+        }
+
+        public static RespGeneric sendEmail(string to, string subject, string body)
+        {
+            RespGeneric resp = new RespGeneric("OK");
+            try
+            {
+                MailMessage email = new MailMessage();
+                foreach (var address in to.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    email.To.Add(address);
+                }
+                email.From = new MailAddress("admin@tiendasactivasur.es");
+                email.Subject = subject;
+
+                //LOGO
+                Attachment logo = new Attachment(HostingEnvironment.MapPath("~/images/logo_activa.png"), "image/png");
+                email.Attachments.Add(logo);
+
+                email.Body = String.Format(body, logo.ContentId); ;
+                email.IsBodyHtml = true;
+                email.Priority = MailPriority.Normal;
+                
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.1and1.es";
+                smtp.Port = 587;
+                smtp.EnableSsl = false;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new NetworkCredential("admin@tiendasactivasur.es", "aSf*/sd1");
+
+                smtp.Send(email);
+                email.Dispose();
+
+                return resp;
+
+            }
+            catch (Exception)
+            {
+                resp.cod = "KO";
+
+                return resp;
+
+            }
+
         }
     }
 }
