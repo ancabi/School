@@ -32,7 +32,7 @@ function loginCtrl($scope, $http, $window) {
                         $window.location.href = response.data.d.url;
                     } else {
                         vm.loading = false;
-                        swal({ title: 'Oops...', text: response.data.msg, type: 'error' });
+                        swal({ title: 'Oops...', text: "La aplicación todavía no está habilitada para entrar", type: 'error' });
                     }                    
                 });
         }
