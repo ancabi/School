@@ -88,7 +88,7 @@ namespace school.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public JsonResult Registrar(string dni, string nombre, string apellidos,string email,string user, string pass,string talla, string numero, string categoria, bool pack,bool autorizacion)
+        public JsonResult Registrar(string dni, string nombre, string apellidos,string email,string user, string pass,bool autorizacion,List<Dictionary<String,object>> hijos)
         {
 
             RespGeneric resp = new RespGeneric("OK");
@@ -99,23 +99,25 @@ namespace school.Controllers
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
                     
-                        cmd.CommandText = "INSERT INTO atabal.usuarios (dni,nombre,apellidos,email,usuario,pass,talla,numero,categoria,pack,autorizacion,activo,pagado,idasociado,tipo,idultimo_equipo,fecha_registro)" +
-                                          " VALUES (?dni,?nombre,?apellidos,?email,?usuario,?pass,?talla,?numero,?categoria,?pack,?autorizacion,0,0,-1,3,-1,?fecha_registro);";
+                        cmd.CommandText = "INSERT INTO atabal.usuarios (dni,nombre,apellidos,email,usuario,pass,autorizacion,activo,pagado,idasociado,tipo,idultimo_equipo,fecha_registro)" +
+                                          " VALUES (?dni,?nombre,?apellidos,?email,?usuario,?pass,?autorizacion,0,0,-1,3,-1,?fecha_registro);";
                         cmd.Parameters.AddWithValue("?dni", dni);
                         cmd.Parameters.AddWithValue("?nombre", nombre);
                         cmd.Parameters.AddWithValue("?apellidos", apellidos);
                         cmd.Parameters.AddWithValue("?email", email);
                         cmd.Parameters.AddWithValue("?usuario", user);
                         cmd.Parameters.AddWithValue("?pass", password);
-                        cmd.Parameters.AddWithValue("?talla", talla);
-                        cmd.Parameters.AddWithValue("?numero", numero);
-                        cmd.Parameters.AddWithValue("?categoria", categoria);
-                        cmd.Parameters.AddWithValue("?pack", pack);
                         cmd.Parameters.AddWithValue("?autorizacion", autorizacion);
                         cmd.Parameters.AddWithValue("?fecha_registro", DateTime.Now);
                         con.Open();
                     long inserted = cmd.ExecuteNonQuery();
+                    long id = cmd.LastInsertedId;
                     con.Close();
+
+                    foreach (Dictionary<string, object> hijo in hijos)
+                    {
+                        registrarHijo(hijo, id);
+                    }
 
 
                     if (inserted > 0)
@@ -134,6 +136,53 @@ namespace school.Controllers
             }
 
             return Json(resp);
+        }
+
+        private void registrarHijo(Dictionary<string, object> hijo,long idPadre)
+        {
+            string talla = "";
+            string observaciones = "";
+            if (hijo.ContainsKey("talla"))
+            {
+                talla = hijo["talla"].ToString();
+            }
+
+            if (hijo.ContainsKey("observaciones"))
+            {
+                observaciones = hijo["observaciones"].ToString();
+            }
+
+            int anio = Int32.Parse(hijo["nacimiento"].ToString().Substring(6));
+            int mes = Int32.Parse(hijo["nacimiento"].ToString().Substring(3,2));
+            int dia = Int32.Parse(hijo["nacimiento"].ToString().Substring(0,2));
+
+            DateTime fechaNacimiento = new DateTime(anio,mes,dia);
+
+
+            using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
+            {
+                using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
+                {
+
+                    cmd.CommandText = "INSERT INTO atabal.usuarios_hijos (nombre,apellidos,fecha_nacimiento,sexo,deporte,extraescolares,pack,talla,numero,observaciones,idpadre)" +
+                                      " VALUES (?nombre,?apellidos,?fecha_nacimiento,?sexo,?deporte,?extraescolares,?pack,?talla,?numero,?observaciones,?idpadre);";
+                    cmd.Parameters.AddWithValue("?idPadre", idPadre);
+                    cmd.Parameters.AddWithValue("?nombre",hijo["nombre"]);
+                    cmd.Parameters.AddWithValue("?apellidos", hijo["apellidos"]);
+                    cmd.Parameters.AddWithValue("?fecha_nacimiento", fechaNacimiento);
+                    cmd.Parameters.AddWithValue("?sexo", hijo["sexo"]);
+                    cmd.Parameters.AddWithValue("?deporte", hijo["deporte"]);
+                    cmd.Parameters.AddWithValue("?extraescolares", hijo["extraescolares"]);
+                    cmd.Parameters.AddWithValue("?pack", hijo["pack"]);
+                    cmd.Parameters.AddWithValue("?talla", talla);
+                    cmd.Parameters.AddWithValue("?numero", hijo["numero"]);
+                    cmd.Parameters.AddWithValue("?observaciones", observaciones);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                    
+                }
+            }
         }
 
         [HttpPost]

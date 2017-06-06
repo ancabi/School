@@ -18,6 +18,8 @@ function registerCtrl($scope, $http, $window, $modal) {
     vm.autorizacion = false;
     vm.paso = 1;
     vm.loading = false;
+    vm.hijos =[];
+    vm.numHijos = "";
     //////////////////////////////
 
     //Funciones
@@ -25,6 +27,7 @@ function registerCtrl($scope, $http, $window, $modal) {
     vm.siguientePaso = siguientePaso;
     vm.anteriorPaso = anteriorPaso;
     vm.openAutorizacion = openAutorizacion;
+    vm.getNumHijos = getNumHijos;
     //////////////////////////////
 
     //INIT
@@ -48,11 +51,8 @@ function registerCtrl($scope, $http, $window, $modal) {
                         email: vm.email,
                         user: vm.user,
                         pass: vm.pass,
-                        talla: vm.talla,
-                        numero: vm.numero,
-                        categoria: vm.categoria,
-                        pack: vm.pack,
-                        autorizacion: vm.autorizacion
+                        autorizacion: vm.autorizacion,
+                        hijos:vm.hijos
                     })
                     .then(function(response) {
                         if (response.data.cod === "OK") {
@@ -69,12 +69,10 @@ function registerCtrl($scope, $http, $window, $modal) {
                             vm.user = "";
                             vm.pass = "";
                             vm.confirmPass = "";
-                            vm.talla = "";
-                            vm.numero = "";
-                            vm.categoria = "";
-                            vm.pack = false;
-                            vm.autorizacion = false;
+                            vm.autorizacion = 0;
                             vm.paso = 1;
+                            vm.numHijos = "";
+                            vm.hijos = [];
                         } else {
                             vm.loading = false;
                             swal({ title: 'Oops...', text: response.data.msg, type: 'error' });
@@ -110,6 +108,9 @@ function registerCtrl($scope, $http, $window, $modal) {
 
     }
 
+    function getNumHijos() {
+        return new Array(parseInt(vm.numHijos));
+    }
     
 }
 
