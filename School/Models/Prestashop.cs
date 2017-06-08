@@ -15,13 +15,12 @@ namespace school.Models
 {
     public class Prestashop
     {
-        private static string baseUrl = "http://shop.kwsolutions.es/api";
-        private static string serviceKey = "5N5JRLFFBT787L8Y5PMV3JQVWMJFYT95";
+        private static string baseUrl = "http://elatabaltienda.dged.es/api";
+        private static string serviceKey = "MM4X2A7KHDA1VK789QBSX958NZSI9CV4";
         private static string pass = "";
         private static readonly Decimal IVA = (decimal)1.21;
 
-        public static Dictionary<String, object> createUser(string email, string pass, string nombre, string apellidos, string telefono, int canal,
-            string cif, string direccion, string cp, string ciudad, string empresa)
+        public static Dictionary<String, object> createUser(string email, string pass, string nombre, string apellidos)
         {
             try
             {
@@ -29,15 +28,16 @@ namespace school.Models
 
                 var gCustomer = new group();
                 gCustomer.id = 3;
-                /*var gOther = new group();
+                //var gOther = new group();
 
-                if (canal == 2){
-                    gOther.id = 4;
-                }
-                else if (canal == 3)
-                {
-                    gOther.id = 5;
-                }*/
+                //if (extraescolar==1)
+                //{
+                //    gOther.id = 5;
+                //}
+                //else
+                //{
+                //    gOther.id = 4;
+                //}
 
                 customer user = new customer();
 
@@ -55,12 +55,9 @@ namespace school.Models
 
                 customer c = userFactory.Add(user);
 
-                long? dir_id = creteDireccion(c.id, cif, nombre, apellidos, direccion, cp, ciudad, empresa, telefono);
-
                 Dictionary<String, object> res = new Dictionary<string, object>(2);
 
                 res.Add("id", c.id);
-                res.Add("dir_id", dir_id);
                 res.Add("secure_key", c.secure_key);
 
                 return res;
@@ -181,6 +178,39 @@ namespace school.Models
             }
 
             return -2;
+
+        }
+        public static bool addCarrito(int idPrestashop, string secureKey,List<long> productos)
+        {
+            // cart stuff
+
+            var cartFactory = new CartFactory(baseUrl, serviceKey, pass);
+            var cart = new cart();
+            cart.id_customer = idPrestashop;
+            cart.secure_key = secureKey;
+            cart.id_shop = 1;
+            cart.id_shop_group = 1;
+            cart.id_lang = 1;
+            cart.id_currency = 1;
+            cart.id_carrier = 1;
+
+            List<cart_row> rows = new List<cart_row>();
+            foreach (long p in productos)
+            {
+                
+                cart_row row = new cart_row();
+                row.id_product = p;
+                row.quantity = 1;
+
+                rows.Add(row);
+            }
+
+
+            cart.associations.cart_rows = rows;
+
+            cartFactory.Add(cart);
+
+            return true;
 
         }
 

@@ -57,10 +57,17 @@ function registerCtrl($scope, $http, $window, $modal) {
                     .then(function(response) {
                         if (response.data.cod === "OK") {
                             swal({
-                                title: 'Regitrado!',
+                                title: 'Registrado!',
                                 text:
-                                    "Para finalizar debe hacer un ingreso o transferencia a ES38 2103 0147 3100 3002 2620 y en el concepto debe indicar el DNI/NIE de su hijo/a",
-                                type: 'success'
+                                    "Le llegará un correo con los datos de inscripción, por último será redireccionado a la tienda para pagar la inscripción y si ha solicitado el pack inicial. Debe iniciar sesión con el e-mail y contraseña que ha proporcionado",
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: "#1BB394",
+                                confirmButtonText: "Aceptar",
+                                closeOnConfirm: true
+                            },
+                            function () {
+                                window.location.href = "http://elatabaltienda.dged.es/es/iniciar-sesion";
                             });
                             vm.dni = "";
                             vm.nombre = "";
@@ -71,8 +78,9 @@ function registerCtrl($scope, $http, $window, $modal) {
                             vm.confirmPass = "";
                             vm.autorizacion = 0;
                             vm.paso = 1;
-                            vm.numHijos = "";
+                            vm.numHijos = 0;
                             vm.hijos = [];
+                            vm.numHijos = "";
                         } else {
                             vm.loading = false;
                             swal({ title: 'Oops...', text: response.data.msg, type: 'error' });

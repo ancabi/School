@@ -16,6 +16,14 @@ namespace school.Controllers
     {
         //
         // GET: /Index/
+        private readonly long packInscripcionBaby = 27;
+        private readonly long packInscripcionPreBenjamin = 26;
+        private readonly long packInscripcionCadete =25;
+        private readonly long packInscripcionExtraBaby = 31;
+        private readonly long packInscripcionExtraPreBenjamin = 30;
+        private readonly long packInscripcionExtraCadete = 29;
+        private readonly long packBasket = 28;
+        private readonly long packFutbol = 23;
 
         public ActionResult Login()
         {
@@ -88,19 +96,22 @@ namespace school.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public JsonResult Registrar(string dni, string nombre, string apellidos,string email,string user, string pass,bool autorizacion,List<Dictionary<String,object>> hijos)
+        public JsonResult Registrar(string dni, string nombre, string apellidos,string email,string user, 
+            string pass,bool autorizacion,List<Dictionary<String,object>> hijos)
         {
 
             RespGeneric resp = new RespGeneric("OK");
             string password = BD.HashPassword(pass,BD.CreateSalt(8));
+
+            Dictionary<String, object> res=Prestashop.createUser(email, pass, nombre, apellidos);
 
             using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
                 {
                     
-                        cmd.CommandText = "INSERT INTO atabal.usuarios (dni,nombre,apellidos,email,usuario,pass,autorizacion,activo,pagado,idasociado,tipo,idultimo_equipo,fecha_registro)" +
-                                          " VALUES (?dni,?nombre,?apellidos,?email,?usuario,?pass,?autorizacion,0,0,-1,3,-1,?fecha_registro);";
+                        cmd.CommandText = "INSERT INTO atabal.usuarios (dni,nombre,apellidos,email,usuario,pass,autorizacion,activo,pagado,idasociado,tipo,idultimo_equipo,fecha_registro,idtienda,secure_key)" +
+                                          " VALUES (?dni,?nombre,?apellidos,?email,?usuario,?pass,?autorizacion,0,0,-1,3,-1,?fecha_registro,?idtienda,?secure_key);";
                         cmd.Parameters.AddWithValue("?dni", dni);
                         cmd.Parameters.AddWithValue("?nombre", nombre);
                         cmd.Parameters.AddWithValue("?apellidos", apellidos);
@@ -109,15 +120,87 @@ namespace school.Controllers
                         cmd.Parameters.AddWithValue("?pass", password);
                         cmd.Parameters.AddWithValue("?autorizacion", autorizacion);
                         cmd.Parameters.AddWithValue("?fecha_registro", DateTime.Now);
+                        cmd.Parameters.AddWithValue("?idtienda", res["id"]);
+                        cmd.Parameters.AddWithValue("?secure_key", res["secure_key"]);
                         con.Open();
                     long inserted = cmd.ExecuteNonQuery();
                     long id = cmd.LastInsertedId;
                     con.Close();
 
+                    List<long> productos = new List<long>();
+
                     foreach (Dictionary<string, object> hijo in hijos)
                     {
                         registrarHijo(hijo, id);
+                        int anio = Int32.Parse(hijo["nacimiento"].ToString().Substring(6));
+                        int mes = Int32.Parse(hijo["nacimiento"].ToString().Substring(3, 2));
+                        int dia = Int32.Parse(hijo["nacimiento"].ToString().Substring(0, 2));
+
+                        DateTime fechaNacimiento = new DateTime(anio, mes, dia);
+
+                        int edad = (int) (((DateTime.Now - fechaNacimiento).Days) / 365.25);
+                        bool extraescolar = false;
+                        bool pack = false;
+
+                        if (hijo.ContainsKey("extraescolares"))
+                        {
+                            extraescolar = (bool)hijo["extraescolares"];
+                        }
+
+                        if (hijo.ContainsKey("pack"))
+                        {
+                            pack = (int)hijo["pack"]==1;
+                        }
+                        
+
+                        if (edad == 4 || edad == 5)
+                        {
+                            if (extraescolar)
+                            {
+                                productos.Add(packInscripcionExtraBaby);
+                            }
+                            else
+                            {
+                                productos.Add(packInscripcionBaby);
+                            }
+                        }else if (edad == 6 || edad == 7)
+                        {
+                            if (extraescolar)
+                            {
+                                productos.Add(packInscripcionExtraPreBenjamin);
+                            }
+                            else
+                            {
+                                productos.Add(packInscripcionPreBenjamin);
+                            }
+                        }
+                        else
+                        {
+                            if (extraescolar)
+                            {
+                                productos.Add(packInscripcionExtraCadete);
+                            }
+                            else
+                            {
+                                productos.Add(packInscripcionCadete);
+                            }
+                        }
+
+                        if (pack)
+                        {
+                            if (hijo["deporte"].Equals("Basket"))
+                            {
+                                productos.Add(packBasket);
+                            }
+                            else
+                            {
+                                productos.Add(packFutbol);
+                            }
+                        }
+
                     }
+
+                    Prestashop.addCarrito(Int32.Parse(res["id"].ToString()), res["secure_key"].ToString(), productos);
 
 
                     if (inserted > 0)
@@ -152,11 +235,26 @@ namespace school.Controllers
                 observaciones = hijo["observaciones"].ToString();
             }
 
+            bool extraescolar =false;
+            bool pack = false;
+
+            if (hijo.ContainsKey("extraescolares"))
+            {
+                extraescolar = (bool)hijo["extraescolares"];
+            }
+
+            if (hijo.ContainsKey("pack"))
+            {
+                pack = (int)hijo["pack"]==1;
+            }
+
             int anio = Int32.Parse(hijo["nacimiento"].ToString().Substring(6));
             int mes = Int32.Parse(hijo["nacimiento"].ToString().Substring(3,2));
             int dia = Int32.Parse(hijo["nacimiento"].ToString().Substring(0,2));
 
             DateTime fechaNacimiento = new DateTime(anio,mes,dia);
+
+            
 
 
             using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
@@ -172,8 +270,8 @@ namespace school.Controllers
                     cmd.Parameters.AddWithValue("?fecha_nacimiento", fechaNacimiento);
                     cmd.Parameters.AddWithValue("?sexo", hijo["sexo"]);
                     cmd.Parameters.AddWithValue("?deporte", hijo["deporte"]);
-                    cmd.Parameters.AddWithValue("?extraescolares", hijo["extraescolares"]);
-                    cmd.Parameters.AddWithValue("?pack", hijo["pack"]);
+                    cmd.Parameters.AddWithValue("?extraescolares", extraescolar);
+                    cmd.Parameters.AddWithValue("?pack", pack);
                     cmd.Parameters.AddWithValue("?talla", talla);
                     cmd.Parameters.AddWithValue("?numero", hijo["numero"]);
                     cmd.Parameters.AddWithValue("?observaciones", observaciones);
@@ -183,6 +281,10 @@ namespace school.Controllers
                     
                 }
             }
+
+            
+
+
         }
 
         [HttpPost]
