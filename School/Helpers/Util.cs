@@ -101,7 +101,7 @@ namespace school.Models
                 {
                     email.To.Add(address);
                 }
-                email.From = new MailAddress("admin@tiendasactivasur.es");
+                email.From = new MailAddress("info@dged.es");
                 email.Subject = subject;
 
                 //LOGO
@@ -113,11 +113,11 @@ namespace school.Models
                 email.Priority = MailPriority.Normal;
                 
                 SmtpClient smtp = new SmtpClient();
-                smtp.Host = "smtp.1and1.es";
-                smtp.Port = 587;
+                smtp.Host = "mail.dged.es";
+                smtp.Port = 25;
                 smtp.EnableSsl = false;
                 smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential("admin@tiendasactivasur.es", "aSf*/sd1");
+                smtp.Credentials = new NetworkCredential("info.dged", "2d2d1f2r1we2");
 
                 smtp.Send(email);
                 email.Dispose();

@@ -122,7 +122,7 @@ namespace school.Controllers
                     {
                         Util.sendEmail(email, "Registro DGED El atabal",
                        "<div style='font-family:Arial;background:#203864;text-align:center;color:#fff'><br/><h3 style='margin:0'>Ha registrado a "+nombre+" "+apellidos+" en El atabal</h3><br/></div><br/><div style='text-align: center;'><img src=\"cid:{0}\"/></div><br/>" +
-                       "<p style='font-family:Arial'>Los datos de su hijo/a se han guardado correctamente, para finalizar el registro debe hacer una transferencia o un ingreso a la cuenta ES38 2103 0147 3100 3002 2620 y en el concepto debe indicar el DNI/NIE de su hijo/a</p><br><br><p>Los datos de acceso son:<br>Usuario:" + user + "<br>Contraseña:" + pass + "</p>");
+                       "<p style='font-family:Arial'>Los datos de su hijo/a se han guardado correctamente, para finalizar el registro debe hacer una transferencia o un ingreso a la cuenta ES38 2103 0147 3100 3002 2620 y en el concepto debe indicar el DNI/NIE de su hijo/a</p><br><p>Los datos de acceso son:<br>Usuario:" + user + "<br>Contraseña:" + pass + "</p>");
 
                         resp.cod = "OK";
                     }
