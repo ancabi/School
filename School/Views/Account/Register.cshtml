@@ -45,44 +45,92 @@
 				<div class="form-group">
 					<input type="password" class="form-control" placeholder="Confirmar contraseña*" required="" ng-model="vm.confirmPass">
 				</div>
+				<select class="form-control" ng-model="vm.numHijos" required="">
+					<option value="" selected="" disabled>Hijos*</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+				</select>
 			</div>
 			<div @*ng-if="vm.paso==3"*@>
-				<div class="form-group">
-					<select class="form-control" ng-model="vm.talla" required="">
-						<option value="" selected="" disabled>Talla*</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="6">6</option>
-						<option value="8">8</option>
-						<option value="10">10</option>
-						<option value="12">12</option>
-						<option value="xs">XS</option>
-						<option value="s">S</option>
-						<option value="m">M</option>
-						<option value="l">L</option>
-						<option value="xl">XL</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<input type="number" class="form-control" placeholder="Número que desea llevar en la equipación*" required="" ng-model="vm.numero">
-					<small>En caso de número repetidos, se asignará por orden de inscripción</small>
-				</div>
-				<div class="form-group">
-					<select class="form-control" ng-model="vm.categoria" required="">
-						<option value="" selected="" disabled>Categoría*</option>
-						<option value="baby">Baby (2012/13) 80€</option>
-						<option value="prebenjamin">Prebenjamin (2010/11) 130€</option>
-						<option value="benjamin">Benjamiín a cadete (2002/09) 160€</option>
-					</select>
-					<small>Las familias tendrán un descuento del <b>10%</b> en la cuota anual del segudo hermano y un <b>15%</b> a partir del tercero</small>
+				<div ng-repeat="h in vm.getNumHijos() track by $index">
+					<h4>Hijo/a {{$index+1}}</h4>
 					<div class="form-group">
-						<div class="checkbox"> <input type="checkbox" ng-model="vm.pack"><label> Pack 70€ (Chándal, 2 camisetas, pantalon corto)</label></div>
+						<input type="text" class="form-control" placeholder="Nombre*" ng-model="vm.hijos[$index].nombre" required="">
 					</div>
 					<div class="form-group">
-						<div class="checkbox"> <input type="checkbox" ng-model="vm.autorizacion" required=""><label ng-click="vm.openAutorizacion()" class="alert-link pointer"> Acepto la <abbr title="Ver autorización">autorización</abbr></label></div>
+						<input type="text" class="form-control" placeholder="Apellidos*" ng-model="vm.hijos[$index].apellidos" required="">
+					</div>
+					<div class="form-group">
+						<div class="dropdown no-link">
+							<a class="dropdown-toggle" id="facheNacimiento{{$index}}" role="button" data-toggle="dropdown" data-target="#" href="#">
+								<div class="input-group">
+									<input type="text" placeholder="Fecha de nacimiento*" class="form-control" ng-model="vm.hijos[$index].nacimiento" required><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+								</div>
+							</a>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+								<datetimepicker data-ng-model="vm.hijos[$index].nacimiento" data-datetimepicker-config="{ dropdownSelector: '#facheNacimiento'+$index,startView:'year',minView:'day' }"/>
+							</ul>
+						</div>
+					</div>
+					<div class="form-group">
+						<select class="form-control" ng-model="vm.hijos[$index].sexo" required="">
+							<option value="" selected="" disabled>Sexo*</option>
+							<option value="M">Niño</option>
+							<option value="F">Niña</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select class="form-control" ng-model="vm.hijos[$index].deporte" required="">
+							<option value="" selected="" disabled>Deporte*</option>
+							<option value="futbol">Fútbol</option>
+							<option value="Basket">Baloncesto</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<div class="checkbox">
+							<input type="checkbox" ng-model="vm.hijos[$index].extraescolares"><label>¿Alta en "actividades extraescolares" o "50% extraescolares"?</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="checkbox">
+							<input type="checkbox" ng-model="vm.hijos[$index].pack" ng-true-value="1" ng-false-value="0"><label> Desea pack inicial de ropa (con descuento especial)?</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<select class="form-control" ng-model="vm.hijos[$index].talla" ng-required="vm.hijos[$index].pack==1" ng-if="vm.hijos[$index].pack==1">
+							<option value="" selected="" disabled>Talla*</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="6">6</option>
+							<option value="8">8</option>
+							<option value="10">10</option>
+							<option value="12">12</option>
+							<option value="xs">XS</option>
+							<option value="s">S</option>
+							<option value="m">M</option>
+							<option value="l">L</option>
+							<option value="xl">XL</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<input type="number" class="form-control" placeholder="Número que desea llevar en la equipación*" required="" ng-model="vm.hijos[$index].numero">
+						<small>En caso de número repetidos, se asignará por orden de inscripción</small>
+					</div>
+					<div class="form-group">
+						<textarea class="form-control" rows="4" ng-model="vm.hijos[$index].observaciones" placeholder="Observaciones"></textarea>
 					</div>
 				</div>
+					<div class="form-group">
+						<div class="checkbox"> <input type="checkbox" ng-model="vm.autorizacion" required=""><label ng-click="vm.openAutorizacion()" class="alert-link pointer"> Acepto la <abbr title="Ver autorización">autorización</abbr></label>
+						</div>
+					</div>
+				
 				<button type="submit" class="btn btn-primary block full-width m-b">Registrar</button>
 			</div>
 		</form>
