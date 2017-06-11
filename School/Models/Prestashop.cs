@@ -28,7 +28,7 @@ namespace school.Models
 
                 var gCustomer = new group();
                 gCustomer.id = 3;
-                //var gOther = new group();
+                var gOther = new group();
 
                 //if (extraescolar==1)
                 //{
@@ -36,7 +36,7 @@ namespace school.Models
                 //}
                 //else
                 //{
-                //    gOther.id = 4;
+                    gOther.id = 4;
                 //}
 
                 customer user = new customer();
@@ -48,7 +48,7 @@ namespace school.Models
                 user.active = 1;
                 List<@group> grupo = new List<@group>();
                 grupo.Add(gCustomer);
-                //grupo.Add(gOther);
+                grupo.Add(gOther);
                 user.associations.groups = grupo;
 
                 user.id_default_group = gCustomer.id;

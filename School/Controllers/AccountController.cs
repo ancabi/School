@@ -16,9 +16,7 @@ namespace school.Controllers
     {
         //
         // GET: /Index/
-        private readonly long packInscripcionBaby = 27;
-        private readonly long packInscripcionPreBenjamin = 26;
-        private readonly long packInscripcionCadete =25;
+        private readonly long packMatricula = 25;
         private readonly long packInscripcionExtraBaby = 31;
         private readonly long packInscripcionExtraPreBenjamin = 30;
         private readonly long packInscripcionExtraCadete = 29;
@@ -155,35 +153,24 @@ namespace school.Controllers
 
                         if (edad == 4 || edad == 5)
                         {
-                            if (extraescolar)
-                            {
-                                productos.Add(packInscripcionExtraBaby);
-                            }
-                            else
-                            {
-                                productos.Add(packInscripcionBaby);
-                            }
-                        }else if (edad == 6 || edad == 7)
+                            productos.Add(packInscripcionExtraBaby);
+                        }
+                        else if (edad == 6 || edad == 7)
                         {
-                            if (extraescolar)
-                            {
-                                productos.Add(packInscripcionExtraPreBenjamin);
-                            }
-                            else
-                            {
-                                productos.Add(packInscripcionPreBenjamin);
-                            }
+
+                            productos.Add(packInscripcionExtraPreBenjamin);
+                            
                         }
                         else
                         {
-                            if (extraescolar)
-                            {
-                                productos.Add(packInscripcionExtraCadete);
-                            }
-                            else
-                            {
-                                productos.Add(packInscripcionCadete);
-                            }
+                            
+                            productos.Add(packInscripcionExtraCadete);
+                            
+                        }
+
+                        if (!extraescolar)
+                        {
+                            productos.Add(packMatricula);
                         }
 
                         if (pack)
@@ -206,8 +193,8 @@ namespace school.Controllers
                     if (inserted > 0)
                     {
                         Util.sendEmail(email, "Registro DGED El atabal",
-                       "<div style='font-family:Arial;background:#203864;text-align:center;color:#fff'><br/><h3 style='margin:0'>Ha registrado a "+nombre+" "+apellidos+" en El atabal</h3><br/></div><br/><div style='text-align: center;'><img src=\"cid:{0}\"/></div><br/>" +
-                       "<p style='font-family:Arial'>Los datos de su hijo/a se han guardado correctamente, para finalizar el registro debe hacer una transferencia o un ingreso a la cuenta ES38 2103 0147 3100 3002 2620 y en el concepto debe indicar el DNI/NIE de su hijo/a</p><br><p>Los datos de acceso son:<br>Usuario:" + user + "<br>Contraseña:" + pass + "</p>");
+                       "<div style='font-family:Arial;background:#203864;text-align:center;color:#fff'><br/><h3 style='margin:0'>Se ha registrado en El atabal</h3><br/></div><br/><div style='text-align: center;'><img src=\"cid:{0}\"/></div><br/>" +
+                       "<p style='font-family:Arial'>Los datos de su hijo/a se han guardado correctamente</p><br><p>Los datos de acceso son:<br>Usuario:" + user + "<br>Contraseña:" + pass + "</p><br><p>Los datos de acceso para la <a href='http://elatabaltienda.dged.es/es/'>tienda on-line</a> son:<br>Usuario:" + user + "<br>Contraseña:" + pass + "</p>");
 
                         resp.cod = "OK";
                     }
