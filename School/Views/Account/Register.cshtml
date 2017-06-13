@@ -13,12 +13,7 @@
 		<h3>DGED El Atabal</h3>
 		<div @*ng-if="vm.paso==1"*@>
 			
-			<p style="width: 55rem;margin-left: -10rem">
-				El Club Deportivo Atabal (CDA) es una actividad del Colegio El Atabal donde nuestros alumnos/as practicarán fútbol y/o baloncesto en los entrenamientos y partidos que disputen nuestros equipos. Para poder inscribirse en el CDA el alumno/a deberá estar dado de alta en las actividades extraescolares o abonar la cuota voluntaria del mantenimiento del centro.
-				<br/><br/>
-				-Al inscribirse los alumnos/as recibirán una camiseta de juego y las calcetas verdes y, si pertenecen al AMPA, las calcetas blancas. También podéis adquirir con la inscripción un pack de ropa por 70€ (1 chándal completo, 1 camiseta de manga corta, 1 camiseta de manga larga y 1 pantalón corto).<br/><br/>
-			</p>
-
+			
 		</div>
 		
 		<form class="m-t" name="registro" role="form" ng-submit="vm.registrar()">
@@ -35,6 +30,12 @@
 				<div class="form-group">
 					<input type="email" class="form-control" placeholder="Email*" ng-model="vm.email" required="">
 				</div>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Teléfono*" ng-model="vm.telefono" required="">
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Teléfono alternativo" ng-model="vm.telefonoAlt" />
+				</div>
 				<div class="form-group" ng-class="{'has-error':vm.userExist}">
 					<input type="text" class="form-control" placeholder="Usuario*" name="usuario" required="" ng-model="vm.user" userunique>
 					<small ng-if="vm.userExist">El usuario ya existe</small>
@@ -45,7 +46,7 @@
 				<div class="form-group">
 					<input type="password" class="form-control" placeholder="Confirmar contraseña*" required="" ng-model="vm.confirmPass">
 				</div>
-				<select class="form-control" ng-model="vm.numHijos" required="">
+				<select class="form-control" ng-model="vm.numHijos" required="" ng-change="vm.inicializarHijos()">
 					<option value="" selected="" disabled>Hijos*</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
@@ -85,26 +86,31 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<select class="form-control" ng-model="vm.hijos[$index].deporte" required="">
-							<option value="" selected="" disabled>Deporte*</option>
-							<option value="futbol">Fútbol</option>
-							<option value="Basket">Baloncesto</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<div class="checkbox">
-							<input type="checkbox" ng-model="vm.hijos[$index].extraescolares"><label>¿Alta en "actividades extraescolares" o "50% extraescolares"?</label>
+						<label>Deportes*</label><br />
+						<div isteven-multi-select
+							 input-model="vm.hijos[$index].deportes"
+							 output-model="vm.hijos[$index].deporteSelected"
+							 button-label="nombre"
+							 item-label="nombre"
+							 tick-property="ticked"
+							 helper-elements=""
+						     max-labels="2" 
+							 required>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="checkbox">
-							<input type="checkbox" ng-model="vm.hijos[$index].pack" ng-true-value="1" ng-false-value="0"><label> Desea pack inicial de ropa (con descuento especial)?</label>
+							<input type="checkbox" ng-model="vm.hijos[$index].extraescolares"><label>Marque esta casilla si está dado de alta en las extraescolares o el 50% de las extraescolares del Colegio El Atabal</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="checkbox">
+							<input type="checkbox" ng-model="vm.hijos[$index].pack" ng-true-value="1" ng-false-value="0"><label> Marque esta casilla si quiere el pack de ropa por 70€ (incluye chándal, 2 camisetas, pantalón corto y calcetas blancas)</label>
 						</div>
 					</div>
 					<div class="form-group">
 						<select class="form-control" ng-model="vm.hijos[$index].talla" ng-required="vm.hijos[$index].pack==1" ng-if="vm.hijos[$index].pack==1">
 							<option value="" selected="" disabled>Talla*</option>
-							<option value="2">2</option>
 							<option value="3">3</option>
 							<option value="4">4</option>
 							<option value="6">6</option>
@@ -127,7 +133,7 @@
 					</div>
 				</div>
 					<div class="form-group">
-						<div class="checkbox"> <input type="checkbox" ng-model="vm.autorizacion" required=""><label ng-click="vm.openAutorizacion()" class="alert-link pointer"> Acepto la <abbr title="Ver autorización">autorización</abbr></label>
+						<div class="checkbox"> <input type="checkbox" ng-model="vm.autorizacion" required=""><label ng-click="vm.openAutorizacion()" class="alert-link pointer"> He leído y acepto las <abbr title="Ver condiciones">condiciones</abbr> para inscribir a mi hijo/a/os/as en el Club Deportivo Atabal 2017/18 </label>
 						</div>
 					</div>
 				
