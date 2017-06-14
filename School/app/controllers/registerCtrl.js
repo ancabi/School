@@ -21,7 +21,7 @@ function registerCtrl($scope, $http, $window, $modal) {
     vm.hijos =[];
     vm.numHijos = "";
     //////////////////////////////
-
+    
     //Funciones
     vm.registrar = registrar;
     vm.siguientePaso = siguientePaso;
@@ -59,7 +59,7 @@ function registerCtrl($scope, $http, $window, $modal) {
                             swal({
                                 title: 'Registrado!',
                                 text:
-                                    "Le llegará un correo con los datos de inscripción (compruebe su carpeta de spam). Se le redireccionará  a la tienda para pagar la inscripción y si ha solicitado el pack inicial. Debe iniciar sesión con el mail y contraseña que ha proporcionado.<br><br>¡Recuerde! Sólo tendrá que hacer clic con el ratón en el carrito de la compra y realizar el pago para finalizar.",
+                                    "Le llegará un correo con los datos de inscripción (compruebe su carpeta de spam). Se le redireccionará  a la tienda para pagar la inscripción y si ha solicitado el pack inicial. Debe iniciar sesión con el mail y contraseña que ha proporcionado.¡Recuerde! Sólo tendrá que hacer clic con el ratón en el carrito de la compra y realizar el pago para finalizar.",
                                 type: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: "#1BB394",
