@@ -8,6 +8,8 @@ function registerCtrl($scope, $http, $window, $modal) {
     vm.nombre = "";
     vm.apellidos = "";
     vm.email = "";
+    vm.telefono = "";
+    vm.telefonoAlt = "";
     vm.user = "";
     vm.pass = "";
     vm.confirmPass = "";
@@ -20,6 +22,8 @@ function registerCtrl($scope, $http, $window, $modal) {
     vm.loading = false;
     vm.hijos =[];
     vm.numHijos = "";
+    vm.deportes = [{id:1,nombre:"Fútbol"}, {id:2,nombre:"Baloncesto"}];
+    vm.deporteSelected = [];
     //////////////////////////////
     
     //Funciones
@@ -28,6 +32,7 @@ function registerCtrl($scope, $http, $window, $modal) {
     vm.anteriorPaso = anteriorPaso;
     vm.openAutorizacion = openAutorizacion;
     vm.getNumHijos = getNumHijos;
+    vm.inicializarHijos = inicializarHijos;
     //////////////////////////////
 
     //INIT
@@ -49,17 +54,19 @@ function registerCtrl($scope, $http, $window, $modal) {
                         nombre: vm.nombre,
                         apellidos: vm.apellidos,
                         email: vm.email,
+                        telefono: vm.telefono,
+                        telefonoAlt: vm.telefonoAlt,
                         user: vm.user,
                         pass: vm.pass,
                         autorizacion: vm.autorizacion,
-                        hijos:vm.hijos
+                        hijos: vm.hijos
                     })
                     .then(function(response) {
                         if (response.data.cod === "OK") {
                             swal({
                                 title: 'Registrado!',
                                 text:
-                                    "Le llegará un correo con los datos de inscripción (compruebe su carpeta de spam). Se le redireccionará  a la tienda para pagar la inscripción y si ha solicitado el pack inicial. Debe iniciar sesión con el mail y contraseña que ha proporcionado.¡Recuerde! Sólo tendrá que hacer clic con el ratón en el carrito de la compra y realizar el pago para finalizar.",
+                                    "¡SUS DATOS HAN QUEDADO REGISTRADOS! Al pulsar ACEPTAR accederá a la Tienda del Club Deportivo Atabal, donde deberá indicar su USUARIO y CONTRASEÑA para acceder. Una vez dentro, haga clic en el carrito de la compra (arriba a la derecha) y realice el pago para terminar el proceso de inscripción.",
                                 type: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: "#1BB394",
@@ -73,6 +80,8 @@ function registerCtrl($scope, $http, $window, $modal) {
                             vm.nombre = "";
                             vm.apellidos = "";
                             vm.email = "";
+                            vm.telefono = "";
+                            vm.telefonoAlt = "";
                             vm.user = "";
                             vm.pass = "";
                             vm.confirmPass = "";
@@ -81,6 +90,7 @@ function registerCtrl($scope, $http, $window, $modal) {
                             vm.numHijos = 0;
                             vm.hijos = [];
                             vm.numHijos = "";
+                            
                         } else {
                             vm.loading = false;
                             swal({ title: 'Oops...', text: response.data.msg, type: 'error' });
@@ -118,6 +128,14 @@ function registerCtrl($scope, $http, $window, $modal) {
 
     function getNumHijos() {
         return new Array(parseInt(vm.numHijos));
+    }
+
+    function inicializarHijos() {
+        for (var x = 0; x < vm.numHijos; x++) {
+            vm.hijos[x] = {};
+            vm.hijos[x].deportes = JSON.parse(JSON.stringify(vm.deportes));
+            vm.hijos[x].deporteSelected = [];
+        }
     }
     
 }
