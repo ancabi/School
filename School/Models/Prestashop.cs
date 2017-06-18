@@ -195,25 +195,23 @@ namespace school.Models
             cart.id_carrier = 1;
 
             List<cart_row> rows = new List<cart_row>();
-            cart_row row = new cart_row();
-            row.id_product = 23;
-            row.quantity = 1;
+            
+            foreach (long p in productos)
+            {
 
-            rows.Add(row);
-            //foreach (long p in productos)
-            //{
-                
-            //    row = new cart_row();
-            //    row.id_product = p;
-            //    row.quantity = 1;
+                cart_row row = new cart_row();
+                row.id_product = p;
+                row.quantity = 1;
 
-            //    rows.Add(row);
-            //}
+                rows.Add(row);
+            }
 
 
             cart.associations.cart_rows = rows;
 
-            cartFactory.Add(cart);
+            cart = cartFactory.Add(cart);
+
+            cartFactory.Update(cart);
 
             return true;
 

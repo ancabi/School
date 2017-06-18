@@ -17,6 +17,7 @@ namespace school.Controllers
         //
         // GET: /Index/
         private readonly long packMatricula = 25;
+        private readonly long packMatriculaGratis = 46;
         private readonly long packInscripcionExtraBaby = 31;
         private readonly long packInscripcionExtraPreBenjamin = 30;
         private readonly long packInscripcionExtraCadete = 29;
@@ -174,6 +175,10 @@ namespace school.Controllers
                         {
                             productos.Add(packMatricula);
                         }
+                        else
+                        {
+                            productos.Add(packMatriculaGratis);
+                        }
 
                         if (pack)
                         {
@@ -200,7 +205,7 @@ namespace school.Controllers
 
                     if (inserted > 0)
                     {
-                        Util.sendEmail(email, "Registro DGED El atabal",
+                        Util.sendEmail(email, "Registro CLUB DEPORTIVO ATABAL",
                        "<div style='font-family:Arial;background:#203864;text-align:center;color:#fff'><br/><h3 style='margin:0'>Se ha registrado en El atabal</h3><br/></div><br/><div style='text-align: center;'><img src=\"cid:{0}\"/></div><br/>" +
                        "<p style='font-family:Arial'>Los datos de su hijo/a se han guardado correctamente</p><br><p>Los datos de acceso son:<br>Usuario:" + user + "<br>Contraseña:" + pass + "</p><br><p>Los datos de acceso para la <a href='http://elatabaltienda.dged.es/es/'>tienda on-line</a> son:<br>Usuario:" + user + "<br>Contraseña:" + pass + "</p>");
 

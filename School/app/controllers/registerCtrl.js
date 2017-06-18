@@ -13,9 +13,6 @@ function registerCtrl($scope, $http, $window, $modal) {
     vm.user = "";
     vm.pass = "";
     vm.confirmPass = "";
-    vm.talla = "";
-    vm.numero = "";
-    vm.categoria = "";
     vm.pack = false;
     vm.autorizacion = false;
     vm.paso = 1;
