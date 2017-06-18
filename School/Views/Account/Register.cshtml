@@ -19,22 +19,22 @@
 		<form class="m-t" name="registro" role="form" ng-submit="vm.registrar()">
 			<div @*ng-if="vm.paso == 2"*@>
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="DNI/NIE*" ng-model="vm.dni" required="">
+					<input type="text" class="form-control" placeholder="DNI/NIE Padre/Madre*" ng-model="vm.dni" required="">
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Nombre*" ng-model="vm.nombre" required="">
+					<input type="text" class="form-control" placeholder="Nombre Padre/Madre*" ng-model="vm.nombre" required="">
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Apellidos*" ng-model="vm.apellidos" required="">
+					<input type="text" class="form-control" placeholder="Apellidos Padre/Madre*" ng-model="vm.apellidos" required="">
 				</div>
 				<div class="form-group">
-					<input type="email" class="form-control" placeholder="Email*" ng-model="vm.email" required="">
+					<input type="email" class="form-control" placeholder="Email Padre/Madre*" ng-model="vm.email" required="">
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Teléfono*" ng-model="vm.telefono" required="">
+					<input type="text" class="form-control" placeholder="Teléfono Padre/Madre*" ng-model="vm.telefono" required="">
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Teléfono alternativo" ng-model="vm.telefonoAlt" />
+					<input type="text" class="form-control" placeholder="Teléfono Padre/Madre alternativo" ng-model="vm.telefonoAlt" />
 				</div>
 				<div class="form-group" ng-class="{'has-error':vm.userExist}">
 					<input type="text" class="form-control" placeholder="Usuario*" name="usuario" required="" ng-model="vm.user" userunique>
@@ -109,7 +109,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<select class="form-control" ng-model="vm.hijos[$index].talla" ng-required="vm.hijos[$index].pack==1" ng-if="vm.hijos[$index].pack==1">
+						<select class="form-control" ng-model="vm.hijos[$index].talla" required="">
 							<option value="" selected="" disabled>Talla*</option>
 							<option value="3">3</option>
 							<option value="4">4</option>
@@ -137,7 +137,7 @@
 						</div>
 					</div>
 				
-				<button type="submit" class="btn btn-primary block full-width m-b">Registrar</button>
+				<button type="submit" class="btn btn-primary block full-width m-b" ladda="vm.loading">Registrar</button>
 			</div>
 		</form>
 		@*<button class="btn btn-default m-r-lg" type="button" ng-click="vm.anteriorPaso()" ng-disabled="vm.paso==1">Anterior</button>

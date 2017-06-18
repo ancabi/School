@@ -187,10 +187,10 @@ namespace school.Controllers
                             }
                         }
                         int x = 0;
-                        while (hijo.ContainsKey("deporteSelected[" + x + "]"))
+                        while (hijo.ContainsKey("sports[" + x + "]"))
                         {
-                            Dictionary<string,object> d = (Dictionary<String,object>) hijo["deporteSelected["+x+"]"];
-                            insertHijoDeporte(idHijo, (int)d["id"]);
+                            insertHijoDeporte(idHijo, hijo["sports[" + x + "]"].ToString());
+                            x++;
                         }
 
                     }
@@ -282,7 +282,7 @@ namespace school.Controllers
 
         }
 
-        private void insertHijoDeporte(long idHijo, int idDeporte)
+        private void insertHijoDeporte(long idHijo, string idDeporte)
         {
             
             using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))

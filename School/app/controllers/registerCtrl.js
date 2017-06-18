@@ -48,6 +48,14 @@ function registerCtrl($scope, $http, $window, $modal) {
 
             if (vm.pass == vm.confirmPass) {
                 vm.loading = true;
+                angular.forEach(vm.hijos,
+                    function (d) {
+                        d.sports = [];
+                        angular.forEach(d.deporteSelected,
+                            function (s) {
+                                d.sports.push(s.id);
+                            });
+                    });
                 $http.post(webroot + "Account/Registrar",
                     {
                         dni: vm.dni,
@@ -66,7 +74,7 @@ function registerCtrl($scope, $http, $window, $modal) {
                             swal({
                                 title: 'Registrado!',
                                 text:
-                                    "¡SUS DATOS HAN QUEDADO REGISTRADOS! Al pulsar ACEPTAR accederá a la Tienda del Club Deportivo Atabal, donde deberá indicar su USUARIO y CONTRASEÑA para acceder. Una vez dentro, haga clic en el carrito de la compra (arriba a la derecha) y realice el pago para terminar el proceso de inscripción.",
+                                    "Al pulsar ACEPTAR accederá a la Tienda del Club Deportivo Atabal, donde deberá indicar su E-MAIL y CONTRASEÑA para acceder. Una vez dentro, haga clic en el carrito de la compra (arriba a la derecha) y realice el pago para terminar el proceso de inscripción.",
                                 type: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: "#1BB394",
@@ -90,7 +98,7 @@ function registerCtrl($scope, $http, $window, $modal) {
                             vm.numHijos = 0;
                             vm.hijos = [];
                             vm.numHijos = "";
-                            
+                            vm.loading = false;
                         } else {
                             vm.loading = false;
                             swal({ title: 'Oops...', text: response.data.msg, type: 'error' });

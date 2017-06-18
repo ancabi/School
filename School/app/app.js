@@ -19,6 +19,7 @@
         'isteven-multi-select',
         'ngAnimate',
         'toastr',
+        'angular-ladda',
         'angular-flexslider'        // Angular Flex-slider Directive
     ])
 })();
