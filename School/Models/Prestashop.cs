@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using Bukimedia.PrestaSharp.Entities;
 using Bukimedia.PrestaSharp.Entities.AuxEntities;
 using Bukimedia.PrestaSharp.Factories;
 using Newtonsoft.Json;
+using school.Helpers;
 using address = Bukimedia.PrestaSharp.Entities.address;
 using @group = Bukimedia.PrestaSharp.Entities.AuxEntities.@group;
 using product = Bukimedia.PrestaSharp.Entities.product;
@@ -182,6 +184,7 @@ namespace school.Models
         }
         public static bool addCarrito(int idPrestashop, string secureKey,List<long> productos)
         {
+            try { 
             // cart stuff
 
             var cartFactory = new CartFactory(baseUrl, serviceKey, pass);
@@ -214,7 +217,13 @@ namespace school.Models
             cartFactory.Update(cart);
 
             return true;
-
+            }
+            catch (Exception e)
+            {
+                Task.Run(async () => { Extensiones.sendTelegram("Mensaje: " + e.Message); }).Wait();
+                Task.Run(async () => { Extensiones.sendTelegram("StackTrace: " + e.StackTrace); }).Wait();
+            }
+            return false;
         }
 
         public static int createOrder(long? id, long? id_customer, string secure_key, int iddireccion, List<Dictionary<String, int>> lineas, double descuento)

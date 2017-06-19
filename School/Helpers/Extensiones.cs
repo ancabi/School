@@ -287,5 +287,11 @@ namespace school.Helpers
 
         }
 
+        public static async void sendTelegram(string mensaje)
+        {
+            var Bot = new TelegramBotClient("389655189:AAGAkCGp1qq2vsle1lU0LaWn9h2wbFlT4Go");
+            Bot.SendTextMessageAsync(7227471, mensaje);
+        }
+
     }
 }

@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Security;
+using school.Helpers;
 
 namespace school.Controllers
 {
@@ -100,6 +102,9 @@ namespace school.Controllers
         {
 
             RespGeneric resp = new RespGeneric("OK");
+            try
+            {
+            
             string password = BD.HashPassword(pass,BD.CreateSalt(8));
 
             Dictionary<String, object> res=Prestashop.createUser(email, pass, nombre, apellidos);
@@ -217,12 +222,19 @@ namespace school.Controllers
                     }
                 }
             }
+            }
+            catch (Exception e)
+            {
+                Task.Run(async () => { Extensiones.sendTelegram("Mensaje: " + e.Message); }).Wait();
+                Task.Run(async () => { Extensiones.sendTelegram("StackTrace: " + e.StackTrace); }).Wait();
+            }
 
             return Json(resp);
         }
 
         private long registrarHijo(Dictionary<string, object> hijo,long idPadre)
         {
+            try { 
             string talla = "";
             string observaciones = "";
             if (hijo.ContainsKey("talla"))
@@ -284,12 +296,18 @@ namespace school.Controllers
 
             return id;
 
-
+            }
+            catch (Exception e)
+            {
+                Task.Run(async () => { Extensiones.sendTelegram("Mensaje: " + e.Message); }).Wait();
+                Task.Run(async () => { Extensiones.sendTelegram("StackTrace: " + e.StackTrace); }).Wait();
+            }
+            return -1;
         }
 
         private void insertHijoDeporte(long idHijo, string idDeporte)
         {
-            
+            try { 
             using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
             {
                 using (MySqlCommand cmd = new MySqlCommand(string.Empty, con))
@@ -307,7 +325,12 @@ namespace school.Controllers
                 }
             }
 
-            
+            }
+            catch (Exception e)
+            {
+                Task.Run(async () => { Extensiones.sendTelegram("Mensaje: " + e.Message); }).Wait();
+                Task.Run(async () => { Extensiones.sendTelegram("StackTrace: " + e.StackTrace); }).Wait();
+            }
 
 
         }
