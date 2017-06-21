@@ -11,6 +11,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
+using Telegram.Bot;
 
 namespace school.Helpers
 {

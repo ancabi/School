@@ -201,12 +201,25 @@ namespace school.Models
             
             foreach (long p in productos)
             {
+                    
+                    cart_row row = new cart_row();
+                    bool encontrado = false;
+                    foreach (cart_row r in rows)
+                    {
+                        if(r.id_product == p)
+                        {
+                            row = r;
+                            encontrado = true;
+                        }
+                    }
+                
+                row.id_product = p;                    
+                row.quantity++;
 
-                cart_row row = new cart_row();
-                row.id_product = p;
-                row.quantity = 1;
-
-                rows.Add(row);
+                    if (!encontrado)
+                    {
+                        rows.Add(row);
+                    }
             }
 
 

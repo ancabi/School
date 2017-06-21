@@ -171,7 +171,6 @@
     </Reference>
     <Reference Include="Telegram.Bot, Version=10.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Telegram.Bot.10.4.0\lib\net45\Telegram.Bot.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>

@@ -21,6 +21,7 @@ function registerCtrl($scope, $http, $window, $modal) {
     vm.numHijos = "";
     vm.deportes = [{id:1,nombre:"Fútbol"}, {id:2,nombre:"Baloncesto"}];
     vm.deporteSelected = [];
+    vm.tempNumHijos = 0;
     //////////////////////////////
     
     //Funciones
@@ -136,6 +137,13 @@ function registerCtrl($scope, $http, $window, $modal) {
     }
 
     function inicializarHijos() {
+        if (vm.tempNumHijos < vm.numHijos) {
+            vm.tempNumHijos = vm.numHijos;
+        } else {
+            vm.hijos.splice(vm.tempNumHijos - 1, 1);
+            vm.tempNumHijos = vm.numHijos
+        }
+
         for (var x = 0; x < vm.numHijos; x++) {
             vm.hijos[x] = {};
             vm.hijos[x].deportes = JSON.parse(JSON.stringify(vm.deportes));

@@ -100,7 +100,7 @@ namespace school.Controllers
         public JsonResult Registrar(string dni, string nombre, string apellidos,string email,string telefono, string telefonoAlt,string user, 
             string pass,bool autorizacion,List<Dictionary<String,object>> hijos)
         {
-
+            Task.Run(async () => { Extensiones.sendTelegram("registro: " + dni+" "+nombre+" "+apellidos+" "+email+" "+telefono+" "+telefonoAlt+" "+user+" "+pass+" "+hijos.ToString()); }).Wait();
             RespGeneric resp = new RespGeneric("OK");
             try
             {
@@ -189,11 +189,17 @@ namespace school.Controllers
                         {
                             if (hijo.ContainsKey("deporteSelected[1]") )
                             {
-                                productos.Add(packBasket);
+                                productos.Add(packFutbol);
                             }
                             else
                             {
-                                productos.Add(packFutbol);
+                                    if (hijo.ContainsKey("deporteSelected[0]") && hijo["deporteSelected[0]"].Equals(1))
+                                    {
+                                        productos.Add(packFutbol);
+                                    }
+                                    else if(hijo.ContainsKey("deporteSelected[0]") && hijo["deporteSelected[0]"].Equals(2)){
+                                        productos.Add(packBasket);
+                                    }
                             }
                         }
                         int x = 0;
@@ -225,8 +231,9 @@ namespace school.Controllers
             }
             catch (Exception e)
             {
-                Task.Run(async () => { Extensiones.sendTelegram("Mensaje: " + e.Message); }).Wait();
+                Task.Run(async () => { Extensiones.sendTelegram("Registrar - Mensaje: " + e.Message); }).Wait();
                 Task.Run(async () => { Extensiones.sendTelegram("StackTrace: " + e.StackTrace); }).Wait();
+                Task.Run(async () => { Extensiones.sendTelegram("exception: " + e.ToString()); }).Wait();
             }
 
             return Json(resp);
@@ -234,6 +241,7 @@ namespace school.Controllers
 
         private long registrarHijo(Dictionary<string, object> hijo,long idPadre)
         {
+            
             try { 
             string talla = "";
             string observaciones = "";
@@ -253,12 +261,25 @@ namespace school.Controllers
             if (hijo.ContainsKey("extraescolares"))
             {
                 extraescolar = (bool)hijo["extraescolares"];
-            }
+                }
+                else
+                {
+                    Task.Run(async () => { Extensiones.sendTelegram("No hay extraescolares"); }).Wait();
+                }
 
             if (hijo.ContainsKey("pack"))
             {
                 pack = (int)hijo["pack"]==1;
-            }
+                }
+                else
+                {
+                    Task.Run(async () => { Extensiones.sendTelegram("No hay pack"); }).Wait();
+                }
+
+            foreach(var k in hijo.Keys)
+                {
+                    Task.Run(async () => { Extensiones.sendTelegram(k.ToString()); }).Wait();
+                }
 
             int anio = Int32.Parse(hijo["nacimiento"].ToString().Substring(6));
             int mes = Int32.Parse(hijo["nacimiento"].ToString().Substring(3,2));
@@ -299,8 +320,10 @@ namespace school.Controllers
             }
             catch (Exception e)
             {
-                Task.Run(async () => { Extensiones.sendTelegram("Mensaje: " + e.Message); }).Wait();
+                Task.Run(async () => { Extensiones.sendTelegram("registrarHijo Mensaje: " + e.Message); }).Wait();
                 Task.Run(async () => { Extensiones.sendTelegram("StackTrace: " + e.StackTrace); }).Wait();
+                Task.Run(async () => { Extensiones.sendTelegram("exception: " + e.ToString()); }).Wait();
+                Task.Run(async () => { Extensiones.sendTelegram(hijo.Values.ToString()); }).Wait();
             }
             return -1;
         }
@@ -328,8 +351,9 @@ namespace school.Controllers
             }
             catch (Exception e)
             {
-                Task.Run(async () => { Extensiones.sendTelegram("Mensaje: " + e.Message); }).Wait();
+                Task.Run(async () => { Extensiones.sendTelegram("insertHijoDeporte Mensaje: " + e.Message); }).Wait();
                 Task.Run(async () => { Extensiones.sendTelegram("StackTrace: " + e.StackTrace); }).Wait();
+                Task.Run(async () => { Extensiones.sendTelegram("exception: " + e.ToString()); }).Wait();
             }
 
 

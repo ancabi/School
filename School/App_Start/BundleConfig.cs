@@ -176,7 +176,7 @@ namespace School
                       "~/app/controllers/ejerciciosCtrl.js"));
 
 
-            BundleTable.EnableOptimizations = false;
+            BundleTable.EnableOptimizations = true;
         }
     }
 }
