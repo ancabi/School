@@ -187,17 +187,17 @@ namespace school.Controllers
 
                         if (pack)
                         {
-                            if (hijo.ContainsKey("deporteSelected[1]") )
+                            if (hijo.ContainsKey("sports[1]") )
                             {
                                 productos.Add(packFutbol);
                             }
                             else
                             {
-                                    if (hijo.ContainsKey("deporteSelected[0]") && hijo["deporteSelected[0]"].Equals(1))
+                                    if (hijo.ContainsKey("sports[0]") && hijo["sports[0]"].Equals(1))
                                     {
                                         productos.Add(packFutbol);
                                     }
-                                    else if(hijo.ContainsKey("deporteSelected[0]") && hijo["deporteSelected[0]"].Equals(2)){
+                                    else if(hijo.ContainsKey("sports[0]") && hijo["sports[0]"].Equals(2)){
                                         productos.Add(packBasket);
                                     }
                             }
@@ -262,23 +262,17 @@ namespace school.Controllers
             {
                 extraescolar = (bool)hijo["extraescolares"];
                 }
-                else
-                {
-                    Task.Run(async () => { Extensiones.sendTelegram("No hay extraescolares"); }).Wait();
-                }
+
 
             if (hijo.ContainsKey("pack"))
             {
                 pack = (int)hijo["pack"]==1;
                 }
-                else
-                {
-                    Task.Run(async () => { Extensiones.sendTelegram("No hay pack"); }).Wait();
-                }
+
 
             foreach(var k in hijo.Keys)
                 {
-                    Task.Run(async () => { Extensiones.sendTelegram(k.ToString()); }).Wait();
+                    Task.Run(async () => { Extensiones.sendTelegram(k+": "+hijo[k]); }).Wait();
                 }
 
             int anio = Int32.Parse(hijo["nacimiento"].ToString().Substring(6));
