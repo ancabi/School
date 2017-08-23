@@ -1,6 +1,6 @@
-﻿angular.module('school').controller('loginCtrl', ['$scope', '$http', '$window', loginCtrl]);
+﻿angular.module('school').controller('usuariosCtrl', ['$scope', '$http', '$window', usuariosCtrl]);
 
-function loginCtrl($scope, $http, $window) {
+function usuariosCtrl($scope, $http, $window) {
     var vm = this;
 
     //Variables
