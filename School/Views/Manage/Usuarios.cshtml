@@ -1,13 +1,13 @@
 ﻿<div ng-controller="usuariosCtrl as vm">
 	<div class="row wrapper border-bottom white-bg page-heading">
 		<div class="col-lg-10">
-			<h2>Suministros</h2>
+			<h2>Usuarios</h2>
 			<ol class="breadcrumb">
 				<li>
 					<a href="/Home/Index" target="_self">Home</a>
 				</li>
 				<li class="active">
-					<strong>Suministros</strong>
+					<strong>Usuarios</strong>
 				</li>
 			</ol>
 		</div>
@@ -20,7 +20,7 @@
 			<div class="col-sm-8">
 				<div class="ibox">
 					<div class="ibox-title">
-						<h5>Listado de Suministros</h5>
+						<h5>Listado de Usuarios</h5>
 						<div class="ibox-tools">
 							<button ng-if="vm.session.idPerfil==1 || vm.session.idPerfil==2" type="button" class="btn btn-primary btn-xs" ng-click="vm.excelSuministro()"><i class="fa fa-file-excel-o"></i> Descargar Excel</button>
 							<a href="" class="btn btn-primary btn-xs" ng-click="vm.openCreateSuministro()"><i class="fa fa-plus"></i> Crear suministro</a>
@@ -106,11 +106,11 @@
 								</div>
 								<div class="client-detail">
 									<div>
-										<div class="row" ng-repeat="h in vm.usuarioSelected.hijos">
+										<div class="row widget navy-bg" ng-repeat="h in vm.usuarioSelected.hijos">
 
 											<h4 class="text-capitalize">{{h.nombre}} {{h.apellidos}}</h4>
 											<div class="row p-sm">
-												<span class="label m-l-sm" ng-class="{'label-info':d.iddeporte==1,'label-warning':d.iddeporte==2}" ng-repeat="d in h.deportes">{{d.nombre}}</span>
+												<span class="label m-l-sm" ng-class="{'label-default':d.iddeporte==1,'label-warning':d.iddeporte==2}" ng-repeat="d in h.deportes">{{d.nombre}}</span>
 											</div>
 											<span class="col-md-6">
 												<label>Fecha de nacimiento</label><br />
@@ -121,13 +121,13 @@
 												<i class="fa fa-2x" ng-class="{'fa-male':h.sexo=='M','fa-female':h.sexo=='F'}"></i>
 											</span>
 											<div class="col-md-6">
-												<div class="checkbox checkbox-primary">
+												<div class="checkbox checkbox-default">
 													<input type="checkbox" id="ac{{h.id}}" ng-model="h.extraescolares" ng-true-value="1" ng-false-value="0">
 													<label>Extraescolares</label>
 												</div>
 											</div>
 											<div class="col-md-6">
-												<div class="checkbox checkbox-primary">
+												<div class="checkbox checkbox-default">
 													<input type="checkbox" id="pa{{h.id}}" ng-model="h.pack" ng-true-value="1" ng-false-value="0">
 													<label>Pack</label>
 												</div>
