@@ -140,7 +140,7 @@ function registerCtrl($scope, $http, $window, $modal) {
         if (vm.tempNumHijos < vm.numHijos) {
             vm.tempNumHijos = vm.numHijos;
         } else {
-            vm.hijos.splice(vm.tempNumHijos - 1, 1);
+            vm.hijos = [];
             vm.tempNumHijos = vm.numHijos
         }
 
