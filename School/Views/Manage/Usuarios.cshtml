@@ -110,11 +110,11 @@
 								</div>
 								<div class="client-detail">
 									<div>
-										<div class="row" ng-repeat="h in vm.usuarioSelected.hijos">
+										<div class="row widget navy-bg" ng-repeat="h in vm.usuarioSelected.hijos">
 
 											<h4 class="text-capitalize">{{h.nombre}} {{h.apellidos}}</h4>
 											<div class="row p-sm">
-												<span class="label m-l-sm" ng-class="{'label-info':d.iddeporte==1,'label-warning':d.iddeporte==2}" ng-repeat="d in h.deportes">{{d.nombre}}</span>
+												<span class="label m-l-sm" ng-class="{'label-default':d.iddeporte==1,'label-warning':d.iddeporte==2}" ng-repeat="d in h.deportes">{{d.nombre}}</span>
 											</div>
 											<span class="col-md-6">
 												<label>Fecha de nacimiento</label><br />
@@ -125,13 +125,13 @@
 												<i class="fa fa-2x" ng-class="{'fa-male':h.sexo=='M','fa-female':h.sexo=='F'}"></i>
 											</span>
 											<div class="col-md-6">
-												<div class="checkbox checkbox-primary">
+												<div class="checkbox checkbox-default">
 													<input type="checkbox" id="ac{{h.id}}" ng-model="h.extraescolares" ng-true-value="1" ng-false-value="0">
 													<label>Extraescolares</label>
 												</div>
 											</div>
 											<div class="col-md-6">
-												<div class="checkbox checkbox-primary">
+												<div class="checkbox checkbox-default">
 													<input type="checkbox" id="pa{{h.id}}" ng-model="h.pack" ng-true-value="1" ng-false-value="0">
 													<label>Pack</label>
 												</div>
