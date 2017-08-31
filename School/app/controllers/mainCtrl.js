@@ -10,6 +10,7 @@ function mainCtrl($scope, $http, $timeout, $window, $modal,toastr) {
 
     vm.getEventos = getEventos;
     vm.changeEquipo = changeEquipo;
+    vm.logout = logout;
 
     //INIT
     if (vm.session.usuario == null) {
@@ -18,6 +19,13 @@ function mainCtrl($scope, $http, $timeout, $window, $modal,toastr) {
 
     getEventos();
     getEquipos();
+
+    function logout() {
+        $http.post(webroot + "Account/Logout").then(function () {
+            $window.sessionStorage.clear();
+            $window.location.href = "/Account/Login";
+        });
+    }
     
 
     function getEventos() {
@@ -28,7 +36,7 @@ function mainCtrl($scope, $http, $timeout, $window, $modal,toastr) {
                   vm.rows = response.data.d.eventos;
               } else {
                   //notify({ message: 'No se ha podido mostrar el historico.', classes: 'alert-danger' });
-                  toastr.warning({ title: "Title example", body: "This is example of Toastr notification box." });
+                  //toastr.warning({ title: "Title example", body: "This is example of Toastr notification box." });
               }
           });
     }
@@ -42,7 +50,7 @@ function mainCtrl($scope, $http, $timeout, $window, $modal,toastr) {
                   
               } else {
                   //notify({ message: 'Error', classes: 'alert-danger' });
-                  toastr.warning({ title: "Title example", body: "This is example of Toastr notification box." });
+                  //toastr.warning({ title: "Title example", body: "This is example of Toastr notification box." });
               }
           });
     }

@@ -1,13 +1,13 @@
 ﻿<div ng-controller="usuariosCtrl as vm">
 	<div class="row wrapper border-bottom white-bg page-heading">
 		<div class="col-lg-10">
-			<h2>Suministros</h2>
+			<h2>Usuarios</h2>
 			<ol class="breadcrumb">
 				<li>
 					<a href="/Home/Index" target="_self">Home</a>
 				</li>
 				<li class="active">
-					<strong>Suministros</strong>
+					<strong>Usuarios</strong>
 				</li>
 			</ol>
 		</div>
@@ -20,10 +20,10 @@
 			<div class="col-sm-8">
 				<div class="ibox">
 					<div class="ibox-title">
-						<h5>Listado de Suministros</h5>
+						<h5>Listado de Usuarios</h5>
 						<div class="ibox-tools">
-							<button ng-if="vm.session.idPerfil==1 || vm.session.idPerfil==2" type="button" class="btn btn-primary btn-xs" ng-click="vm.excelSuministro()"><i class="fa fa-file-excel-o"></i> Descargar Excel</button>
-							<a href="" class="btn btn-primary btn-xs" ng-click="vm.openCreateSuministro()"><i class="fa fa-plus"></i> Crear suministro</a>
+							@*<a href="" class="btn btn-primary btn-xs" ng-click="vm.openCreateSuministro()"><i class="fa fa-plus"></i> Crear suministro</a>*@
+							@*<a href="" class="btn btn-primary btn-xs" ng-click="vm.refreshPagados()"><i class="fa fa-refresh"></i> Recargar pagos</a>*@
 						</div>
 					</div>
 					<div class="ibox-content" style="height: 83rem;">
@@ -38,6 +38,10 @@
 												<thead>
 													<tr>
 														<th colspan="8">
+															<div class="checkbox checkbox-success" style="margin-top: 0">
+																<input type="checkbox" ng-model="vm.onlyPagados" ng-click="vm.showPagados()" ng-true-value="true" ng-false-value="false">
+																<label>Mostrar solo pagados</label>
+															</div>
 															<div class="input-group" style="width: 100%">
 																<input st-search type="text" placeholder="Buscar.... " class="input form-control" ng-model="vm.search">
 																<span class="input-group-btn">
@@ -58,13 +62,13 @@
 														<td> {{c.telefono}}<br />{{c.telefonoalt}}</td>
 														<td class="client-status">
 															<div class="checkbox checkbox-primary" style="margin-top: 0">
-																<input type="checkbox" id="pg{{c.id}}" ng-model="c.pagado" ng-true-value="1" ng-false-value="0">
+																<input type="checkbox" id="pg{{c.id}}" ng-model="c.pagado" ng-true-value="1" ng-false-value="0" disabled>
 																<label>Pagado</label>
 															</div>
 														</td>
 														<td class="client-status">
 															<div class="checkbox checkbox-primary" style="margin-top: 0">
-																<input type="checkbox" id="ac{{c.id}}" ng-model="c.activo" ng-true-value="1" ng-false-value="0">
+																<input type="checkbox" id="ac{{c.id}}" ng-model="c.activo" ng-true-value="1" ng-false-value="0" disabled>
 																<label>Activo</label>
 															</div>
 														</td>
@@ -204,10 +208,26 @@
 								<label>Autorización</label>
 							</div>
 						</div>
-						@*<div id="inputPerfil" class="col-sm-6">
+						<div class="col-sm-6">
+							<div class="checkbox checkbox-success">
+								<input type="checkbox" ng-model="vm.pagado" ng-true-value="1" ng-false-value="0">
+								<label>Pagado</label>
+							</div>
+						</div>
+						<div id="inputPerfil" class="col-sm-6">
 							<label>Perfil</label>
-							<top-select model="vm.perfiles" output="vm.perfilSelected" label="nombre" mode="single"></top-select>
-						</div>*@						
+							<div isteven-multi-select
+								 input-model="vm.tipos"
+								 output-model="vm.tipoSelected"
+								 button-label="nombre"
+								 item-label="nombre"
+								 tick-property="ticked"
+								 helper-elements=""
+								 max-labels="1"
+								 selection-mode="single"
+								 required>
+							</div>
+						</div>						
 					</div>
 				</div>
 			</div>

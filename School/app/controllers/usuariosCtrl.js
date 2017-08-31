@@ -1,15 +1,18 @@
-﻿angular.module('school').controller('usuariosCtrl', ['$scope', '$http', '$window', '$modal', usuariosCtrl]);
+﻿angular.module('school').controller('usuariosCtrl', ['$scope', '$http', '$window', '$modal','$filter', usuariosCtrl]);
 
-function usuariosCtrl($scope, $http, $window, $modal) {
+function usuariosCtrl($scope, $http, $window, $modal,$filter) {
     var vm = this;
 
     //Variables
     vm.loading = false;
+    vm.onlyPagados = false;
     //////////////////////////////
 
     //Funciones
     vm.loadHijos = loadHijos;
     vm.editUsuario = editUsuario;
+    vm.showPagados = showPagados;
+    vm.refreshPagados = refreshPagados;
     //////////////////////////////
 
     //INIT
@@ -21,8 +24,10 @@ function usuariosCtrl($scope, $http, $window, $modal) {
         $http.post(webroot + "Manage/LoadUsuarios", {})
             .then(function (response) {
                 if (response.data.cod === "OK") {
+                    vm.usuariosSafe = response.data.d.usuarios;
                     vm.usuarios = response.data.d.usuarios;
                     vm.usuarios_disp = [].concat(response.data.d.usuarios);
+                    vm.usuarioSelected = vm.usuarios[0];
                     vm.loading = false;
                 } else {
                     vm.loading = false;
@@ -40,7 +45,21 @@ function usuariosCtrl($scope, $http, $window, $modal) {
                     vm.loading = false;
                 } else {
                     vm.loading = false;
-                    swal({ title: 'Oops...', text: response.data.msg, type: 'error' });
+                    //swal({ title: 'Oops...', text: response.data.msg, type: 'error' });
+                }
+            });
+    }
+
+    function refreshPagados() {
+        vm.loading = true;
+        $http.post(webroot + "Manage/RefreshPagados", {})
+            .then(function (response) {
+                if (response.data.cod === "OK") {
+                    loadUsuarios();
+                    vm.loading = false;
+                } else {
+                    vm.loading = false;
+                    //swal({ title: 'Oops...', text: response.data.msg, type: 'error' });
                 }
             });
     }
@@ -61,6 +80,17 @@ function usuariosCtrl($scope, $http, $window, $modal) {
         });
     }
 
+    function showPagados() {
+        if (vm.onlyPagados) {
+            vm.usuarios = $filter("filter")(vm.usuariosSafe, { pagado: 1 });
+            vm.usuarios_disp = [].concat(vm.usuarios);
+            vm.usuarioSelected = vm.usuarios[0];
+        } else {
+            vm.usuarios = vm.usuariosSafe;
+            vm.usuarios_disp = [].concat(vm.usuarios);
+        }
+    }
+
 }
 
 ModalInstanceCtrl.$inject = ['$scope', '$modalInstance', '$http', '$window', 'item'];
@@ -70,7 +100,7 @@ function ModalInstanceCtrl($scope, $modalInstance, $http, $window,  item) {
     var vm = this;
     vm.edit = false;
     vm.session = $window.sessionStorage;
-    
+    vm.tipoSelected = [];
 
     if (item == null) {
         vm.dni = "";
@@ -82,6 +112,7 @@ function ModalInstanceCtrl($scope, $modalInstance, $http, $window,  item) {
         vm.usuario = "";
         vm.password = "";
         vm.autorizacion = 0;
+        vm.pagado = 0;
 
         vm.edit = false;
     } else {
@@ -94,6 +125,7 @@ function ModalInstanceCtrl($scope, $modalInstance, $http, $window,  item) {
         vm.usuario = item.usuario;
         vm.password = "";
         vm.autorizacion = item.autorizacion;
+        vm.pagado = item.pagado;
 
         vm.edit = true;
     }
@@ -103,21 +135,21 @@ function ModalInstanceCtrl($scope, $modalInstance, $http, $window,  item) {
     vm.cancelar = cancelar;
     ///////////////////////////
     //INIT
-    //loadPerfiles();
+    loadTiposUsuarios();
 
     ////////////////////////////
 
     
 
-    function loadPerfiles() {
-        $http.post(webroot + "Configuracion/loadPerfiles").then(function (response) {
-            vm.perfiles = response.data;
+    function loadTiposUsuarios() {
+        $http.post(webroot + "Manage/LoadTiposUsuarios").then(function (response) {
+            vm.tipos = response.data.d.tipos;
 
             if (vm.edit) {
-                angular.forEach(vm.perfiles,
+                angular.forEach(vm.tipos,
                 function (e) {
-                    if (e.id == item.idperfil) {
-                        vm.perfilSelected.push(e);
+                    if (e.id == item.tipo) {
+                        vm.tipoSelected.push(e);
                         e.ticked = true;
                     }
                 });
@@ -130,9 +162,9 @@ function ModalInstanceCtrl($scope, $modalInstance, $http, $window,  item) {
 
         var tipo = -1;
         
-            //if (vm.perfilSelected.length != 0) {
-            //    tipo = vm.perfilSelected[0].id;
-            //}
+            if (vm.tipoSelected.length != 0) {
+                tipo = vm.tipoSelected[0].id;
+            }
 
             if (!vm.edit) {
                 $http.post(webroot + "Configuracion/addUsuario",
@@ -177,8 +209,9 @@ function ModalInstanceCtrl($scope, $modalInstance, $http, $window,  item) {
                     email: vm.email,
                     usuario: vm.usuario,
                     password: vm.password,
+                    autorizacion: vm.autorizacion,
                     tipo: tipo,
-                    autorizacion:vm.autorizacion
+                    pagado:vm.pagado
                 }).then(function (response) {
                     if (response.data.cod == "OK") {
                         //toaster.pop({
