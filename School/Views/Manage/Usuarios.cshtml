@@ -1,0 +1,247 @@
+﻿<div ng-controller="usuariosCtrl as vm">
+	<div class="row wrapper border-bottom white-bg page-heading">
+		<div class="col-lg-10">
+			<h2>Usuarios</h2>
+			<ol class="breadcrumb">
+				<li>
+					<a href="/Home/Index" target="_self">Home</a>
+				</li>
+				<li class="active">
+					<strong>Usuarios</strong>
+				</li>
+			</ol>
+		</div>
+		<div class="col-lg-2">
+
+		</div>
+	</div>
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-8">
+				<div class="ibox">
+					<div class="ibox-title">
+						<h5>Listado de Usuarios</h5>
+						<div class="ibox-tools">
+							@*<a href="" class="btn btn-primary btn-xs" ng-click="vm.openCreateSuministro()"><i class="fa fa-plus"></i> Crear suministro</a>*@
+							@*<a href="" class="btn btn-primary btn-xs" ng-click="vm.refreshPagados()"><i class="fa fa-refresh"></i> Recargar pagos</a>*@
+						</div>
+					</div>
+					<div class="ibox-content" style="height: 83rem;">
+
+
+						<div class="clients-list col-sm-12">
+							<div class="tab-content">
+								<div id="tab-1" class="tab-pane active" style="height: 100%">
+									<div class="full-height-scroll" full-scroll>
+										<div class="table-responsive">
+											<table class="table table-striped table-hover" st-table="vm.usuarios_disp" st-safe-src="vm.usuarios">
+												<thead>
+													<tr>
+														<th colspan="8">
+															<div class="checkbox checkbox-success" style="margin-top: 0">
+																<input type="checkbox" ng-model="vm.onlyPagados" ng-click="vm.showPagados()" ng-true-value="true" ng-false-value="false">
+																<label>Mostrar solo pagados</label>
+															</div>
+															<div class="input-group" style="width: 100%">
+																<input st-search type="text" placeholder="Buscar.... " class="input form-control" ng-model="vm.search">
+																<span class="input-group-btn">
+																	<button type="button" class="btn btn btn-primary"> <i class="fa fa-search"></i> Buscar</button>
+																</span>
+															</div>
+															<span class="pull-right small text-muted m-t-sm">{{vm.usuarios.length}} Usuario<span ng-if="vm.usuarios.length!=1">s</span></span>
+														</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="c in vm.usuarios_disp | filter:vm.search" ng-click="vm.usuarioSelected = c;vm.loadHijos()" ng-class="{'text-danger':c.baja}">
+														<td class="client-status" style="width: 2rem">{{c.dni}}</td>
+														<td><a class="client-link">{{c.nombre}} {{c.apellidos}}<br /><small class="">{{c.email}}</small></a></td>
+														<td class="contact-type"><i class="fa fa-calendar"> </i></td>
+														<td> {{c.fecha_registro | jsonDate:'dd-MM-yyyy'}}</td>
+														<td class="contact-type"><i class="fa fa-phone"> </i></td>
+														<td> {{c.telefono}}<br />{{c.telefonoalt}}</td>
+														<td class="client-status">
+															<div class="checkbox checkbox-primary" style="margin-top: 0">
+																<input type="checkbox" id="pg{{c.id}}" ng-model="c.pagado" ng-true-value="1" ng-false-value="0" disabled>
+																<label>Pagado</label>
+															</div>
+														</td>
+														<td class="client-status">
+															<div class="checkbox checkbox-primary" style="margin-top: 0">
+																<input type="checkbox" id="ac{{c.id}}" ng-model="c.activo" ng-true-value="1" ng-false-value="0" disabled>
+																<label>Activo</label>
+															</div>
+														</td>
+
+													</tr>
+												</tbody>
+												<tfoot>
+													<tr>
+														<td colspan="8" class="text-center">
+															<div st-pagination="" st-items-by-page="10" st-displayed-pages="10"></div>
+														</td>
+													</tr>
+												</tfoot>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="ibox ">
+					<div class="ibox-content">
+						<div class="tab-content">
+							<div id="contact-1" class="tab-pane active" ng-if="vm.usuarioSelected!=undefined">
+								<div class="row m-b-lg">
+									<div class="col-lg-12 text-center">
+										<small>Madre/Padre</small>
+										<h3>{{vm.usuarioSelected.nombre}} {{vm.usuarioSelected.apellidos}} <button type="button" class="btn btn-default btn-sm" ng-click="vm.editUsuario(vm.usuarioSelected)"><i class="fa fa-pencil"></i></button></h3>
+										<small>
+											{{vm.usuarioSelected.email}}<br />
+											{{vm.usuarioSelected.telefono}}<br /><br />
+										</small>
+									</div>
+
+								</div>
+								<div class="client-detail">
+									<div>
+										<div class="row widget navy-bg" ng-repeat="h in vm.usuarioSelected.hijos">
+
+											<h4 class="text-capitalize">{{h.nombre}} {{h.apellidos}}</h4>
+											<div class="row p-sm">
+												<span class="label m-l-sm" ng-class="{'label-default':d.iddeporte==1,'label-warning':d.iddeporte==2}" ng-repeat="d in h.deportes">{{d.nombre}}</span>
+											</div>
+											<span class="col-md-6">
+												<label>Fecha de nacimiento</label><br />
+												{{h.fecha_nacimiento | jsonDate:'dd-MM-yyyy'}}<br />
+											</span>
+											<span class="col-md-6">
+												<label>Sexo</label><br />
+												<i class="fa fa-2x" ng-class="{'fa-male':h.sexo=='M','fa-female':h.sexo=='F'}"></i>
+											</span>
+											<div class="col-md-6">
+												<div class="checkbox checkbox-default">
+													<input type="checkbox" id="ac{{h.id}}" ng-model="h.extraescolares" ng-true-value="1" ng-false-value="0">
+													<label>Extraescolares</label>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="checkbox checkbox-default">
+													<input type="checkbox" id="pa{{h.id}}" ng-model="h.pack" ng-true-value="1" ng-false-value="0">
+													<label>Pack</label>
+												</div>
+											</div>
+											<span class="col-md-6">
+												<label>Talla</label><br />
+												{{h.talla}}<br />
+											</span>
+											<span class="col-md-6">
+												<label>Número</label><br />
+												{{h.numero}}<br />
+											</span>
+
+											<div class="col-md-12">
+												<label>Observaciones</label>
+												<p>{{h.observaciones}}</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="formUsuario.html">
+	<div class="inmodal">
+		<div class="modal-header">
+			<h4 class="modal-title">Usuario </h4>
+		</div>
+		<form ng-submit="vm.aceptar()">
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<div id="inputDni" class="col-sm-6">
+							<label for="dni">DNI</label>
+							<input type="text" placeholder="DNI" ng-model="vm.dni" ng-required="true" class="form-control input-sm" id="dni">
+						</div>
+						<div id="inputNombre" class="col-sm-6">
+							<label for="nombre">Nombre*</label>
+							<input type="text" placeholder="Nombre" ng-model="vm.nombre" ng-required="true" class="form-control input-sm" id="nombre">
+						</div>
+						<div id="inputApellidos" class="col-sm-6">
+							<label for="apellidos">Apellidos*</label>
+							<input type="text" placeholder="Apellidos" ng-model="vm.apellidos" ng-required="true" class="form-control input-sm" id="nombre">
+						</div>
+						<div id="inputEmail" class="col-sm-6">
+							<label for="email">E-Mail</label>
+							<input type="email" placeholder="E-Mail" ng-model="vm.email" ng-required="false" class="form-control input-sm" id="email">
+						</div>
+						<div id="inputTelefono" class="col-sm-6">
+							<label for="telefono">Teléfono</label>
+							<input type="tel" placeholder="Teléfono" ng-model="vm.telefono" ng-required="false" class="form-control input-sm" id="telefono">
+						</div>
+						<div id="inputTelefonoAlt" class="col-sm-6">
+							<label for="telefonoAlt">Teléfono Alternativo</label>
+							<input type="tel" placeholder="Teléfono Alternativo" ng-model="vm.telefonoAlt" ng-required="false" class="form-control input-sm" id="telefonoAlt">
+						</div>
+						<div id="inputUsuario" class="col-sm-6">
+							<label for="usuario">Usuario*</label>
+							<input type="text" placeholder="Usuario" ng-model="vm.usuario" ng-required="true" class="form-control input-sm" id="usuario">
+						</div>
+						<div id="inputPassword" class="col-sm-6">
+							<label for="password">Contraseña</label>
+							<input type="password" placeholder="Contraseña" ng-required="false" class="form-control input-sm" id="password" ng-model="vm.password">
+						</div>
+						<div class="col-sm-6">
+							<div class="checkbox checkbox-primary">
+								<input type="checkbox" ng-model="vm.autorizacion" ng-true-value="1" ng-false-value="0">
+								<label>Autorización</label>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="checkbox checkbox-success">
+								<input type="checkbox" ng-model="vm.pagado" ng-true-value="1" ng-false-value="0">
+								<label>Pagado</label>
+							</div>
+						</div>
+						<div id="inputPerfil" class="col-sm-6">
+							<label>Perfil</label>
+							<div isteven-multi-select
+								 input-model="vm.tipos"
+								 output-model="vm.tipoSelected"
+								 button-label="nombre"
+								 item-label="nombre"
+								 tick-property="ticked"
+								 helper-elements=""
+								 max-labels="1"
+								 selection-mode="single"
+								 required>
+							</div>
+						</div>						
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+
+				<button type="button" ng-click="vm.cancelar()" class="btn btn-danger">Cancelar</button>
+				<button type="submit" class="btn btn-primary">Aceptar</button>
+
+			</div>
+		</form>
+	</div>
+</script>
+
+
+@section scripts {
+	@Scripts.Render("~/bundles/usuarios/js")
+}

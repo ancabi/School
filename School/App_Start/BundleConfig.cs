@@ -175,8 +175,11 @@ namespace School
             bundles.Add(new ScriptBundle("~/bundles/ejercicios/js").Include(
                       "~/app/controllers/ejerciciosCtrl.js"));
 
+			bundles.Add(new ScriptBundle("~/bundles/usuarios/js").Include(
+					  "~/app/controllers/usuariosCtrl.js"));
 
-            BundleTable.EnableOptimizations = true;
+
+            BundleTable.EnableOptimizations = false;
         }
     }
 }

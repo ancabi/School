@@ -45,6 +45,13 @@ namespace school.Controllers
         }
 
         [HttpPost]
+        public void Logout()
+        {
+            Session.Clear();
+            FormsAuthentication.SignOut();
+        }
+
+        [HttpPost]
         [AllowAnonymous]
         public JsonResult LoginUser(string usuario, string pass)
         {
@@ -58,36 +65,41 @@ namespace school.Controllers
                 {
                     using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
                     {
-                        //cmd.CommandText = "SELECT * FROM school.usuarios WHERE usuario=?usuario;";
-                        //cmd.Parameters.AddWithValue("?usuario", usuario);
-                        //da.Fill(dt);
-                        //if (dt.Rows.Count > 0)
-                        //{
-                        //    DataRow rowUsuario = dt.Rows[0];
+                        cmd.CommandText = "SELECT u.*, t.nombre AS nomtipo FROM usuarios u LEFT JOIN usuarios_tipos t ON t.id=u.tipo WHERE usuario=?usuario;";
+                        cmd.Parameters.AddWithValue("?usuario", usuario);
+                        da.Fill(dt);
+                        if (dt.Rows.Count > 0 && BD.CheckPassword(dt.Rows[0]["pass"].ToString(),pass))
+                        {
 
-                        //    Session["idusuario"] = rowUsuario["id"];
-                        //    Session["usuario"] = rowUsuario["usuario"];
-                        //    Session["tipo"] = rowUsuario["tipo"].ToString().Trim();
-                        //    Session["cif"] = rowUsuario["cif"];
-                        //    Session["nombre"] = rowUsuario["nombre"].ToString();
-                        //    Session["email"] = rowUsuario["email"].ToString();
-                        //    Session["idultimo_equipo"] = rowUsuario["idultimo_equipo"].ToString();
-                        //    FormsAuthentication.SetAuthCookie(usuario, false);
-                        //    resp.cod = "OK";
-                        //    resp.d.Add("idusuario", Session["idusuario"].ToString());
-                        //    resp.d.Add("usuario", Session["usuario"].ToString());
-                        //    resp.d.Add("url", FormsAuthentication.GetRedirectUrl(usuario, false));
-                        //    resp.d.Add("tipo", Session["tipo"].ToString());
-                        //    resp.d.Add("cif", Session["cif"].ToString());
-                        //    resp.d.Add("nombre", Session["nombre"].ToString());
-                        //    Session["limitedVersion"] = false;
+                            DataRow rowUsuario = dt.Rows[0];
 
-                        //}
-                        //else
-                        //{
+                            Session["idusuario"] = rowUsuario["id"];
+                            Session["usuario"] = rowUsuario["usuario"];
+                            Session["tipo"] = rowUsuario["tipo"].ToString().Trim();
+                            Session["nomtipo"] = rowUsuario["nomtipo"].ToString().Trim();
+                            Session["dni"] = rowUsuario["dni"];
+                            Session["nombre"] = rowUsuario["nombre"].ToString();
+                            Session["apellidos"] = rowUsuario["apellidos"].ToString();
+                            Session["email"] = rowUsuario["email"].ToString();
+                            Session["idultimo_equipo"] = rowUsuario["idultimo_equipo"].ToString();
+                            FormsAuthentication.SetAuthCookie(usuario, false);
+                            resp.cod = "OK";
+                            resp.d.Add("idusuario", Session["idusuario"].ToString());
+                            resp.d.Add("usuario", Session["usuario"].ToString());
+                            resp.d.Add("url", FormsAuthentication.GetRedirectUrl(usuario, false));
+                            resp.d.Add("tipo", Session["tipo"].ToString());
+                            resp.d.Add("nomtipo", Session["nomtipo"].ToString());
+                            resp.d.Add("dni", Session["dni"].ToString());
+                            resp.d.Add("nombre", Session["nombre"].ToString());
+                            resp.d.Add("apellidos", Session["apellidos"].ToString());
+                            Session["limitedVersion"] = false;
+
+                        }
+                        else
+                        {
                             resp.cod = "KO";
-                            resp.msg = "Código de artículo no encontrado en la base de datos!";
-                        //}
+                            resp.msg = "Usuario o contraseñas no válidas";
+                        }
                     }
                 }
             }

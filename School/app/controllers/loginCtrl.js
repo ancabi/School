@@ -26,13 +26,15 @@ function loginCtrl($scope, $http, $window) {
                         $window.sessionStorage.webroot = webroot;
                         $window.sessionStorage.usuario = response.data.d.usuario;
                         $window.sessionStorage.tipo = response.data.d.tipo;
-                        $window.sessionStorage.cif = response.data.d.cif;
+                        $window.sessionStorage.nomtipo = response.data.d.nomtipo;
+                        $window.sessionStorage.dni = response.data.d.dni;
                         $window.sessionStorage.ip_cliente = response.data.d.ip_cliente;
                         $window.sessionStorage.nombre = response.data.d.nombre;
+                        $window.sessionStorage.apellidos = response.data.d.apellidos;
                         $window.location.href = response.data.d.url;
                     } else {
                         vm.loading = false;
-                        swal({ title: 'Oops...', text: "La aplicación todavía no está habilitada para entrar", type: 'error' });
+                        swal({ title: 'Oops...', text: "Usuario o contraseña no validas", type: 'error' });
                     }                    
                 });
         }
