@@ -3161,6 +3161,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Plugins\alaSQL\" />
     <Folder Include="Plugins\bootstrap-datepicker-master\dist\css\" />
     <Folder Include="Plugins\bootstrap-datepicker-master\dist\js\" />
     <Folder Include="Plugins\bootstrap-datepicker-master\dist\locales\" />

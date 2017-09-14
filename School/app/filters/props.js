@@ -11,6 +11,7 @@ angular
     .filter("trusted", ['$sce', trusted])
     .filter("sumByProp", sumByProp)
     .filter("random", random)
+    .filter("formatExport", formatExport);
 
 function propsFilter() {
     return function (input) {
@@ -74,5 +75,24 @@ function random() {
         if (input != null && input != undefined && input > 1) {
             return Math.floor((Math.random() * input) + 1);
         }
+    }
+}
+
+function formatExport() {
+    return function (items, scope) {
+        var outItems = [];
+        if (angular.isArray(items)) {
+            angular.forEach(items, function (item) {
+                angular.forEach(item, function (value, key) {
+                    if (value == null || value == '#EANF#' || value == 'NODATA') {
+                        item[key] = '';
+                    } else if (angular.isDate(value) || moment(value).isValid()) {
+                        moment(value).format("DD-MM-YYYY");
+                    }
+                });
+                outItems.push(item);
+            });
+        }
+        return outItems;
     }
 }

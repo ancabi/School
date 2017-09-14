@@ -19,6 +19,7 @@ namespace school.Models
         public const string RUTA_UPLOAD = "~/uploads/";
         public const string school_CENTRAL = "43000474";
         public const string schema = "atabal";
+        public const string schemaTienda = "elatabaltienda";
 
         private static readonly int passIterations = 12000;
 
@@ -33,6 +34,7 @@ namespace school.Models
         public enum Server
         {
             BDLOCAL = 0,
+            BDTIENDA = 1
         }
 
         public static string CadConMySQL(BD.Server server, string database)
@@ -47,6 +49,12 @@ namespace school.Models
                     cadCon.Port = 3306;
                     cadCon.UserID = "root";
                     cadCon.Password = "comicStores1";
+                    break;
+                case BD.Server.BDTIENDA:
+                    cadCon.Server = "195.248.230.98";
+                    cadCon.Port = 3306;
+                    cadCon.UserID = "elatabaltienda";
+                    cadCon.Password = "dgedcentral2017";
                     break;
             }
 

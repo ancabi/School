@@ -13,6 +13,7 @@ function usuariosCtrl($scope, $http, $window, $modal,$filter) {
     vm.editUsuario = editUsuario;
     vm.showPagados = showPagados;
     vm.refreshPagados = refreshPagados;
+    vm.exportExcel = exportExcel;
     //////////////////////////////
 
     //INIT
@@ -57,6 +58,7 @@ function usuariosCtrl($scope, $http, $window, $modal,$filter) {
                 if (response.data.cod === "OK") {
                     loadUsuarios();
                     vm.loading = false;
+                    swal({ title: '¡Hecho!', text: "Se ha recargado la información de los pagos", type: 'success' });
                 } else {
                     vm.loading = false;
                     //swal({ title: 'Oops...', text: response.data.msg, type: 'error' });
@@ -90,6 +92,27 @@ function usuariosCtrl($scope, $http, $window, $modal,$filter) {
             vm.usuarios_disp = [].concat(vm.usuarios);
         }
     }
+
+    function exportExcel() {
+        vm.loading = true;
+        $http.post(webroot + "Manage/ExportExcel", {  })
+            .then(function (response) {
+                if (response.data.cod === "OK") {
+                    var excel = response.data.d.excel;
+
+                    alasql.fn.datetime = function (dateStr) {
+                        return moment(dateStr).format("DD/MM/YYYY");
+                    };
+                    alasql('SELECT dni,nombre, apellidos,email,usuario, autorizacion,pagado,datetime(fecha_registro) AS fecha_registro,telefono,telefonoAlt,nombre,apellidos,datetime(fecha_nacimiento) AS fecha_nacimiento,sexo,extraescolares,pack,talla,numero,observaciones,deporte ' +
+                        'INTO XLSX("alumnos.xlsx",{headers:true}) FROM ?', [$filter("formatExport")(excel)]);
+                   
+                } else {
+                    vm.loading = false;
+                    //swal({ title: 'Oops...', text: response.data.msg, type: 'error' });
+                }
+            });
+    }
+
 
 }
 

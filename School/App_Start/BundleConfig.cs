@@ -121,6 +121,8 @@ namespace School
                 "~/plugins/flexslider/jquery.flexslider-min.js",
                 "~/plugins/calendar/calendar.min.js",
                 "~/plugins/smart-table/smart-table.min.js",
+                "~/Plugins/alaSQL/alasql.min.js",
+                "~/Plugins/alaSQL/xlsx.min.js",
                 "~/plugins/isteven-multiselect/isteven-multi-select.min.js",
                 "~/plugins/angular-flexslider/angular-flexslider.js"));
 
@@ -179,7 +181,7 @@ namespace School
 					  "~/app/controllers/usuariosCtrl.js"));
 
 
-            BundleTable.EnableOptimizations = false;
+            BundleTable.EnableOptimizations = true;
         }
     }
 }

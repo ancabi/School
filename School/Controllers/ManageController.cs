@@ -232,14 +232,63 @@ namespace School.Controllers
             DataTable dt = new DataTable();
             try
             {
+                using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDTIENDA, BD.schemaTienda)))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand("SELECT o.id_customer,SUBSTRING(message,INSTR(message,'Num Aut: ')+9,6) AS numaut FROM elatabaltienda.ps1_orders o INNER JOIN ps1_message m ON m.id_order=o.id_order WHERE current_state=9 GROUP BY id_customer;", con))
+                    {
+                        using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt);
+                        }
+                        resp.cod = "OK";
+                    }
+                }
+
+                List<Dictionary<string,object>> lista = dt.ToList();
+                string query = "";
+
+                foreach (Dictionary<string, object> l in lista)
+                {
+                    query += $"UPDATE usuarios SET pagado=1, numaut={l["numaut"]} WHERE idtienda={l["id_customer"]};";
+                }
+
+
                 using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
                 {
-                    using (MySqlCommand cmd = new MySqlCommand("UPDATE usuarios SET pagado=1 WHERE idtienda IN (SELECT id FROM temp);", con))
+                    using (MySqlCommand cmd = new MySqlCommand(query, con))
                     {
                         con.Open();
                         cmd.ExecuteNonQuery();
                         con.Close();
                         resp.cod = "OK";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                resp.cod = "KO";
+                resp.msg = e.Message;
+            }
+            return Json(resp);
+        }
+
+        [HttpPost]
+        public JsonResult ExportExcel()
+        {
+            RespGeneric resp = new RespGeneric("KO");
+            DataTable dt = new DataTable();
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand("SELECT u.dni,u.nombre, u.apellidos,u.email,u.usuario,IF(u.autorizacion=1,'Si','No') AS autorizacion,IF(u.pagado=1,'Si','No') AS Pagado,u.fecha_registro,telefono,telefonoAlt,h.nombre,h.apellidos,h.fecha_nacimiento,h.sexo,IF(h.extraescolares=1,'Si','No') AS extraescolares,IF(h.pack=1,'Si','No') AS pack,talla,numero,h.observaciones,IF(d.iddeporte=1,'Futbol','Baloncesto') AS deporte FROM usuarios u INNER JOIN usuarios_hijos h ON u.id=h.idpadre INNER JOIN usuarios_hijos_deportes d ON d.idhijo=h.id;", con))
+                    {
+                        using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt);
+                        }
+                        resp.cod = "OK";
+                        resp.d.Add("excel",dt.ToList());
                     }
                 }
             }
