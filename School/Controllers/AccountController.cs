@@ -230,7 +230,7 @@ namespace school.Controllers
                     {
                         Util.sendEmail(email, "Registro CLUB DEPORTIVO ATABAL",
                        "<div style='font-family:Arial;background:#203864;text-align:center;color:#fff'><br/><h3 style='margin:0'>Se ha registrado en El atabal</h3><br/></div><br/><div style='text-align: center;'><img src=\"cid:{0}\"/></div><br/>" +
-                       "<p style='font-family:Arial'>Los datos de su hijo/a se han guardado correctamente</p><br><p>Los datos de acceso son:<br>Usuario:" + user + "<br>Contraseña:" + pass + "</p><br><p>Los datos de acceso para la <a href='http://elatabaltienda.dged.es/es/'>tienda on-line</a> son:<br>Usuario:" + user + "<br>Contraseña:" + pass + "</p>");
+                       "<p style='font-family:Arial'>Los datos de su hijo/a se han guardado correctamente</p><br><p>Los datos de acceso son:<br>Usuario:" + user + "<br>Contraseña:" + pass + "</p><br><p>Los datos de acceso para la <a href='http://elatabaltienda.dged.es/es/'>tienda on-line</a> son:<br>Usuario:" + email + "<br>Contraseña:" + pass + "</p>");
 
                         resp.cod = "OK";
                     }
