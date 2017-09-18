@@ -281,7 +281,7 @@ namespace School.Controllers
             {
                 using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
                 {
-                    using (MySqlCommand cmd = new MySqlCommand("SELECT u.dni,u.nombre, u.apellidos,u.email,u.usuario,IF(u.autorizacion=1,'Si','No') AS autorizacion,IF(u.pagado=1,'Si','No') AS Pagado,u.fecha_registro,telefono,telefonoAlt,h.nombre,h.apellidos,h.fecha_nacimiento,h.sexo,IF(h.extraescolares=1,'Si','No') AS extraescolares,IF(h.pack=1,'Si','No') AS pack,talla,numero,h.observaciones,IF(d.iddeporte=1,'Futbol','Baloncesto') AS deporte FROM usuarios u INNER JOIN usuarios_hijos h ON u.id=h.idpadre INNER JOIN usuarios_hijos_deportes d ON d.idhijo=h.id;", con))
+                    using (MySqlCommand cmd = new MySqlCommand("SELECT u.dni,u.nombre, u.apellidos,u.email,numaut,u.usuario,IF(u.autorizacion=1,'Si','No') AS autorizacion,IF(u.pagado=1,'Si','No') AS Pagado,u.fecha_registro,telefono,telefonoAlt,h.nombre,h.apellidos,h.fecha_nacimiento,h.sexo,IF(h.extraescolares=1,'Si','No') AS extraescolares,IF(h.pack=1,'Si','No') AS pack,talla,numero,h.observaciones,IF(d.iddeporte=1,'Futbol','Baloncesto') AS deporte FROM usuarios u INNER JOIN usuarios_hijos h ON u.id=h.idpadre INNER JOIN usuarios_hijos_deportes d ON d.idhijo=h.id;", con))
                     {
                         using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
                         {

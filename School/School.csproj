@@ -346,6 +346,8 @@
     <Content Include="images\logo_connecta.png" />
     <Content Include="images\logo_decoractiva.png" />
     <Content Include="images\logo_grupo.png" />
+    <Content Include="Plugins\alaSQL\alasql.min.js" />
+    <Content Include="Plugins\alaSQL\xlsx.min.js" />
     <Content Include="Plugins\angles\angles.js" />
     <Content Include="Plugins\angular-animate\angular-animate.js" />
     <Content Include="Plugins\angular-animate\angular-animate.min.js" />
@@ -3161,7 +3163,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Plugins\alaSQL\" />
     <Folder Include="Plugins\bootstrap-datepicker-master\dist\css\" />
     <Folder Include="Plugins\bootstrap-datepicker-master\dist\js\" />
     <Folder Include="Plugins\bootstrap-datepicker-master\dist\locales\" />
