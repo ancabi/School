@@ -44,8 +44,8 @@ namespace school.Models
             switch (server)
             {
                 case BD.Server.BDLOCAL:
-                    //cadCon.Server = "217.61.21.121";
-                    cadCon.Server = "localhost";
+                    cadCon.Server = "217.61.21.121";
+                    //cadCon.Server = "localhost";
                     cadCon.Port = 3306;
                     cadCon.UserID = "root";
                     cadCon.Password = "comicStores1";

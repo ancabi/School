@@ -13,7 +13,7 @@
         'chart.js',                   // Chart.js
         'xeditable',                // Angular-xeditable
         'smart-table',
-        'ngDragDrop',
+        angularDragula(angular),
         'angular.filter',           // Angular Filters
         'ui.bootstrap.datetimepicker',  // Angular bootstrap date & time picker
         'isteven-multi-select',

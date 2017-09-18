@@ -22,6 +22,11 @@ namespace School.Controllers
 			return View();
 		}
 
+        public ActionResult Equipos()
+		{
+			return View();
+		}
+
 
         [HttpPost]
         public JsonResult LoadTiposUsuarios()
@@ -299,6 +304,107 @@ namespace School.Controllers
             }
             return Json(resp);
         }
+
+        #region equipos
+
+        [HttpPost]
+        public JsonResult LoadEquipos()
+        {
+            RespGeneric resp = new RespGeneric("KO");
+            DataTable dt = new DataTable();
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand("SELECT e.*, d.nombre AS deporte FROM equipos e LEFT JOIN deportes d ON e.iddeporte=d.id", con))
+                    {
+
+                        using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                        {
+
+                            da.Fill(dt);
+                            if (dt.Rows.Count > 0)
+                            {
+                                resp.cod = "OK";
+                                resp.d.Add("equipos", dt.ToList());
+                            }
+                            else
+                            {
+                                resp.cod = "KO";
+                                resp.msg = "Ningún equipo encontrado!";
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                resp.cod = "KO";
+                resp.msg = e.Message;
+            }
+            return Json(resp);
+        }
+
+        [HttpPost]
+        public JsonResult LoadJugadores(int idEquipo)
+        {
+            RespGeneric resp = new RespGeneric("KO");
+            DataTable dt = new DataTable();
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand("SELECT h.* FROM usuarios_hijos h INNER JOIN usuarios_hijos_deportes hd ON h.id=hd.idhijo INNER JOIN equipos e ON e.iddeporte=hd.iddeporte " +
+                                                               "LEFT JOIN usuarios_hijos_equipos he ON he.idhijo = h.id WHERE e.id = ?idEquipo AND he.idhijo IS NULL; ", con))
+                    {
+                        cmd.Parameters.AddWithValue("?idEquipo", idEquipo);
+                        using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                        {
+
+                            da.Fill(dt);
+                            if (dt.Rows.Count > 0)
+                            {
+                                resp.cod = "OK";
+                                resp.d.Add("libres", dt.ToList());
+                            }
+                            else
+                            {
+                                resp.cod = "KO";
+                                resp.msg = "Ningún equipo encontrado!";
+                            }
+                        }
+                    }
+                    dt.Reset();
+                    using (MySqlCommand cmd = new MySqlCommand("SELECT h.* FROM usuarios_hijos h INNER JOIN usuarios_hijos_deportes hd ON h.id=hd.idhijo INNER JOIN equipos e ON e.iddeporte=hd.iddeporte " +
+                                                               "LEFT JOIN usuarios_hijos_equipos he ON he.idhijo = h.id WHERE e.id = ?idEquipo AND he.idhijo IS NOT NULL; ", con))
+                    {
+                        cmd.Parameters.AddWithValue("?idEquipo", idEquipo);
+                        using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                        {
+
+                            da.Fill(dt);
+                            if (dt.Rows.Count > 0)
+                            {
+                                resp.cod = "OK";
+                                resp.d.Add("jugadoresEquipo", dt.ToList());
+                            }
+                            else
+                            {
+                                resp.cod = "KO";
+                                resp.msg = "Ningún equipo encontrado!";
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                resp.cod = "KO";
+                resp.msg = e.Message;
+            }
+            return Json(resp);
+        }
+        #endregion
 
     }
 }

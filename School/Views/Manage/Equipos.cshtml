@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "Equipos";
+}
+
+<div ng-controller="equiposConfigCtrl as vm">
+    <div class="small-header">
+        <div class="ibox">
+            <div class="ibox-content">
+                <h2 class="font-light m-b-xs">
+                    Equipos
+                </h2>
+                <small>Panel de gestión de los equipos</small>
+            </div>
+        </div>
+    </div>
+    <div class="spiner-example" ng-if="vm.loading">
+        <div class="sk-spinner sk-spinner-chasing-dots">
+            <div class="sk-dot1"></div>
+            <div class="sk-dot2"></div>
+        </div>
+    </div>
+    <div class="normalheader animated fadeInRight" ng-if="!vm.loading">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="ibox">
+                    <div class="ibox-content" style="margin-bottom: 20px;">
+                        <div class="row">
+                            <div id="inputPerfil" class="col-sm-6">
+                                <label>Equipo</label>
+                                <div isteven-multi-select
+                                     input-model="vm.equipos"
+                                     output-model="vm.equipoSelected"
+                                     button-label="nombre (deporte)"
+                                     item-label="nombre (deporte)"
+                                     tick-property="ticked"
+                                     helper-elements="filter"
+                                     max-labels="1"
+                                     selection-mode="single"
+                                     on-item-click="vm.getJugadores()"
+                                     required>
+                                </div>
+                            </div>			
+                        </div>
+                        <div class="thumbnail">
+                            <div class="m-t-sm"  dragula-model="vm.jugadores">
+                                <div ng-repeat="j in vm.jugadores track by $index" class="btn btn-primary">{{j.nombre}}</div><br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 ibox">
+            <div class="ibox-content">
+                <div class="thumbnail">
+                    <div class="m-t-sm"  dragula-model="vm.jugadoresEquipo" >
+                        <div ng-repeat="j in vm.jugadoresEquipo track by $index" class="btn btn-primary">{{j.nombre}}</div><br />
+                    </div>
+                </div>
+            </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    @Scripts.Render("~/bundles/equiposConfig/js")
+}
