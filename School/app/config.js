@@ -629,6 +629,15 @@ function configState($stateProvider, $urlRouterProvider, $compileProvider) {
 angular
     .module('school')
     .config(['$stateProvider', '$urlRouterProvider', '$compileProvider', configState])
+    .config(["blockUIConfig", function (blockUIConfig) {
+
+        // Change the default overlay message
+        blockUIConfig.template = '<div class="block-ui-overlay" style="background:#696969"></div><div class="block-ui-message-container"><div class="block-ui-message" style="background:none"> <img src="../../Content/Wedges.svg" /> </div></div>';
+
+        // Change the default delay to 100ms before the blocking is visible
+        blockUIConfig.delay = 100;
+
+    }])
     .run(['$rootScope', '$state', 'editableOptions', function ($rootScope, $state, editableOptions) {
         $rootScope.$state = $state;
         editableOptions.theme = 'bs3';

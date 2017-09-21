@@ -1,7 +1,7 @@
 ﻿@using School.Helpers
 <nav class="navbar-default navbar-static-side" role="navigation">
 <div class="sidebar-collapse">
-	<ul class="nav" id="side-menu">
+	<ul side-navigation class="nav" id="side-menu">
 		<li class="nav-header">
 			<div class="dropdown profile-element">
 				@*<span>
@@ -58,7 +58,7 @@
 	                <a href="@Url.Action("Usuarios", "Manage")"><i class="fa fa-user fa-fw m-r-xs"></i><span class="nav-label">Usuarios</span></a>
 	            </li>
                 <li class="@Html.IsSelected(controller: "Manage")">
-	                <a href="@Url.Action("Equipos", "Manage")"><i class="fa fa-user fa-fw m-r-xs"></i><span class="nav-label">Equipos</span></a>
+	                <a href="@Url.Action("Equipos", "Manage")"><i class="fa fa-users fa-fw m-r-xs"></i><span class="nav-label">Equipos</span></a>
 	            </li>
             </ul>
         </li>

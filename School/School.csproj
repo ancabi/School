@@ -311,6 +311,7 @@
     <Content Include="Content\style.css" />
     <Content Include="Content\style_custom.css" />
     <Content Include="Content\style_shool.css" />
+    <Content Include="Content\Wedges.svg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -353,6 +354,10 @@
     <Content Include="Plugins\angular-animate\angular-animate.js" />
     <Content Include="Plugins\angular-animate\angular-animate.min.js" />
     <Content Include="Plugins\angular-animate\index.js" />
+    <Content Include="Plugins\angular-block-ui\angular-block-ui.css" />
+    <Content Include="Plugins\angular-block-ui\angular-block-ui.js" />
+    <Content Include="Plugins\angular-block-ui\angular-block-ui.min.css" />
+    <Content Include="Plugins\angular-block-ui\angular-block-ui.min.js" />
     <Content Include="Plugins\angular-bootstrap-datetimepicker\.gitignore" />
     <Content Include="Plugins\angular-bootstrap-datetimepicker\demo\demo-app.js" />
     <Content Include="Plugins\angular-bootstrap-datetimepicker\demo\demo-controller.js" />

@@ -19,6 +19,7 @@
         'isteven-multi-select',
         'ngAnimate',
         'toaster',
+        'blockUI',
         'angular-ladda',
         'angular-flexslider'        // Angular Flex-slider Directive
     ])

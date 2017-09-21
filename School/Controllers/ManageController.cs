@@ -407,8 +407,8 @@ namespace School.Controllers
                             }
                             else
                             {
-                                resp.cod = "KO";
-                                resp.msg = "Ningún equipo encontrado!";
+                                resp.cod = "WARN";
+                                resp.msg = "No existe ningún equipo en esa categoría";
                             }
                         }
                     }

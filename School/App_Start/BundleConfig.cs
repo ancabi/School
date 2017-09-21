@@ -57,6 +57,7 @@ namespace School
                 "~/plugins/ladda/dist/ladda-themeless.min.css",
                 "~/plugins/calendar/calendar.min.css",
                 "~/plugins/dragula/dragula.css",
+                "~/Plugins/angular-block-ui/angular-block-ui.css",
                 "~/plugins/isteven-multiselect/isteven-multi-select.css",
                 "~/plugins/angular-bootstrap-datetimepicker/src/css/datetimepicker.css"));
 
@@ -124,6 +125,7 @@ namespace School
                 "~/Plugins/alaSQL/xlsx.min.js",
                 "~/Plugins/dragdrop/dragdrop.js",
                 "~/plugins/isteven-multiselect/isteven-multi-select.js",
+                "~/Plugins/angular-block-ui/angular-block-ui.js",
                 "~/plugins/angular-flexslider/angular-flexslider.js"));
 
             // school script
@@ -184,7 +186,7 @@ namespace School
 					  "~/app/controllers/usuariosCtrl.js"));
 
 
-            BundleTable.EnableOptimizations = false;
+            BundleTable.EnableOptimizations = true;
         }
     }
 }

@@ -53,7 +53,7 @@
                                 </div>
                                 <div id="inputPerfil" class="col-sm-4">
                                     
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-8">
                                         <label>Equipo</label>
                                         <div isteven-multi-select
                                              input-model="vm.equipos"
@@ -71,6 +71,10 @@
                                     <div class="col-sm-2">
                                         <label>&nbsp;</label>
                                         <button class="btn btn-primary" ng-click="vm.addEquipo()"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label>&nbsp;</label>
+                                        <button class="btn btn-primary" ng-click="vm.editEquipo()" ng-disabled="!vm.equipoSelected.length"><i class="fa fa-pencil"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +169,7 @@
                         </div>
                         <div id="inputDni" class="col-sm-4">
                             <label for="dni">Nombre del equipo</label>
-                            <input type="text" placeholder="Nombre del equipo" ng-model="vm.nombre" ng-required="true" class="form-control input-sm" id="dni">
+                            <input type="text" placeholder="Nombre del equipo" ng-model="vm.nombre" ng-required="true" class="form-control" id="dni">
                         </div>
                         
                     </div>

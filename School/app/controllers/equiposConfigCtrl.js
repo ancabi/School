@@ -37,11 +37,11 @@ function equiposConfigCtrl($scope, $http, $window, toaster, $modal) {
             .then(function (response) {
                 if (response.data.cod == "OK") {
                     vm.equipos = response.data.d.equipos;
-                } else {
+                } else if(response.data.cod=="WARN") {
                     toaster.pop({
-                        type: 'error',
-                        title: "Error",
-                        body: "Test",
+                        type: 'warning',
+                        title: "Aviso",
+                        body: response.data.msg,
                         showCloseButton: true
                     });
                 }
@@ -152,17 +152,17 @@ function equiposConfigCtrl($scope, $http, $window, toaster, $modal) {
             }
         }).result.then(function (result) {
 
-            
+            getEquipos();
 
         });
     }
 
-    function editEquipo(equipo) {
+    function editEquipo() {
 
         var item = {};
         item.deportes = vm.deportes;
         item.categorias = vm.categorias;
-        item.equipo = equipo;
+        item.equipo = vm.equipoSelected[0];
 
         $modal.open({
             templateUrl: 'formEquipo.html',
@@ -174,7 +174,7 @@ function equiposConfigCtrl($scope, $http, $window, toaster, $modal) {
             }
         }).result.then(function (result) {
 
-            
+            getEquipos();
 
         });
     }
@@ -202,7 +202,7 @@ function ModalInstanceCtrl($scope, $modalInstance, $http, $window, item) {
         vm.edit = false;
     } else {
         
-        vm.nombre = item.nombre;
+        vm.nombre = item.equipo.nombre;
         
 
         vm.edit = true;
@@ -247,7 +247,7 @@ function ModalInstanceCtrl($scope, $modalInstance, $http, $window, item) {
         } else {
             $http.post(webroot + "Manage/saveEquipo",
                 {
-                    id: item.id,
+                    id: item.equipo.id,
                     nombre: vm.nombre,
                     idDeporte: vm.deporteSelected[0].id,
                     idCategoria: vm.categoriaSelected[0].id
