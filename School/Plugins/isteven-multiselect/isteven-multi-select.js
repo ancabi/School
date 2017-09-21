@@ -498,9 +498,6 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     // https://github.com/isteven/angular-multi-select/pull/19                    
                     $scope.varButtonLabel = $scope.lang.nothingSelected;
                 }
-                else if ($scope.outputModel.length === $scope.inputModel.length) {
-                    $scope.varButtonLabel = "Todos Seleccionados";
-                }
                 else {                
                     var tempMaxLabels = $scope.outputModel.length;
                     if ( typeof attrs.maxLabels !== 'undefined' && attrs.maxLabels !== '' ) {

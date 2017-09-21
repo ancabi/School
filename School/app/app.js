@@ -13,12 +13,12 @@
         'chart.js',                   // Chart.js
         'xeditable',                // Angular-xeditable
         'smart-table',
-        angularDragula(angular),
+        'dndLists',
         'angular.filter',           // Angular Filters
         'ui.bootstrap.datetimepicker',  // Angular bootstrap date & time picker
         'isteven-multi-select',
         'ngAnimate',
-        'toastr',
+        'toaster',
         'angular-ladda',
         'angular-flexslider'        // Angular Flex-slider Directive
     ])

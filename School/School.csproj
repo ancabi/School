@@ -931,8 +931,7 @@
     <Content Include="Plugins\datatables\media\js\jquery.dataTables.js" />
     <Content Include="Plugins\datatables\media\js\jquery.dataTables.min.js" />
     <Content Include="Plugins\datatables\media\js\jquery.js" />
-    <Content Include="Plugins\dragula\angularjs-dragula.js" />
-    <Content Include="Plugins\dragula\dragula.css" />
+    <Content Include="Plugins\dragdrop\dragdrop.js" />
     <Content Include="Plugins\es5-shim\es5-sham.js" />
     <Content Include="Plugins\es5-shim\es5-sham.min.js" />
     <Content Include="Plugins\es5-shim\es5-shim.js" />
@@ -2533,6 +2532,8 @@
     <Content Include="Plugins\sweetalert\sweetalert.gif" />
     <Content Include="Plugins\toastr\angular-toastr.min.js" />
     <Content Include="Plugins\toastr\angular-toastr.tpls.min.js" />
+    <Content Include="Plugins\toastr\build\toastr.min.css" />
+    <Content Include="Plugins\toastr\build\toastr.min.js" />
     <Content Include="Plugins\toastr\toastr.min.css" />
     <Content Include="Plugins\toastr\toastr.min.js" />
     <Content Include="Plugins\ui-select\dist\select.css" />
@@ -3178,7 +3179,6 @@
     <Folder Include="Plugins\select2-3.5.2\" />
     <Folder Include="Plugins\select2-bootstrap\" />
     <Folder Include="Plugins\summernote\build\" />
-    <Folder Include="Plugins\toastr\build\" />
     <Folder Include="Plugins\xeditable\bootstrap3-editable\css\" />
     <Folder Include="Plugins\xeditable\bootstrap3-editable\img\" />
     <Folder Include="Plugins\xeditable\bootstrap3-editable\js\" />

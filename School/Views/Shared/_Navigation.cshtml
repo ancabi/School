@@ -50,9 +50,18 @@
 		<li class="@Html.IsSelected(controller: "Planificacion")">
 			<a href="@Url.Action("Planificacion", "Planificacion")"><i class="fa fa-check-square-o fa-fw m-r-xs"></i><span class="nav-label">Planificación</span></a>
 		</li>
-		<li class="@Html.IsSelected(controller: "Manage")">
-			<a href="@Url.Action("Usuarios", "Manage")"><i class="fa fa-user fa-fw m-r-xs"></i><span class="nav-label">Usuarios</span></a>
-		</li>
+	    
+	    <li class="back-bg">
+	        <a href="#"><i class="fa fa-gears"></i> <span class="nav-label">Configuración</span></a>
+	        <ul class="nav nav-second-level collapse">
+	            <li class="@Html.IsSelected(controller: "Manage")">
+	                <a href="@Url.Action("Usuarios", "Manage")"><i class="fa fa-user fa-fw m-r-xs"></i><span class="nav-label">Usuarios</span></a>
+	            </li>
+                <li class="@Html.IsSelected(controller: "Manage")">
+	                <a href="@Url.Action("Equipos", "Manage")"><i class="fa fa-user fa-fw m-r-xs"></i><span class="nav-label">Equipos</span></a>
+	            </li>
+            </ul>
+        </li>
 	</ul>
 </div>
 	

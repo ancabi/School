@@ -1,6 +1,6 @@
-angular.module('school').controller('mainCtrl', ["$scope", "$http", "$timeout", "$window", "$modal","toastr", mainCtrl]);
+angular.module('school').controller('mainCtrl', ["$scope", "$http", "$timeout", "$window", "$modal","toaster", mainCtrl]);
 
-function mainCtrl($scope, $http, $timeout, $window, $modal,toastr) {
+function mainCtrl($scope, $http, $timeout, $window, $modal, toaster) {
     var vm = this;
     vm.session = $window.sessionStorage;
     

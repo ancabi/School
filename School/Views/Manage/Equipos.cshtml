@@ -13,56 +13,173 @@
             </div>
         </div>
     </div>
-    <div class="spiner-example" ng-if="vm.loading">
-        <div class="sk-spinner sk-spinner-chasing-dots">
-            <div class="sk-dot1"></div>
-            <div class="sk-dot2"></div>
-        </div>
-    </div>
+    
     <div class="normalheader animated fadeInRight" ng-if="!vm.loading">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="ibox">
-                    <div class="ibox-content" style="margin-bottom: 20px;">
-                        <div class="row">
-                            <div id="inputPerfil" class="col-sm-6">
-                                <label>Equipo</label>
-                                <div isteven-multi-select
-                                     input-model="vm.equipos"
-                                     output-model="vm.equipoSelected"
-                                     button-label="nombre (deporte)"
-                                     item-label="nombre (deporte)"
-                                     tick-property="ticked"
-                                     helper-elements="filter"
-                                     max-labels="1"
-                                     selection-mode="single"
-                                     on-item-click="vm.getJugadores()"
-                                     required>
+        
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="row" style="height: 65rem;">
+                        
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div id="deporte" class="col-sm-4">
+                                    <label>Deporte</label>
+                                    <div isteven-multi-select
+                                         input-model="vm.deportes"
+                                         output-model="vm.deporteSelected"
+                                         button-label="nombre"
+                                         item-label="nombre"
+                                         tick-property="ticked"
+                                         helper-elements="filter"
+                                         max-labels="1"
+                                         selection-mode="single"
+                                         required>
+                                    </div>
                                 </div>
-                            </div>			
-                        </div>
-                        <div class="thumbnail">
-                            <div class="m-t-sm"  dragula-model="vm.jugadores">
-                                <div ng-repeat="j in vm.jugadores track by $index" class="btn btn-primary">{{j.nombre}}</div><br />
+                                <div class="col-sm-4">
+                                    <label>Categoría</label>
+                                    <div isteven-multi-select
+                                         input-model="vm.categorias"
+                                         output-model="vm.categoriaSelected"
+                                         button-label="nombre"
+                                         item-label="nombre"
+                                         tick-property="ticked"
+                                         helper-elements="filter"
+                                         max-labels="1"
+                                         selection-mode="single"
+                                         on-item-click="vm.getEquipos()"
+                                         required>
+                                    </div>
+                                </div>
+                                <div id="inputPerfil" class="col-sm-4">
+                                    
+                                    <div class="col-sm-10">
+                                        <label>Equipo</label>
+                                        <div isteven-multi-select
+                                             input-model="vm.equipos"
+                                             output-model="vm.equipoSelected"
+                                             button-label="nombre"
+                                             item-label="nombre"
+                                             tick-property="ticked"
+                                             helper-elements="filter"
+                                             max-labels="1"
+                                             selection-mode="single"
+                                             on-item-click="vm.getJugadores()"
+                                             required>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label>&nbsp;</label>
+                                        <button class="btn btn-primary" ng-click="vm.addEquipo()"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                        <div class="spiner-example" ng-if="vm.loading">
+                            <div class="sk-spinner sk-spinner-chasing-dots">
+                                <div class="sk-dot1"></div>
+                                <div class="sk-dot2"></div>
+                            </div>
+                        </div>
+                        <div ng-show="vm.jugadores.length!=0 || vm.jugadoresEquipo.length!=0">
+                        <div class="col-md-6" style="height: 50rem;">
+                            <h3 class="p-sm">Jugadores sin equipo</h3>
+                            <div class="simpleDemo thumbnail" style="height: 100%;overflow: auto">
+                                <ul dnd-list="vm.jugadores" style="height: 100%;margin-bottom: 0">
+                                    <li ng-repeat="item in vm.jugadores"
+                                        dnd-draggable="item"
+                                        dnd-moved="vm.jugadores.splice($index, 1)"
+                                        dnd-effect-allowed="move"
+                                        dnd-selected="models.selected = item"
+                                        ng-class="{'selected': models.selected === item}"
+                                        class="text-capitalize">
+                                        {{item.nombre}} {{item.apellidos}} - ({{item.age}} años)
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                            <div class="col-md-6" style="height: 50rem;">
+                                <h3 class="p-sm">Jugadores de {{vm.equipoSelected[0].nombre}}</h3>
+                                <div class="simpleDemo thumbnail" style="height: 100%;overflow: auto">
+                                    <ul dnd-list="vm.jugadoresEquipo" style="height: 100%;margin-bottom: 0" dnd-inserted="vm.addHijoEquipo(item.id)">
+                                        <li ng-repeat="item in vm.jugadoresEquipo"
+                                            dnd-draggable="item"
+                                            dnd-moved="vm.jugadoresEquipo.splice($index, 1);vm.removeHijoEquipo(item.id)"
+                                            dnd-effect-allowed="move"
+                                            dnd-selected="models.selected = item"
+                                            ng-class="{'selected': models.selected === item}"
+                                            
+                                            class="text-capitalize">
+                                            {{item.nombre}} {{item.apellidos}} - ({{item.age}} años)
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            </div>
+
+                        </div>
             </div>
-            <div class="col-md-6 ibox">
-            <div class="ibox-content">
-                <div class="thumbnail">
-                    <div class="m-t-sm"  dragula-model="vm.jugadoresEquipo" >
-                        <div ng-repeat="j in vm.jugadoresEquipo track by $index" class="btn btn-primary">{{j.nombre}}</div><br />
-                    </div>
-                </div>
-            </div>
-            </div>
+            
             
         </div>
     </div>
 </div>
 
+<script type="text/ng-template" id="formEquipo.html">
+    <div class="inmodal">
+        <div class="modal-header">
+            <h4 class="modal-title">Equipo </h4>
+        </div>
+        <form ng-submit="vm.aceptar()">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="deporte" class="col-sm-4">
+                            <label>Deporte</label>
+                            <div isteven-multi-select
+                                 input-model="vm.deportes"
+                                 output-model="vm.deporteSelected"
+                                 button-label="nombre"
+                                 item-label="nombre"
+                                 tick-property="ticked"
+                                 helper-elements="filter"
+                                 max-labels="1"
+                                 selection-mode="single"
+                                 required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Categoría</label>
+                            <div isteven-multi-select
+                                 input-model="vm.categorias"
+                                 output-model="vm.categoriaSelected"
+                                 button-label="nombre"
+                                 item-label="nombre"
+                                 tick-property="ticked"
+                                 helper-elements="filter"
+                                 max-labels="1"
+                                 selection-mode="single"
+                                 on-item-click="vm.getEquipos()"
+                                 required>
+                            </div>
+                        </div>
+                        <div id="inputDni" class="col-sm-4">
+                            <label for="dni">Nombre del equipo</label>
+                            <input type="text" placeholder="Nombre del equipo" ng-model="vm.nombre" ng-required="true" class="form-control input-sm" id="dni">
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" ng-click="vm.cancelar()" class="btn btn-danger">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Aceptar</button>
+
+            </div>
+        </form>
+    </div>
+</script>
 
 @section scripts {
     @Scripts.Render("~/bundles/equiposConfig/js")

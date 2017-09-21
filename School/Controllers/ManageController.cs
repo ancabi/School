@@ -308,7 +308,7 @@ namespace School.Controllers
         #region equipos
 
         [HttpPost]
-        public JsonResult LoadEquipos()
+        public JsonResult LoadDeportes()
         {
             RespGeneric resp = new RespGeneric("KO");
             DataTable dt = new DataTable();
@@ -316,9 +316,86 @@ namespace School.Controllers
             {
                 using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
                 {
-                    using (MySqlCommand cmd = new MySqlCommand("SELECT e.*, d.nombre AS deporte FROM equipos e LEFT JOIN deportes d ON e.iddeporte=d.id", con))
+                    using (MySqlCommand cmd = new MySqlCommand("SELECT id,nombre FROM deportes", con))
                     {
 
+                        using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                        {
+
+                            da.Fill(dt);
+                            if (dt.Rows.Count > 0)
+                            {
+                                resp.cod = "OK";
+                                resp.d.Add("deportes", dt.ToList());
+                            }
+                            else
+                            {
+                                resp.cod = "KO";
+                                resp.msg = "Ningún deporte encontrado!";
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                resp.cod = "KO";
+                resp.msg = e.Message;
+            }
+            return Json(resp);
+        }
+
+        [HttpPost]
+        public JsonResult LoadCategorias()
+        {
+            RespGeneric resp = new RespGeneric("KO");
+            DataTable dt = new DataTable();
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand("SELECT id,nombre FROM categorias", con))
+                    {
+
+                        using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                        {
+
+                            da.Fill(dt);
+                            if (dt.Rows.Count > 0)
+                            {
+                                resp.cod = "OK";
+                                resp.d.Add("categorias", dt.ToList());
+                            }
+                            else
+                            {
+                                resp.cod = "KO";
+                                resp.msg = "Ninguna categoria encontrado!";
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                resp.cod = "KO";
+                resp.msg = e.Message;
+            }
+            return Json(resp);
+        }
+
+        [HttpPost]
+        public JsonResult LoadEquipos(int idDeporte, int idCategoria)
+        {
+            RespGeneric resp = new RespGeneric("KO");
+            DataTable dt = new DataTable();
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand("SELECT e.* FROM equipos e WHERE iddeporte=?idDeporte AND idcategoria=?idCategoria", con))
+                    {
+                        cmd.Parameters.AddWithValue("?idDeporte", idDeporte);
+                        cmd.Parameters.AddWithValue("?idCategoria", idCategoria);
                         using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
                         {
 
@@ -354,8 +431,12 @@ namespace School.Controllers
             {
                 using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
                 {
-                    using (MySqlCommand cmd = new MySqlCommand("SELECT h.* FROM usuarios_hijos h INNER JOIN usuarios_hijos_deportes hd ON h.id=hd.idhijo INNER JOIN equipos e ON e.iddeporte=hd.iddeporte " +
-                                                               "LEFT JOIN usuarios_hijos_equipos he ON he.idhijo = h.id WHERE e.id = ?idEquipo AND he.idhijo IS NULL; ", con))
+                    using (MySqlCommand cmd = new MySqlCommand("SELECT h.*, TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) AS age " +
+                                                               "FROM usuarios_hijos h " +
+                                                               "INNER JOIN usuarios_hijos_deportes hd ON h.id=hd.idhijo " +
+                                                               "INNER JOIN equipos e ON e.iddeporte=hd.iddeporte " +
+                                                               "LEFT JOIN usuarios_hijos_equipos he ON he.idhijo = h.id " +
+                                                               "WHERE e.id = ?idEquipo AND he.idhijo IS NULL; ", con))
                     {
                         cmd.Parameters.AddWithValue("?idEquipo", idEquipo);
                         using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
@@ -375,8 +456,8 @@ namespace School.Controllers
                         }
                     }
                     dt.Reset();
-                    using (MySqlCommand cmd = new MySqlCommand("SELECT h.* FROM usuarios_hijos h INNER JOIN usuarios_hijos_deportes hd ON h.id=hd.idhijo INNER JOIN equipos e ON e.iddeporte=hd.iddeporte " +
-                                                               "LEFT JOIN usuarios_hijos_equipos he ON he.idhijo = h.id WHERE e.id = ?idEquipo AND he.idhijo IS NOT NULL; ", con))
+                    using (MySqlCommand cmd = new MySqlCommand("SELECT h.*, TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) AS age FROM usuarios_hijos h  " +
+                                                               "INNER JOIN usuarios_hijos_equipos he ON he.idhijo = h.id AND he.idequipo = ?idEquipo; ", con))
                     {
                         cmd.Parameters.AddWithValue("?idEquipo", idEquipo);
                         using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
@@ -388,12 +469,119 @@ namespace School.Controllers
                                 resp.cod = "OK";
                                 resp.d.Add("jugadoresEquipo", dt.ToList());
                             }
-                            else
-                            {
-                                resp.cod = "KO";
-                                resp.msg = "Ningún equipo encontrado!";
-                            }
+                            
                         }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                resp.cod = "KO";
+                resp.msg = e.Message;
+            }
+            return Json(resp);
+        }
+
+        [HttpPost]
+        public JsonResult AddEquipo(string nombre, int idDeporte, int idCategoria)
+        {
+            RespGeneric resp = new RespGeneric("KO");
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand("INSERT INTO equipos(nombre,idcategoria,iddeporte) VALUES(?nombre,?idCategoria,?idDeporte)", con))
+                    {
+                        cmd.Parameters.AddWithValue("?nombre", nombre);
+                        cmd.Parameters.AddWithValue("?idCategoria", idCategoria);
+                        cmd.Parameters.AddWithValue("?idDeporte", idDeporte);
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                        resp.cod = "OK";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                resp.cod = "KO";
+                resp.msg = e.Message;
+            }
+            return Json(resp);
+        }
+
+        [HttpPost]
+        public JsonResult SaveEquipo(int id,string nombre, int idDeporte, int idCategoria)
+        {
+            RespGeneric resp = new RespGeneric("KO");
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand("UPDATE equipos SET nombre=?nombre,idcategoria=?idCategoria,iddeporte=?idDeporte WHERE id=?id", con))
+                    {
+                        cmd.Parameters.AddWithValue("?id", id);
+                        cmd.Parameters.AddWithValue("?nombre", nombre);
+                        cmd.Parameters.AddWithValue("?idCategoria", idCategoria);
+                        cmd.Parameters.AddWithValue("?idDeporte", idDeporte);
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                        resp.cod = "OK";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                resp.cod = "KO";
+                resp.msg = e.Message;
+            }
+            return Json(resp);
+        }
+
+        [HttpPost]
+        public JsonResult AddHijoEquipo(int idHijo, int idEquipo)
+        {
+            RespGeneric resp = new RespGeneric("KO");
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand("INSERT INTO usuarios_hijos_equipos(idhijo,idequipo) VALUES(?idHijo,?idEquipo)", con))
+                    {
+                        cmd.Parameters.AddWithValue("?idHijo", idHijo);
+                        cmd.Parameters.AddWithValue("?idEquipo", idEquipo);
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                        resp.cod = "OK";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                resp.cod = "KO";
+                resp.msg = e.Message;
+            }
+            return Json(resp);
+        }
+
+        [HttpPost]
+        public JsonResult RemoveHijoEquipo(int idHijo, int idEquipo)
+        {
+            RespGeneric resp = new RespGeneric("KO");
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(BD.CadConMySQL(BD.Server.BDLOCAL, BD.schema)))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand("DELETE FROM usuarios_hijos_equipos WHERE idhijo=?idHijo AND idequipo=?idEquipo", con))
+                    {
+                        cmd.Parameters.AddWithValue("?idHijo", idHijo);
+                        cmd.Parameters.AddWithValue("?idEquipo", idEquipo);
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                        resp.cod = "OK";
                     }
                 }
             }

@@ -40,7 +40,7 @@ namespace School
 
             // Plugins CSS
             bundles.Add(new StyleBundle("~/bundles/plugins/css").Include(
-                "~/plugins/toastr/toastr.min.css",
+                "~/plugins/toastr/build/toastr.min.css",
                 "~/plugins/metisMenu/dist/metisMenu.min.css",
                 "~/plugins/animate.css/animate.css",
                 "~/plugins/sweetalert/lib/sweet-alert.min.css",
@@ -86,9 +86,7 @@ namespace School
                 "~/Plugins/angular-chart.js/dist/angular-chart.js",
                 "~/Plugins/peity/jquery.peity.js",
                 "~/Plugins/angular-peity/angular-peity.js",
-                "~/Plugins/toastr/toastr.min.js",
-                "~/Plugins/toastr/angular-toastr.min.js",
-                "~/Plugins/toastr/angular-toastr.tpls.min.js",
+                "~/Plugins/toastr/build/toastr.min.js",
                 "~/Plugins/angular-ui-utils/ui-utils.js",
                 "~/Plugins/angular-ui-map/ui-map.js",
                 "~/Plugins/fullcalendar/dist/fullcalendar.js",
@@ -124,8 +122,8 @@ namespace School
                 "~/plugins/smart-table/smart-table.min.js",
                 "~/Plugins/alaSQL/alasql.min.js",
                 "~/Plugins/alaSQL/xlsx.min.js",
-                "~/Plugins/dragula/angularjs-dragula.js",
-                "~/plugins/isteven-multiselect/isteven-multi-select.min.js",
+                "~/Plugins/dragdrop/dragdrop.js",
+                "~/plugins/isteven-multiselect/isteven-multi-select.js",
                 "~/plugins/angular-flexslider/angular-flexslider.js"));
 
             // school script

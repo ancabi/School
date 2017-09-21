@@ -103,7 +103,7 @@ function usuariosCtrl($scope, $http, $window, $modal,$filter) {
                     alasql.fn.datetime = function (dateStr) {
                         return moment(dateStr).format("DD/MM/YYYY");
                     };
-                    alasql('SELECT dni,nombre, apellidos,email,usuario, autorizacion,pagado,numaut,datetime(fecha_registro) AS fecha_registro,telefono,telefonoAlt,nombre1,apellidos1,datetime(fecha_nacimiento) AS fecha_nacimiento,sexo,extraescolares,pack,talla,numero,observaciones,deporte ' +
+                    alasql('SELECT dni,nombre, apellidos,email,usuario, autorizacion,pagado,numaut,datetime(fecha_registro) AS fecha_registro,telefono,telefonoalt,nombre1,apellidos1,datetime(fecha_nacimiento) AS fecha_nacimiento,sexo,extraescolares,pack,talla,numero,observaciones,deporte ' +
                         'INTO XLSX("alumnos.xlsx",{headers:true}) FROM ?', [$filter("formatExport")(excel)]);
                    
                 } else {
